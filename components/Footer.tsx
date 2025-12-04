@@ -1,10 +1,15 @@
 "use client";
 
-import React from "react";
+import React, { forwardRef } from "react";
 import { Github, Linkedin, Twitter, Mail, Heart, ArrowUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { cn } from "@/components/ui/utils";
 
-export function Footer() {
+export const Footer = forwardRef<
+  HTMLElement,
+  React.HTMLAttributes<HTMLElement>
+>(({ className, ...props }, ref) => {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -12,7 +17,14 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="relative border-t border-white/10 overflow-hidden">
+    <footer
+      ref={ref}
+      className={cn(
+        "relative border-t border-white/10 overflow-hidden",
+        className
+      )}
+      {...props}
+    >
       {/* Background */}
       <div className="absolute inset-0">
         <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-[#BFFF0A] rounded-full blur-[150px] opacity-5"></div>
@@ -23,38 +35,42 @@ export function Footer() {
           {/* Brand */}
           <div className="md:col-span-2">
             <div className="text-2xl mb-4">
-              <span className="text-white">DEV</span>
-              <span className="text-[#BFFF0A]">.PORTFOLIO</span>
+              <span className="text-white">ABA</span>
+              <span className="text-[#BFFF0A]">.NICAISSE</span>
             </div>
             <p className="text-white/60 mb-6 max-w-sm">
-              Crafting exceptional digital experiences through innovative design
-              and cutting-edge development.
+              Frontend Development • Mobile Apps • Backend Development • UI/UX
+              Design • Consulting
             </p>
             <div className="flex gap-3">
-              <a
-                href="#"
+              <Link
+                href="https://github.com/abanicaisse"
+                target="_blank"
                 className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 hover:border-[#BFFF0A] hover:text-[#BFFF0A] transition-all"
               >
                 <Github size={18} />
-              </a>
-              <a
-                href="#"
+              </Link>
+              <Link
+                href="https://linkedin.com/in/abanicaisse"
+                target="_blank"
                 className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 hover:border-[#BFFF0A] hover:text-[#BFFF0A] transition-all"
               >
                 <Linkedin size={18} />
-              </a>
-              <a
-                href="#"
+              </Link>
+              <Link
+                href="https://x.com/abanicaisse"
+                target="_blank"
                 className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 hover:border-[#BFFF0A] hover:text-[#BFFF0A] transition-all"
               >
                 <Twitter size={18} />
-              </a>
-              <a
-                href="#"
+              </Link>
+              <Link
+                href="mailto:abawandjovunicaise@gmail.com"
+                target="_blank"
                 className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 hover:border-[#BFFF0A] hover:text-[#BFFF0A] transition-all"
               >
                 <Mail size={18} />
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -63,52 +79,52 @@ export function Footer() {
             <h4 className="mb-4">Quick Links</h4>
             <ul className="space-y-3">
               <li>
-                <a
+                <Link
                   href="#home"
                   className="text-white/60 hover:text-[#BFFF0A] transition-colors"
                 >
                   Home
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="#about"
                   className="text-white/60 hover:text-[#BFFF0A] transition-colors"
                 >
                   About
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="#skills"
                   className="text-white/60 hover:text-[#BFFF0A] transition-colors"
                 >
                   Skills
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="#projects"
                   className="text-white/60 hover:text-[#BFFF0A] transition-colors"
                 >
                   Projects
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="#blog"
                   className="text-white/60 hover:text-[#BFFF0A] transition-colors"
                 >
                   Blog
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="#contact"
                   className="text-white/60 hover:text-[#BFFF0A] transition-colors"
                 >
                   Contact
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -130,25 +146,34 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-white/10">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-white/60 text-sm flex items-center gap-2">
-              © {currentYear} Developer Portfolio. Made with{" "}
-              <Heart size={14} className="text-[#BFFF0A] fill-[#BFFF0A]" /> by
-              You
+            <p className="text-white/60 text-sm flex flex-col xs:flex-row xs:items-center gap-2 mb-4 md:mb-0">
+              <span className="flex items-center gap-2">
+                <span className="">&copy; {currentYear}</span>
+                <span>Made with </span>
+                <Heart size={14} className="text-[#BFFF0A] fill-[#BFFF0A]" /> by
+                <Link
+                  href="https://github.com/abanicaisse"
+                  target="_blank"
+                  className="text-[#BFFF0A] hover:underline transition-colors"
+                >
+                  Aba Nicaisse
+                </Link>
+              </span>
             </p>
 
-            <div className="flex items-center gap-6">
-              <a
+            <div className="flex items-center gap-6 mb-6 md:mb-0">
+              <Link
                 href="#"
                 className="text-white/60 hover:text-[#BFFF0A] transition-colors text-sm"
               >
                 Privacy Policy
-              </a>
-              <a
+              </Link>
+              <Link
                 href="#"
                 className="text-white/60 hover:text-[#BFFF0A] transition-colors text-sm"
               >
                 Terms of Service
-              </a>
+              </Link>
             </div>
 
             <Button
@@ -165,4 +190,6 @@ export function Footer() {
       </div>
     </footer>
   );
-}
+});
+
+Footer.displayName = "Footer";

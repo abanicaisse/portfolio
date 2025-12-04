@@ -1,10 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { forwardRef, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/components/ui/utils";
 
-export function Navigation() {
+export const Navigation = forwardRef<
+  HTMLElement,
+  React.HTMLAttributes<HTMLElement>
+>(({ className, ...props }, ref) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const scrollToSection = (id: string) => {
@@ -16,7 +20,14 @@ export function Navigation() {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-black/50 border-b border-white/10">
+    <nav
+      ref={ref}
+      className={cn(
+        "fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-black/50 border-b border-white/10",
+        className
+      )}
+      {...props}
+    >
       <div className="max-w-7xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="text-xl">
@@ -138,4 +149,6 @@ export function Navigation() {
       </div>
     </nav>
   );
-}
+});
+
+Navigation.displayName = "Navigation";

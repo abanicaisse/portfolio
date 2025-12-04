@@ -60,7 +60,7 @@
 }
 
 @theme inline {
-  --breakpoint-xs: 460px;
+  --breakpoint-xs: 480px;
   --breakpoint-sm: 640px;
   --breakpoint-md: 768px;
   --breakpoint-navBreak: 930px;

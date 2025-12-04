@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { forwardRef, useState } from "react";
 import {
   Code,
   Database,
@@ -12,6 +12,8 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ScrollHighlight } from "@/components/ui/scroll-highlight";
+import { cn } from "@/components/ui/utils";
 
 const skillCategories = [
   {
@@ -19,30 +21,32 @@ const skillCategories = [
     title: "Frontend Development",
     color: "from-[#BFFF0A] to-green-400",
     skills: [
-      "React",
-      "Next.js",
       "TypeScript",
+      "React.js",
+      "Next.js",
+      "API Integration",
+      "SSR & SSG",
+
+      "HTML",
+      "CSS",
       "Tailwind CSS",
-      "Vue.js",
-      "Angular",
+      "ShadCN",
     ],
   },
   {
     icon: Database,
     title: "Backend Development",
     color: "from-purple-500 to-pink-500",
-    skills: ["Node.js", "Python", "PostgreSQL", "MongoDB", "Express", "Django"],
-  },
-  {
-    icon: Layout,
-    title: "UI/UX Design",
-    color: "from-blue-500 to-cyan-400",
     skills: [
-      "Figma",
-      "Adobe XD",
-      "Responsive Design",
-      "Prototyping",
-      "Design Systems",
+      "Node.js",
+      "Express.js",
+      "NestJS",
+      "REST APIs",
+      "Prisma",
+      "PostgreSQL",
+      "MongoDB",
+      "Redis",
+      "RabbitMQ",
     ],
   },
   {
@@ -51,27 +55,49 @@ const skillCategories = [
     color: "from-orange-500 to-red-500",
     skills: [
       "React Native",
-      "Flutter",
+      "Expo",
       "iOS",
       "Android",
+      "NativeScript",
       "Progressive Web Apps",
+      "Tauri",
+      "Capacitor",
     ],
   },
   {
     icon: Cloud,
     title: "Cloud & DevOps",
     color: "from-teal-500 to-emerald-500",
-    skills: ["AWS", "Docker", "Kubernetes", "CI/CD", "Vercel", "Netlify"],
+    skills: [
+      "AWS",
+      "Vercel",
+      "Coolify",
+      "Docker",
+      "CI/CD",
+      "Nginx",
+      "SMTP",
+      "Google Cloud",
+      "GitHub Actions",
+    ],
   },
   {
     icon: GitBranch,
-    title: "Tools & Workflow",
-    color: "from-yellow-500 to-orange-400",
-    skills: ["Git", "GitHub", "VS Code", "Jira", "Agile", "Scrum"],
+    title: "Tools & Testing",
+    color: "from-blue-500 to-cyan-400",
+    skills: ["Git", "GitHub", "Jest", "Swagger", "Shell", "Agile", "Scrum"],
+  },
+  {
+    icon: Layout,
+    title: "State Management & APIs",
+    color: "from-purple-500 to-pink-500",
+    skills: ["Zustand", "RESTful APIs", "API Integration", "Mastra"],
   },
 ];
 
-export function Skills() {
+export const Skills = forwardRef<
+  HTMLElement,
+  React.HTMLAttributes<HTMLElement>
+>(({ className, ...props }, ref) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const nextSlide = () => {
@@ -89,7 +115,12 @@ export function Skills() {
   };
 
   return (
-    <section id="skills" className="relative py-32 overflow-hidden">
+    <section
+      ref={ref}
+      id="skills"
+      className={cn("relative py-12 md:py-24 overflow-hidden", className)}
+      {...props}
+    >
       {/* Background */}
       <div className="absolute inset-0">
         <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500 rounded-full blur-[150px] opacity-10"></div>
@@ -103,22 +134,21 @@ export function Skills() {
             <span className="text-sm">Tech Stack</span>
           </div>
 
-          <h2 className="text-5xl md:text-6xl mb-6">
+          <h2 className="text-5xl md:text-6xl mb-6 leading-[130%]">
             My{" "}
-            <span className="bg-white text-black px-3 inline-block">
-              Extensive
-            </span>{" "}
-            List of Skills
+            <ScrollHighlight color="yellow" delay={300}>
+              Tech Stack
+            </ScrollHighlight>{" "}
           </h2>
 
           <p className="text-xl text-white/70 max-w-2xl mx-auto">
-            Building cutting-edge solutions with the latest technologies and
-            best practices
+            Building type-safe, end-to-end and scalable applications using
+            modern technologies and best practices
           </p>
         </div>
 
         {/* Skills Grid - Desktop */}
-        <div className="hidden md:grid md:grid-cols-3 gap-6">
+        <div className="hidden md:grid md:grid-cols-[repeat(auto-fit,minmax(350px,1fr))] gap-6">
           {skillCategories.map((category, index) => {
             const Icon = category.icon;
             return (
@@ -153,6 +183,26 @@ export function Skills() {
 
         {/* Skills Carousel - Mobile */}
         <div className="md:hidden relative">
+          {/* Navigation Arrows */}
+          <div className="flex items-center justify-end gap-4 mb-4">
+            <Button
+              variant="icon-outline"
+              size="icon"
+              onClick={prevSlide}
+              aria-label="Previous skill"
+            >
+              <ChevronLeft size={20} />
+            </Button>
+            <Button
+              variant="icon-outline"
+              size="icon"
+              onClick={nextSlide}
+              aria-label="Next skill"
+            >
+              <ChevronRight size={20} />
+            </Button>
+          </div>
+
           <div className="overflow-hidden">
             <div
               className="flex transition-transform duration-300 ease-in-out"
@@ -189,30 +239,10 @@ export function Skills() {
               })}
             </div>
           </div>
-
-          {/* Navigation Arrows */}
-          <div className="flex items-center justify-center gap-4 mt-8">
-            <Button
-              variant="icon-outline"
-              size="icon"
-              onClick={prevSlide}
-              aria-label="Previous skill"
-            >
-              <ChevronLeft size={20} />
-            </Button>
-            <Button
-              variant="icon-outline"
-              size="icon"
-              onClick={nextSlide}
-              aria-label="Next skill"
-            >
-              <ChevronRight size={20} />
-            </Button>
-          </div>
         </div>
 
         {/* Additional Tech Stack Display */}
-        <div className="mt-16 backdrop-blur-xl bg-white/5 border border-white/10 rounded-3xl p-8">
+        <div className="mt-8 md:mt-16 backdrop-blur-xl bg-white/5 border border-white/10 rounded-3xl p-8">
           <div className="text-center mb-8">
             <h3 className="text-2xl mb-2">Technologies I Work With Daily</h3>
             <p className="text-white/60">
@@ -222,18 +252,18 @@ export function Skills() {
 
           <div className="flex flex-wrap justify-center gap-4">
             {[
-              "JavaScript",
               "TypeScript",
-              "React",
+              "React.js",
+              "Next.js",
               "Node.js",
-              "Python",
+              "Express.js",
               "Docker",
               "AWS",
-              "PostgreSQL",
-              "MongoDB",
               "Git",
-              "Figma",
               "Tailwind CSS",
+              "Zustand",
+              "Prisma",
+              "PostgreSQL",
             ].map((tech, index) => (
               <div
                 key={index}
@@ -247,4 +277,6 @@ export function Skills() {
       </div>
     </section>
   );
-}
+});
+
+Skills.displayName = "Skills";

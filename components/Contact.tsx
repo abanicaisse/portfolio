@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { forwardRef, useState } from "react";
 import {
   Mail,
   Phone,
@@ -12,8 +12,14 @@ import {
   Twitter,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ScrollHighlight } from "@/components/ui/scroll-highlight";
+import Link from "next/link";
+import { cn } from "@/components/ui/utils";
 
-export function Contact() {
+export const Contact = forwardRef<
+  HTMLElement,
+  React.HTMLAttributes<HTMLElement>
+>(({ className, ...props }, ref) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -39,7 +45,12 @@ export function Contact() {
   };
 
   return (
-    <section id="contact" className="relative py-32 overflow-hidden">
+    <section
+      ref={ref}
+      id="contact"
+      className={cn("relative py-12 md:py-24 overflow-hidden", className)}
+      {...props}
+    >
       {/* Background */}
       <div className="absolute inset-0">
         <div className="absolute top-1/4 left-1/3 w-96 h-96 bg-[#BFFF0A] rounded-full blur-[150px] opacity-10"></div>
@@ -54,16 +65,11 @@ export function Contact() {
             <span className="text-sm">Get In Touch</span>
           </div>
 
-          <h2 className="text-5xl md:text-6xl mb-6">
-            Let&apos;s Start a{" "}
-            <span className="bg-white text-black px-3 inline-block">
-              Project
-            </span>
-          </h2>
-          <h2 className="text-5xl md:text-6xl mb-6">
-            <span className="bg-[#BFFF0A] text-black px-3 inline-block">
+          <h2 className="text-5xl md:text-6xl mb-6 leading-[130%]">
+            Let&apos;s Work{" "}
+            <ScrollHighlight color="yellow" delay={300}>
               Together
-            </span>
+            </ScrollHighlight>
           </h2>
 
           <p className="text-xl text-white/70 max-w-2xl mx-auto">
@@ -83,15 +89,13 @@ export function Contact() {
                 </div>
               </div>
               <h3 className="text-xl mb-2">Email Me</h3>
-              <p className="text-white/60 mb-3">
-                I&apos;ll respond within 24 hours
-              </p>
-              <a
-                href="mailto:hello@developer.com"
+              <p className="text-white/60 mb-3">I respond within 24 hours</p>
+              <Link
+                href="mailto:abawandjovunicaise@gmail.com"
                 className="text-[#BFFF0A] hover:underline"
               >
-                hello@developer.com
-              </a>
+                abawandjovunicaise@gmail.com
+              </Link>
             </div>
 
             {/* Phone Card */}
@@ -102,13 +106,13 @@ export function Contact() {
                 </div>
               </div>
               <h3 className="text-xl mb-2">Call Me</h3>
-              <p className="text-white/60 mb-3">Mon-Fri from 9am to 6pm</p>
-              <a
-                href="tel:+1234567890"
+              <p className="text-white/60 mb-3">Mon-Fri from 9am to 8pm</p>
+              <Link
+                href="tel:+256757679518"
                 className="text-[#BFFF0A] hover:underline"
               >
-                +1 (234) 567-890
-              </a>
+                +256 (757) 679-518
+              </Link>
             </div>
 
             {/* Location Card */}
@@ -120,37 +124,41 @@ export function Contact() {
               </div>
               <h3 className="text-xl mb-2">Location</h3>
               <p className="text-white/60 mb-3">Available for remote work</p>
-              <p className="text-[#BFFF0A]">San Francisco, CA</p>
+              <p className="text-[#BFFF0A]">Kampala, UG</p>
             </div>
 
             {/* Social Links */}
             <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-3xl p-6">
               <h3 className="text-xl mb-4">Connect With Me</h3>
               <div className="flex gap-3">
-                <a
-                  href="#"
+                <Link
+                  href="https://github.com/abanicaisse"
+                  target="_blank"
                   className="w-12 h-12 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center hover:bg-[#BFFF0A] hover:text-black hover:border-[#BFFF0A] transition-all"
                 >
                   <Github size={20} />
-                </a>
-                <a
-                  href="#"
+                </Link>
+                <Link
+                  href="https://linkedin.com/in/abanicaisse"
+                  target="_blank"
                   className="w-12 h-12 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center hover:bg-[#BFFF0A] hover:text-black hover:border-[#BFFF0A] transition-all"
                 >
                   <Linkedin size={20} />
-                </a>
-                <a
-                  href="#"
+                </Link>
+                <Link
+                  href="https://x.com/abanicaisse"
+                  target="_blank"
                   className="w-12 h-12 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center hover:bg-[#BFFF0A] hover:text-black hover:border-[#BFFF0A] transition-all"
                 >
                   <Twitter size={20} />
-                </a>
-                <a
-                  href="#"
+                </Link>
+                <Link
+                  href="mailto:abawandjovunicaise@gmail.com"
+                  target="_blank"
                   className="w-12 h-12 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center hover:bg-[#BFFF0A] hover:text-black hover:border-[#BFFF0A] transition-all"
                 >
                   <Mail size={20} />
-                </a>
+                </Link>
               </div>
             </div>
           </div>
@@ -281,4 +289,6 @@ export function Contact() {
       </div>
     </section>
   );
-}
+});
+
+Contact.displayName = "Contact";

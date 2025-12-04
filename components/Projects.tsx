@@ -1,9 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { forwardRef, useState } from "react";
 import { ExternalLink, Github, Eye } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { ScrollHighlight } from "@/components/ui/scroll-highlight";
+import { cn } from "@/components/ui/utils";
 
 const projects = [
   {
@@ -70,7 +72,10 @@ const projects = [
 
 const categories = ["All", "Full Stack", "Web App", "Mobile"];
 
-export function Projects() {
+export const Projects = forwardRef<
+  HTMLElement,
+  React.HTMLAttributes<HTMLElement>
+>(({ className, ...props }, ref) => {
   const [selectedCategory, setSelectedCategory] = useState("All");
 
   const filteredProjects =
@@ -79,7 +84,12 @@ export function Projects() {
       : projects.filter((project) => project.category === selectedCategory);
 
   return (
-    <section id="projects" className="relative py-32 overflow-hidden">
+    <section
+      ref={ref}
+      id="projects"
+      className={cn("relative py-12 md:py-24 overflow-hidden", className)}
+      {...props}
+    >
       {/* Background */}
       <div className="absolute inset-0">
         <div className="absolute top-1/3 left-10 w-96 h-96 bg-[#BFFF0A] rounded-full blur-[150px] opacity-10"></div>
@@ -95,16 +105,15 @@ export function Projects() {
           </div>
 
           <h2 className="text-5xl md:text-6xl mb-6">
-            Take a look at the{" "}
-            <span className="bg-white text-black px-3 inline-block">
-              latest
-            </span>
+            <ScrollHighlight color="white" delay={300}>
+              Projects
+            </ScrollHighlight>
           </h2>
           <h2 className="text-5xl md:text-6xl mb-6">
-            projects I&apos;ve{" "}
-            <span className="bg-[#BFFF0A] text-black px-3 inline-block">
-              done
-            </span>
+            I&apos;ve{" "}
+            <ScrollHighlight color="yellow" delay={500}>
+              Worked on
+            </ScrollHighlight>
           </h2>
 
           <p className="text-xl text-white/70 max-w-2xl mx-auto mb-12">
@@ -196,4 +205,6 @@ export function Projects() {
       </div>
     </section>
   );
-}
+});
+
+Projects.displayName = "Projects";

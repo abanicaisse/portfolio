@@ -4,7 +4,7 @@ import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "Web Developer Portfolio",
+  title: "Aba Nicaisse",
   description:
     "Professional web developer portfolio showcasing projects, skills, and experience",
 };
