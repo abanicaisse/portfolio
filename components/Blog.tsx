@@ -7,6 +7,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
 
 const blogPosts = [
   {
@@ -166,13 +167,16 @@ export function Blog() {
 
                   <p className="text-white/70 mb-6">{featuredPost.excerpt}</p>
 
-                  <button className="group inline-flex items-center gap-2 text-[#BFFF0A] hover:gap-4 transition-all">
+                  <Button
+                    variant="ghost"
+                    className="group inline-flex items-center gap-2 text-[#BFFF0A] hover:gap-4 transition-all hover:bg-transparent h-auto p-0"
+                  >
                     Read Full Article
                     <ArrowRight
                       size={20}
                       className="group-hover:translate-x-1 transition-transform"
                     />
-                  </button>
+                  </Button>
                 </div>
               </div>
             </div>
@@ -230,9 +234,7 @@ export function Blog() {
 
         {/* View All */}
         <div className="text-center mt-12">
-          <button className="px-8 py-4 border-2 border-white rounded-full hover:bg-white hover:text-black transition-all duration-300">
-            View All Articles
-          </button>
+          <Button variant="outline">View All Articles</Button>
         </div>
 
         {/* Newsletter Subscription */}
@@ -253,9 +255,9 @@ export function Blog() {
               placeholder="Enter your email"
               className="flex-1 px-6 py-4 rounded-full bg-white/10 border border-white/20 backdrop-blur-sm focus:outline-none focus:border-[#BFFF0A] transition-colors"
             />
-            <button className="px-8 py-4 bg-white text-black rounded-full hover:bg-[#BFFF0A] transition-all duration-300 whitespace-nowrap">
+            <Button variant="default" className="whitespace-nowrap">
               Subscribe
-            </button>
+            </Button>
           </div>
         </div>
       </div>

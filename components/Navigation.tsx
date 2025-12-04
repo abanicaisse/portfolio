@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export function Navigation() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -19,99 +20,119 @@ export function Navigation() {
       <div className="max-w-7xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="text-xl">
-            <span className="text-white">DEV</span>
-            <span className="text-[#BFFF0A]">.PORTFOLIO</span>
+            <span className="text-white">ABA</span>
+            <span className="text-[#BFFF0A]">.NICAISSE</span>
           </div>
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center gap-8">
-            <button
+            <Button
+              variant="ghost"
+              size="auto"
               onClick={() => scrollToSection("home")}
-              className="text-white/80 hover:text-white transition-colors"
             >
               Home
-            </button>
-            <button
+            </Button>
+            <Button
+              variant="ghost"
+              size="auto"
               onClick={() => scrollToSection("about")}
-              className="text-white/80 hover:text-white transition-colors"
             >
               About
-            </button>
-            <button
+            </Button>
+            <Button
+              variant="ghost"
+              size="auto"
               onClick={() => scrollToSection("skills")}
-              className="text-white/80 hover:text-white transition-colors"
             >
               Skills
-            </button>
-            <button
+            </Button>
+            <Button
+              variant="ghost"
+              size="auto"
               onClick={() => scrollToSection("projects")}
-              className="text-white/80 hover:text-white transition-colors"
             >
               Projects
-            </button>
-            <button
+            </Button>
+            <Button
+              variant="ghost"
+              size="auto"
               onClick={() => scrollToSection("blog")}
-              className="text-white/80 hover:text-white transition-colors"
             >
               Blog
-            </button>
-            <button
+            </Button>
+            <Button
+              variant="default"
+              size="sm"
               onClick={() => scrollToSection("contact")}
-              className="px-6 py-2 bg-white text-black rounded-full hover:bg-[#BFFF0A] transition-all duration-300"
             >
               Contact
-            </button>
+            </Button>
           </div>
 
           {/* Mobile Menu Button */}
-          <button
+          <Button
+            variant="ghost"
+            size="auto"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="md:hidden text-white"
             aria-label="Toggle menu"
           >
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          </Button>
         </div>
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
           <div className="md:hidden mt-4 pb-4 flex flex-col gap-4">
-            <button
+            <Button
+              variant="ghost"
+              size="auto"
               onClick={() => scrollToSection("home")}
-              className="text-white/80 hover:text-white transition-colors text-left"
+              className="justify-start text-left"
             >
               Home
-            </button>
-            <button
+            </Button>
+            <Button
+              variant="ghost"
+              size="auto"
               onClick={() => scrollToSection("about")}
-              className="text-white/80 hover:text-white transition-colors text-left"
+              className="justify-start text-left"
             >
               About
-            </button>
-            <button
+            </Button>
+            <Button
+              variant="ghost"
+              size="auto"
               onClick={() => scrollToSection("skills")}
-              className="text-white/80 hover:text-white transition-colors text-left"
+              className="justify-start text-left"
             >
               Skills
-            </button>
-            <button
+            </Button>
+            <Button
+              variant="ghost"
+              size="auto"
               onClick={() => scrollToSection("projects")}
-              className="text-white/80 hover:text-white transition-colors text-left"
+              className="justify-start text-left"
             >
               Projects
-            </button>
-            <button
+            </Button>
+            <Button
+              variant="ghost"
+              size="auto"
               onClick={() => scrollToSection("blog")}
-              className="text-white/80 hover:text-white transition-colors text-left"
+              className="justify-start text-left"
             >
               Blog
-            </button>
-            <button
+            </Button>
+            <Button
+              variant="default"
+              size="sm"
               onClick={() => scrollToSection("contact")}
-              className="px-6 py-2 bg-white text-black rounded-full hover:bg-[#BFFF0A] transition-all duration-300 text-left"
+              className="justify-start text-left"
             >
               Contact
-            </button>
+            </Button>
           </div>
         )}
       </div>

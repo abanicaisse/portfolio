@@ -11,6 +11,7 @@ import {
   Github,
   Twitter,
 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export function Contact() {
   const [formData, setFormData] = useState({
@@ -251,16 +252,17 @@ export function Contact() {
                 />
               </div>
 
-              <button
+              <Button
                 type="submit"
-                className="group w-full md:w-auto px-8 py-4 bg-white text-black rounded-full hover:bg-[#BFFF0A] transition-all duration-300 flex items-center justify-center gap-2"
+                variant="default"
+                className="group w-full md:w-auto"
               >
                 Send Message
                 <Send
                   size={20}
                   className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"
                 />
-              </button>
+              </Button>
             </form>
           </div>
         </div>

@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { ExternalLink, Github, Eye } from "lucide-react";
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
 
 const projects = [
   {
@@ -114,17 +115,17 @@ export function Projects() {
           {/* Category Filter */}
           <div className="flex flex-wrap justify-center gap-3">
             {categories.map((category) => (
-              <button
+              <Button
                 key={category}
                 onClick={() => setSelectedCategory(category)}
-                className={`px-6 py-3 rounded-full border transition-all duration-300 ${
-                  selectedCategory === category
-                    ? "bg-white text-black border-white"
-                    : "border-white/20 hover:border-white/50 hover:bg-white/5"
-                }`}
+                variant={
+                  selectedCategory === category ? "default" : "secondary"
+                }
+                size="sm"
+                className={selectedCategory === category ? "" : ""}
               >
                 {category}
-              </button>
+              </Button>
             ))}
           </div>
         </div>
@@ -150,12 +151,12 @@ export function Projects() {
 
                 {/* Hover Overlay */}
                 <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4">
-                  <button className="w-12 h-12 rounded-full bg-white text-black flex items-center justify-center hover:bg-[#BFFF0A] transition-colors">
+                  <Button variant="icon" size="icon">
                     <ExternalLink size={20} />
-                  </button>
-                  <button className="w-12 h-12 rounded-full bg-white text-black flex items-center justify-center hover:bg-[#BFFF0A] transition-colors">
+                  </Button>
+                  <Button variant="icon" size="icon">
                     <Github size={20} />
-                  </button>
+                  </Button>
                 </div>
               </div>
 
@@ -190,9 +191,7 @@ export function Projects() {
 
         {/* View More */}
         <div className="text-center mt-12">
-          <button className="px-8 py-4 bg-white text-black rounded-full hover:bg-[#BFFF0A] transition-all duration-300">
-            View All Projects
-          </button>
+          <Button variant="default">View All Projects</Button>
         </div>
       </div>
     </section>

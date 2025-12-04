@@ -59,6 +59,17 @@
   }
 }
 
+@theme inline {
+  --breakpoint-xs: 460px;
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-navBreak: 930px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+  --breakpoint-3xl: 1920px;
+}
+
 @layer base {
   * {
     @apply border-border;

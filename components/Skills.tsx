@@ -11,6 +11,7 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const skillCategories = [
   {
@@ -191,20 +192,22 @@ export function Skills() {
 
           {/* Navigation Arrows */}
           <div className="flex items-center justify-center gap-4 mt-8">
-            <button
+            <Button
+              variant="icon-outline"
+              size="icon"
               onClick={prevSlide}
-              className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 transition-all"
               aria-label="Previous skill"
             >
               <ChevronLeft size={20} />
-            </button>
-            <button
+            </Button>
+            <Button
+              variant="icon-outline"
+              size="icon"
               onClick={nextSlide}
-              className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 transition-all"
               aria-label="Next skill"
             >
               <ChevronRight size={20} />
-            </button>
+            </Button>
           </div>
         </div>
 

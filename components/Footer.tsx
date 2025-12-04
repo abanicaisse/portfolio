@@ -2,6 +2,7 @@
 
 import React from "react";
 import { Github, Linkedin, Twitter, Mail, Heart, ArrowUp } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export function Footer() {
   const scrollToTop = () => {
@@ -150,13 +151,15 @@ export function Footer() {
               </a>
             </div>
 
-            <button
+            <Button
+              variant="icon-outline"
+              size="auto"
               onClick={scrollToTop}
-              className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 hover:border-[#BFFF0A] hover:text-[#BFFF0A] transition-all"
+              className="w-10 h-10 hover:border-[#BFFF0A] hover:text-[#BFFF0A]"
               aria-label="Scroll to top"
             >
               <ArrowUp size={18} />
-            </button>
+            </Button>
           </div>
         </div>
       </div>
