@@ -11,7 +11,7 @@ const buttonVariants = cva(
       variant: {
         // Default ShadCN variants (updated for portfolio theme)
         default:
-          "bg-white text-black rounded-full hover:bg-[#BFFF0A] transition-all duration-300",
+          "bg-white text-black rounded-full hover:bg-brand transition-all duration-300",
         destructive:
           "bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60 rounded-full",
         outline:
@@ -20,10 +20,10 @@ const buttonVariants = cva(
           "rounded-full border border-white/20 bg-transparent text-white hover:border-white/50 hover:bg-white/5 transition-all duration-300",
         ghost:
           "text-white/80 hover:text-white transition-colors hover:bg-transparent",
-        link: "text-[#BFFF0A] hover:underline underline-offset-4 hover:bg-transparent",
+        link: "text-brand hover:underline underline-offset-4 hover:bg-transparent",
 
         // Icon button variants
-        icon: "rounded-full bg-white text-black hover:bg-[#BFFF0A] transition-colors",
+        icon: "rounded-full bg-white text-black hover:bg-brand transition-colors",
         "icon-outline":
           "rounded-full border border-white/20 hover:bg-white/10 transition-all",
       },

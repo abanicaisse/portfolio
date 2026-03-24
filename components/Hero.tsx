@@ -19,7 +19,7 @@ export const Hero = forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement>>(
       >
         {/* Gradient Orbs Background */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-20 left-10 w-96 h-96 bg-[#BFFF0A] rounded-full blur-[150px] opacity-20 animate-pulse"></div>
+          <div className="absolute top-20 left-10 w-96 h-96 bg-brand rounded-full blur-[150px] opacity-20 animate-pulse"></div>
           <div
             className="absolute bottom-20 right-10 w-96 h-96 bg-purple-500 rounded-full blur-[150px] opacity-20 animate-pulse"
             style={{ animationDelay: "1s" }}
@@ -32,7 +32,7 @@ export const Hero = forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement>>(
             {/* Tagline */}
             <div className="space-y-8 sm:space-y-16 xl:space-y-12">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/20 backdrop-blur-sm bg-white/5">
-                <span className="w-2 h-2 bg-[#BFFF0A] rounded-full animate-pulse"></span>
+                <span className="w-2 h-2 bg-brand rounded-full animate-pulse"></span>
                 <span className="text-sm">Available for new projects</span>
               </div>
 
@@ -92,7 +92,7 @@ export const Hero = forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement>>(
                 <div className="w-fit flex flex-col gap-6">
                   <p className="text-lg text-white/70 max-w-lg leading-[170%]">
                     Hi 👋🏾, I&apos;m{" "}
-                    <strong className="text-[#BFFF0A]">ABA NICAISSE</strong>, a
+                    <strong className="text-brand">ABA NICAISSE</strong>, a
                     Typescript frontend web and mobile developer. Though I
                     specialize in frontend development with React/Next.js (for
                     web) and React Native (for mobile), I also build full-stack

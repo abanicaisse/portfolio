@@ -62,7 +62,7 @@ export const ScrollHighlight = forwardRef<
     };
   }, []);
 
-  const bgColor = color === "yellow" ? "bg-[#BFFF0A]" : "bg-white";
+  const bgColor = color === "yellow" ? "bg-brand" : "bg-white";
 
   return (
     <span

@@ -27,7 +27,7 @@ export const Footer = forwardRef<
     >
       {/* Background */}
       <div className="absolute inset-0">
-        <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-[#BFFF0A] rounded-full blur-[150px] opacity-5"></div>
+        <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-brand rounded-full blur-[150px] opacity-5"></div>
       </div>
 
       <div className="max-w-7xl mx-auto px-6 py-16 relative z-10">
@@ -36,7 +36,7 @@ export const Footer = forwardRef<
           <div className="md:col-span-2">
             <div className="text-2xl mb-4">
               <span className="text-white">ABA</span>
-              <span className="text-[#BFFF0A]">.NICAISSE</span>
+              <span className="text-brand">.NICAISSE</span>
             </div>
             <p className="text-white/60 mb-6 max-w-sm">
               Frontend Development • Mobile Apps • Backend Development • UI/UX
@@ -46,28 +46,28 @@ export const Footer = forwardRef<
               <Link
                 href="https://github.com/abanicaisse"
                 target="_blank"
-                className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 hover:border-[#BFFF0A] hover:text-[#BFFF0A] transition-all"
+                className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 hover:border-brand hover:text-brand transition-all"
               >
                 <Github size={18} />
               </Link>
               <Link
                 href="https://linkedin.com/in/abanicaisse"
                 target="_blank"
-                className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 hover:border-[#BFFF0A] hover:text-[#BFFF0A] transition-all"
+                className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 hover:border-brand hover:text-brand transition-all"
               >
                 <Linkedin size={18} />
               </Link>
               <Link
                 href="https://x.com/abanicaisse"
                 target="_blank"
-                className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 hover:border-[#BFFF0A] hover:text-[#BFFF0A] transition-all"
+                className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 hover:border-brand hover:text-brand transition-all"
               >
                 <Twitter size={18} />
               </Link>
               <Link
                 href="mailto:abawandjovunicaise@gmail.com"
                 target="_blank"
-                className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 hover:border-[#BFFF0A] hover:text-[#BFFF0A] transition-all"
+                className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 hover:border-brand hover:text-brand transition-all"
               >
                 <Mail size={18} />
               </Link>
@@ -81,7 +81,7 @@ export const Footer = forwardRef<
               <li>
                 <Link
                   href="#home"
-                  className="text-white/60 hover:text-[#BFFF0A] transition-colors"
+                  className="text-white/60 hover:text-brand transition-colors"
                 >
                   Home
                 </Link>
@@ -89,7 +89,7 @@ export const Footer = forwardRef<
               <li>
                 <Link
                   href="#about"
-                  className="text-white/60 hover:text-[#BFFF0A] transition-colors"
+                  className="text-white/60 hover:text-brand transition-colors"
                 >
                   About
                 </Link>
@@ -97,7 +97,7 @@ export const Footer = forwardRef<
               <li>
                 <Link
                   href="#skills"
-                  className="text-white/60 hover:text-[#BFFF0A] transition-colors"
+                  className="text-white/60 hover:text-brand transition-colors"
                 >
                   Skills
                 </Link>
@@ -105,7 +105,7 @@ export const Footer = forwardRef<
               <li>
                 <Link
                   href="#projects"
-                  className="text-white/60 hover:text-[#BFFF0A] transition-colors"
+                  className="text-white/60 hover:text-brand transition-colors"
                 >
                   Projects
                 </Link>
@@ -113,7 +113,7 @@ export const Footer = forwardRef<
               <li>
                 <Link
                   href="#blog"
-                  className="text-white/60 hover:text-[#BFFF0A] transition-colors"
+                  className="text-white/60 hover:text-brand transition-colors"
                 >
                   Blog
                 </Link>
@@ -121,7 +121,7 @@ export const Footer = forwardRef<
               <li>
                 <Link
                   href="#contact"
-                  className="text-white/60 hover:text-[#BFFF0A] transition-colors"
+                  className="text-white/60 hover:text-brand transition-colors"
                 >
                   Contact
                 </Link>
@@ -150,11 +150,11 @@ export const Footer = forwardRef<
               <span className="flex items-center gap-2">
                 <span className="">&copy; {currentYear}</span>
                 <span>Made with </span>
-                <Heart size={14} className="text-[#BFFF0A] fill-[#BFFF0A]" /> by
+                <Heart size={14} className="text-brand fill-brand" /> by
                 <Link
                   href="https://github.com/abanicaisse"
                   target="_blank"
-                  className="text-[#BFFF0A] hover:underline transition-colors"
+                  className="text-brand hover:underline transition-colors"
                 >
                   Aba Nicaisse
                 </Link>
@@ -164,13 +164,13 @@ export const Footer = forwardRef<
             <div className="flex items-center gap-6 mb-6 md:mb-0">
               <Link
                 href="#"
-                className="text-white/60 hover:text-[#BFFF0A] transition-colors text-sm"
+                className="text-white/60 hover:text-brand transition-colors text-sm"
               >
                 Privacy Policy
               </Link>
               <Link
                 href="#"
-                className="text-white/60 hover:text-[#BFFF0A] transition-colors text-sm"
+                className="text-white/60 hover:text-brand transition-colors text-sm"
               >
                 Terms of Service
               </Link>
@@ -180,7 +180,7 @@ export const Footer = forwardRef<
               variant="icon-outline"
               size="auto"
               onClick={scrollToTop}
-              className="w-10 h-10 hover:border-[#BFFF0A] hover:text-[#BFFF0A]"
+              className="w-10 h-10 hover:border-brand hover:text-brand"
               aria-label="Scroll to top"
             >
               <ArrowUp size={18} />

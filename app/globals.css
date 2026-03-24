@@ -4,6 +4,7 @@
 
 @layer base {
   :root {
+    --brand: 76 100% 52%;
     --background: 0 0% 100%;
     --foreground: 0 0% 3.9%;
     --card: 0 0% 100%;
@@ -32,6 +33,7 @@
   }
 
   .dark {
+    --brand: 76 100% 52%;
     --background: 0 0% 3.9%;
     --foreground: 0 0% 98%;
     --card: 0 0% 3.9%;
@@ -77,7 +79,9 @@
 
   body {
     @apply bg-background text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    font-feature-settings:
+      "rlig" 1,
+      "calt" 1;
   }
 }
 
@@ -85,4 +89,9 @@
   .text-balance {
     text-wrap: balance;
   }
+}
+
+/* scrool behavior smooth */
+html {
+  scroll-behavior: smooth;
 }

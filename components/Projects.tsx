@@ -16,7 +16,7 @@ const projects = [
     image:
       "https://images.unsplash.com/photo-1677214467820-ab069619bbb6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjB3ZWIlMjBkZXNpZ258ZW58MXx8fHwxNzY0NzA3NDM2fDA&ixlib=rb-4.1.0&q=80&w=1080",
     tags: ["React", "Node.js", "PostgreSQL", "Stripe"],
-    gradient: "from-[#BFFF0A] to-green-500",
+    gradient: "from-brand to-green-500",
   },
   {
     title: "Mobile Fitness App",
@@ -92,7 +92,7 @@ export const Projects = forwardRef<
     >
       {/* Background */}
       <div className="absolute inset-0">
-        <div className="absolute top-1/3 left-10 w-96 h-96 bg-[#BFFF0A] rounded-full blur-[150px] opacity-10"></div>
+        <div className="absolute top-1/3 left-10 w-96 h-96 bg-brand rounded-full blur-[150px] opacity-10"></div>
         <div className="absolute bottom-0 right-10 w-96 h-96 bg-blue-500 rounded-full blur-[150px] opacity-10"></div>
       </div>
 
@@ -100,7 +100,7 @@ export const Projects = forwardRef<
         {/* Header */}
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/20 backdrop-blur-sm bg-white/5 mb-6">
-            <Eye size={16} className="text-[#BFFF0A]" />
+            <Eye size={16} className="text-brand" />
             <span className="text-sm">Portfolio</span>
           </div>
 

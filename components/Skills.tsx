@@ -19,7 +19,7 @@ const skillCategories = [
   {
     icon: Code,
     title: "Frontend Development",
-    color: "from-[#BFFF0A] to-green-400",
+    color: "from-brand to-green-400",
     skills: [
       "TypeScript",
       "React.js",
@@ -130,7 +130,7 @@ export const Skills = forwardRef<
         {/* Header */}
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/20 backdrop-blur-sm bg-white/5 mb-6">
-            <Code size={16} className="text-[#BFFF0A]" />
+            <Code size={16} className="text-brand" />
             <span className="text-sm">Tech Stack</span>
           </div>
 
@@ -267,7 +267,7 @@ export const Skills = forwardRef<
             ].map((tech, index) => (
               <div
                 key={index}
-                className="px-6 py-3 rounded-full bg-gradient-to-r from-white/10 to-white/5 border border-white/20 hover:border-[#BFFF0A]/50 hover:bg-white/20 transition-all duration-300"
+                className="px-6 py-3 rounded-full bg-gradient-to-r from-white/10 to-white/5 border border-white/20 hover:border-brand/50 hover:bg-white/20 transition-all duration-300"
               >
                 {tech}
               </div>

@@ -32,7 +32,7 @@ export const Navigation = forwardRef<
         <div className="flex items-center justify-between">
           <div className="text-xl">
             <span className="text-white">ABA</span>
-            <span className="text-[#BFFF0A]">.NICAISSE</span>
+            <span className="text-brand">.NICAISSE</span>
           </div>
 
           {/* Desktop Menu */}

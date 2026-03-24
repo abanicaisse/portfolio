@@ -21,7 +21,7 @@ const blogPosts = [
     category: "Architecture",
     image:
       "https://images.unsplash.com/photo-1677214467820-ab069619bbb6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjB3ZWIlMjBkZXNpZ258ZW58MXx8fHwxNzY0NzA3NDM2fDA&ixlib=rb-4.1.0&q=80&w=1080",
-    gradient: "from-[#BFFF0A] to-green-500",
+    gradient: "from-brand to-green-500",
     featured: true,
   },
   {
@@ -102,7 +102,7 @@ export const Blog = forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement>>(
           {/* Header */}
           <div className="text-center mb-16">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/20 backdrop-blur-sm bg-white/5 mb-6">
-              <BookOpen size={16} className="text-[#BFFF0A]" />
+              <BookOpen size={16} className="text-brand" />
               <span className="text-sm">Blog & Articles</span>
             </div>
 
@@ -137,7 +137,7 @@ export const Blog = forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement>>(
                     ></div>
 
                     <div className="absolute top-6 left-6">
-                      <span className="px-4 py-2 rounded-full bg-[#BFFF0A] text-black text-sm flex items-center gap-2">
+                      <span className="px-4 py-2 rounded-full bg-brand text-black text-sm flex items-center gap-2">
                         <TrendingUp size={14} />
                         Featured Article
                       </span>
@@ -170,7 +170,7 @@ export const Blog = forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement>>(
 
                     <Button
                       variant="ghost"
-                      className="group inline-flex items-center gap-2 text-[#BFFF0A] hover:gap-4 transition-all hover:bg-transparent h-auto p-0"
+                      className="group inline-flex items-center gap-2 text-brand hover:gap-4 transition-all hover:bg-transparent h-auto p-0"
                     >
                       Read Full Article
                       <ArrowRight
@@ -212,7 +212,7 @@ export const Blog = forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement>>(
                     </span>
                   </div>
 
-                  <h3 className="text-xl mb-3 group-hover:text-[#BFFF0A] transition-colors">
+                  <h3 className="text-xl mb-3 group-hover:text-brand transition-colors">
                     {post.title}
                   </h3>
 
@@ -239,7 +239,7 @@ export const Blog = forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement>>(
           </div>
 
           {/* Newsletter Subscription */}
-          <div className="mt-20 backdrop-blur-xl bg-gradient-to-br from-[#BFFF0A]/10 to-purple-500/10 border border-white/20 rounded-3xl py-12 px-8 text-center">
+          <div className="mt-20 backdrop-blur-xl bg-gradient-to-br from-brand/10 to-purple-500/10 border border-white/20 rounded-3xl py-12 px-8 text-center">
             <h3 className="text-3xl md:text-4xl mb-4 leading-[130%]">
               Subscribe to My{" "}
               <ScrollHighlight color="yellow" delay={300}>
@@ -254,7 +254,7 @@ export const Blog = forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement>>(
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="flex-1 px-6 py-4 rounded-full bg-white/10 border border-white/20 backdrop-blur-sm focus:outline-none focus:border-[#BFFF0A] transition-colors"
+                className="flex-1 px-6 py-4 rounded-full bg-white/10 border border-white/20 backdrop-blur-sm focus:outline-none focus:border-brand transition-colors"
               />
               <Button variant="default" className="whitespace-nowrap">
                 Subscribe

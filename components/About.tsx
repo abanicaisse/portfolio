@@ -13,7 +13,7 @@ export const About = forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement>>(
         {...props}
       >
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#BFFF0A] rounded-full blur-[150px] opacity-10"></div>
+          <div className="absolute top-0 left-1/4 w-96 h-96 bg-brand rounded-full blur-[150px] opacity-10"></div>
         </div>
 
         <style>{`
@@ -31,11 +31,11 @@ export const About = forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement>>(
             {/* Left  */}
             <div className="relative md:sticky md:top-24 h-fit md:max-h-[calc(100vh-6rem)] md:overflow-y-auto scrollbar-hide">
               <div className="relative backdrop-blur-xl bg-gradient-to-br from-white/10 to-white/5 border border-white/20 rounded-3xl p-8 overflow-hidden">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-[#BFFF0A] rounded-full blur-[100px] opacity-20"></div>
+                <div className="absolute top-0 right-0 w-64 h-64 bg-brand rounded-full blur-[100px] opacity-20"></div>
 
                 <div className="relative space-y-6">
                   <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20">
-                    <Sparkles size={16} className="text-[#BFFF0A]" />
+                    <Sparkles size={16} className="text-brand" />
                     <span className="text-sm">Why Choose Me</span>
                   </div>
 
@@ -49,8 +49,8 @@ export const About = forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement>>(
                   <div className="space-y-4">
                     <div className="backdrop-blur-sm bg-black/30 border border-white/10 rounded-2xl p-6">
                       <div className="flex items-start gap-4">
-                        <div className="w-12 h-12 rounded-xl bg-[#BFFF0A]/20 border border-[#BFFF0A]/30 flex items-center justify-center flex-shrink-0">
-                          <span className="text-[#BFFF0A]">01</span>
+                        <div className="w-12 h-12 rounded-xl bg-brand/20 border border-brand/30 flex items-center justify-center flex-shrink-0">
+                          <span className="text-brand">01</span>
                         </div>
                         <div>
                           <h4 className="mb-2">Plan & Coordinate</h4>
@@ -102,7 +102,7 @@ export const About = forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement>>(
             <div className="space-y-8 pb-4">
               <div>
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/20 backdrop-blur-sm bg-white/5 mb-6">
-                  <Code2 size={16} className="text-[#BFFF0A]" />
+                  <Code2 size={16} className="text-brand" />
                   <span className="text-sm">About Me</span>
                 </div>
 
@@ -116,9 +116,7 @@ export const About = forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement>>(
 
                 <p className="text-lg text-white/70 mb-6 leading-[170%]">
                   With{" "}
-                  <strong className="text-[#BFFF0A]">
-                    5+ years of experience
-                  </strong>{" "}
+                  <strong className="text-brand">5+ years of experience</strong>{" "}
                   building high quality applications for the web and mobile, and
                   my strong communication skills, I bring both technical
                   expertise and leadership to every project.
@@ -178,7 +176,7 @@ export const About = forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement>>(
         </div>
       </section>
     );
-  }
+  },
 );
 
 About.displayName = "About";
