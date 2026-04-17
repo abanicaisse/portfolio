@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
@@ -138,7 +138,7 @@ export default function ProjectsPage() {
                   src={project.image}
                   alt={project.title}
                   fill
-                  className="object-cover transition-transform duration-[1.5s] ease-[cubic-bezier(0.2,0.8,0.2,1)] group-hover:scale-[1.04]"
+                  className="object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.04]"
                 />
               </div>
 
@@ -175,7 +175,7 @@ export default function ProjectsPage() {
 
         {/* Footer Accent/Grid Lines at Bottom */}
         <div className="relative z-10 mt-16 sm:mt-24 pt-8 border-t border-neutral-800/50 flex justify-between items-center text-xs text-neutral-600 font-mono uppercase tracking-widest">
-          <span>// End of Index</span>
+          <span>{`// End of Index`}</span>
           <Link
             href="https://github.com/abanicaisse"
             target="_blank"

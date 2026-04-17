@@ -1,18 +1,16 @@
 "use client";
 
 import React, { forwardRef, useState } from "react";
-import {
-  Mail,
-  Phone,
-  MapPin,
-  Send,
-  MessageSquare,
-  Linkedin,
-  Github,
-  Twitter,
-} from "lucide-react";
+import { Mail, Phone, MapPin, Send, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollHighlight } from "@/components/ui/scroll-highlight";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import Link from "next/link";
 import { cn } from "@/components/ui/utils";
 
@@ -36,7 +34,7 @@ export const Contact = forwardRef<
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    >,
   ) => {
     setFormData({
       ...formData,
@@ -128,7 +126,7 @@ export const Contact = forwardRef<
             </div>
 
             {/* Social Links */}
-            <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-3xl p-6">
+            {/* <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-3xl p-6">
               <h3 className="text-xl mb-4">Connect With Me</h3>
               <div className="flex gap-3">
                 <Link
@@ -160,11 +158,11 @@ export const Contact = forwardRef<
                   <Mail size={20} />
                 </Link>
               </div>
-            </div>
+            </div> */}
           </div>
 
           {/* Contact Form */}
-          <div className="lg:col-span-2 backdrop-blur-xl bg-white/5 border border-white/10 rounded-3xl p-8">
+          <div className="h-fit lg:col-span-2 backdrop-blur-xl bg-white/5 border border-white/10 rounded-3xl p-8">
             <h3 className="text-3xl mb-6">Send Me a Message</h3>
 
             <form onSubmit={handleSubmit} className="space-y-6">
@@ -183,7 +181,7 @@ export const Contact = forwardRef<
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="w-full px-6 py-4 rounded-2xl bg-white/5 border border-white/20 backdrop-blur-sm focus:outline-none focus:border-brand transition-colors"
+                    className="w-full h-14 px-6 rounded-2xl bg-white/5 border border-white/20 backdrop-blur-sm focus:outline-none focus:border-brand transition-colors"
                     placeholder="John Doe"
                   />
                 </div>
@@ -202,7 +200,7 @@ export const Contact = forwardRef<
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-6 py-4 rounded-2xl bg-white/5 border border-white/20 backdrop-blur-sm focus:outline-none focus:border-brand transition-colors"
+                    className="w-full h-14 px-6 rounded-2xl bg-white/5 border border-white/20 backdrop-blur-sm focus:outline-none focus:border-brand transition-colors"
                     placeholder="john@example.com"
                   />
                 </div>
@@ -215,30 +213,46 @@ export const Contact = forwardRef<
                 >
                   Subject *
                 </label>
-                <select
-                  id="subject"
-                  name="subject"
+                <Select
                   value={formData.subject}
-                  onChange={handleChange}
+                  onValueChange={(value) =>
+                    setFormData((prev) => ({ ...prev, subject: value }))
+                  }
                   required
-                  className="w-full px-6 py-4 rounded-2xl bg-white/5 border border-white/20 backdrop-blur-sm focus:outline-none focus:border-brand transition-colors"
                 >
-                  <option value="" className="bg-black">
-                    Select a subject
-                  </option>
-                  <option value="project" className="bg-black">
-                    New Project
-                  </option>
-                  <option value="collaboration" className="bg-black">
-                    Collaboration
-                  </option>
-                  <option value="job" className="bg-black">
-                    Job Opportunity
-                  </option>
-                  <option value="other" className="bg-black">
-                    Other
-                  </option>
-                </select>
+                  <SelectTrigger
+                    id="subject"
+                    className="w-full text-base h-14 data-[size=default]:h-14 px-6 rounded-2xl bg-white/5 border border-white/20 backdrop-blur-sm focus:ring-0 focus-visible:ring-0 focus:ring-offset-0 focus:border-brand focus-visible:border-brand focus:outline-none transition-colors"
+                  >
+                    <SelectValue placeholder="Select a subject" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-neutral-950 border border-white/10 text-white/90 rounded-2xl shadow-xl shadow-black/50 p-2">
+                    <SelectItem
+                      value="project"
+                      className="cursor-pointer focus:bg-white/10 focus:text-white rounded-xl py-2.5 px-4 transition-colors outline-none hover:outline-none"
+                    >
+                      New Project
+                    </SelectItem>
+                    <SelectItem
+                      value="collaboration"
+                      className="cursor-pointer focus:bg-white/10 focus:text-white rounded-xl py-2.5 px-4 transition-colors outline-none hover:outline-none"
+                    >
+                      Collaboration
+                    </SelectItem>
+                    <SelectItem
+                      value="job"
+                      className="cursor-pointer focus:bg-white/10 focus:text-white rounded-xl py-2.5 px-4 transition-colors outline-none hover:outline-none"
+                    >
+                      Job Opportunity
+                    </SelectItem>
+                    <SelectItem
+                      value="other"
+                      className="cursor-pointer focus:bg-white/10 focus:text-white rounded-xl py-2.5 px-4 transition-colors outline-none hover:outline-none"
+                    >
+                      Other
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
 
               <div>

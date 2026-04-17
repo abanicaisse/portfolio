@@ -236,11 +236,15 @@ export function BlogDetail({ slug }: BlogDetailProps) {
               <ReactMarkdown
                 remarkPlugins={[remarkGfm]}
                 components={{
-                  table: ({ node, ...props }) => (
-                    <div className="w-full overflow-x-auto my-8 pb-4">
-                      <table {...props} />
-                    </div>
-                  ),
+                  table: ({ node, ...props }) => {
+                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                    const _ = node;
+                    return (
+                      <div className="w-full overflow-x-auto my-8 pb-4">
+                        <table {...props} />
+                      </div>
+                    );
+                  },
                   h2: (props) => {
                     const { children, ...rest } = props;
                     const id = toc.find(
@@ -254,8 +258,9 @@ export function BlogDetail({ slug }: BlogDetailProps) {
                   },
                   code: (props) => {
                     const { children, className, node, ref, ...rest } = props;
+                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                    const _ = { node, ref };
                     const match = /language-(\w+)/.exec(className || "");
-                    const isInline = !match && !node?.position?.start.line;
 
                     if (!match) {
                       return (
@@ -290,7 +295,6 @@ export function BlogDetail({ slug }: BlogDetailProps) {
                           <SyntaxHighlighter
                             {...rest}
                             PreTag="div"
-                            children={codeString}
                             language={language}
                             style={vscDarkPlus}
                             customStyle={{
@@ -301,7 +305,9 @@ export function BlogDetail({ slug }: BlogDetailProps) {
                             codeTagProps={{
                               className: "font-mono",
                             }}
-                          />
+                          >
+                            {codeString}
+                          </SyntaxHighlighter>
                         </div>
                       </div>
                     );

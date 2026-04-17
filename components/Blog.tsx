@@ -151,11 +151,11 @@ export const Blog = forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement>>(
                         {featuredPost.category}
                       </span>
                       <div className="flex items-center gap-4 text-sm text-white/60">
-                        <span className="flex items-center gap-1">
+                        <span className="hidden sm:flex items-center gap-1">
                           <Calendar size={14} />
                           {featuredPost.date}
                         </span>
-                        <span className="flex items-center gap-1">
+                        <span className="hidden min-[330px]:flex items-center gap-1">
                           <Clock size={14} />
                           {featuredPost.readTime}
                         </span>
@@ -264,7 +264,7 @@ export const Blog = forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement>>(
         </div>
       </section>
     );
-  }
+  },
 );
 
 Blog.displayName = "Blog";

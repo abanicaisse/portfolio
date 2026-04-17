@@ -3,12 +3,9 @@
 import React, { useState, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useParams } from "next/navigation";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
-import { cn } from "@/components/ui/utils";
 
 export default function ProjectDetail() {
-  const params = useParams();
   const [mousePos, setMousePos] = useState({ x: -1000, y: -1000 });
   const [isHovering, setIsHovering] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -251,7 +248,7 @@ export default function ProjectDetail() {
 
         {/* Footer Accent Lines */}
         <div className="relative z-10 mt-32 pt-8 border-t border-neutral-800/50 flex justify-between items-center text-xs text-neutral-600 font-mono uppercase tracking-widest">
-          <span>// Case Study End</span>
+          <span>{`// Case Study End`}</span>
           <Link
             href="/projects"
             className="flex items-center gap-2 group hover:text-brand transition-colors cursor-pointer"
