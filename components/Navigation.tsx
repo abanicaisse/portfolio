@@ -5,6 +5,8 @@ import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/components/ui/utils";
 import { motion, AnimatePresence } from "framer-motion";
+import { useRouter, usePathname } from "next/navigation";
+import Link from "next/link";
 
 export const Navigation = forwardRef<
   HTMLElement,
@@ -12,6 +14,8 @@ export const Navigation = forwardRef<
 >(({ className, ...props }, ref) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -21,20 +25,32 @@ export const Navigation = forwardRef<
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-      setMobileMenuOpen(false);
+  const handleNavigation = (id: string, href?: string) => {
+    setMobileMenuOpen(false);
+    const targetHref = href || (id === "home" ? "/" : `/#${id}`);
+
+    if (pathname === "/") {
+      if (targetHref.startsWith("/#")) {
+        const elementId = targetHref.replace("/#", "");
+        const element = document.getElementById(elementId);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+          return;
+        }
+      } else if (targetHref === "/") {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        return;
+      }
     }
+    router.push(targetHref);
   };
 
   const navLinks = [
-    { id: "home", label: "Home" },
+    { id: "home", label: "Home", href: "/" },
     { id: "about", label: "About" },
     { id: "skills", label: "Skills" },
-    { id: "projects", label: "Projects" },
-    { id: "blog", label: "Blog" },
+    { id: "projects", label: "Projects", href: "/projects" },
+    { id: "blog", label: "Blog", href: "/blog" },
   ];
 
   return (
@@ -51,10 +67,13 @@ export const Navigation = forwardRef<
     >
       <div className="max-w-7xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
-          <div className="text-xl font-medium tracking-tight">
+          <Link
+            href="/"
+            className="text-xl font-medium tracking-tight hover:opacity-80 transition-opacity"
+          >
             <span className="text-white">ABA</span>
             <span className="text-brand">.NICAISSE</span>
-          </div>
+          </Link>
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center gap-2 lg:gap-4">
@@ -63,7 +82,7 @@ export const Navigation = forwardRef<
                 key={link.id}
                 variant="ghost"
                 size="sm"
-                onClick={() => scrollToSection(link.id)}
+                onClick={() => handleNavigation(link.id, link.href)}
                 className="text-white/80 hover:text-white hover:bg-white/10 hover:rounded-full rounded-full transition-colors"
               >
                 {link.label}
@@ -72,7 +91,7 @@ export const Navigation = forwardRef<
             <Button
               variant="default"
               size="sm"
-              onClick={() => scrollToSection("contact")}
+              onClick={() => handleNavigation("contact", "/#contact")}
               className="ml-2 font-medium"
             >
               Contact
@@ -117,7 +136,7 @@ export const Navigation = forwardRef<
                   transition={{ delay: 0.1 + i * 0.1, duration: 0.3 }}
                 >
                   <button
-                    onClick={() => scrollToSection(link.id)}
+                    onClick={() => handleNavigation(link.id, link.href)}
                     className="text-2xl font-medium text-white/80 hover:text-white hover:pl-2 transition-all duration-300 text-left w-full focus:outline-none"
                   >
                     {link.label}
@@ -137,7 +156,7 @@ export const Navigation = forwardRef<
                 <Button
                   variant="default"
                   size="lg"
-                  onClick={() => scrollToSection("contact")}
+                  onClick={() => handleNavigation("contact", "/#contact")}
                   className="w-full text-lg justify-center font-medium shadow-brand/20 shadow-lg hover:shadow-brand/40"
                 >
                   Contact Me

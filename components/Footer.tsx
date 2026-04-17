@@ -34,10 +34,13 @@ export const Footer = forwardRef<
         <div className="grid md:grid-cols-4 gap-12 mb-12">
           {/* Brand */}
           <div className="md:col-span-2">
-            <div className="text-2xl mb-4">
+            <Link
+              href="/"
+              className="text-2xl mb-4 block hover:opacity-80 transition-opacity"
+            >
               <span className="text-white">ABA</span>
               <span className="text-brand">.NICAISSE</span>
-            </div>
+            </Link>
             <p className="text-white/60 mb-6 max-w-sm">
               Frontend Development • Mobile Apps • Backend Development • UI/UX
               Design • Consulting
@@ -80,7 +83,7 @@ export const Footer = forwardRef<
             <ul className="space-y-3">
               <li>
                 <Link
-                  href="#home"
+                  href="/"
                   className="text-white/60 hover:text-brand transition-colors"
                 >
                   Home
@@ -88,7 +91,7 @@ export const Footer = forwardRef<
               </li>
               <li>
                 <Link
-                  href="#about"
+                  href="/#about"
                   className="text-white/60 hover:text-brand transition-colors"
                 >
                   About
@@ -96,7 +99,7 @@ export const Footer = forwardRef<
               </li>
               <li>
                 <Link
-                  href="#skills"
+                  href="/#skills"
                   className="text-white/60 hover:text-brand transition-colors"
                 >
                   Skills
@@ -104,7 +107,7 @@ export const Footer = forwardRef<
               </li>
               <li>
                 <Link
-                  href="#projects"
+                  href="/projects"
                   className="text-white/60 hover:text-brand transition-colors"
                 >
                   Projects
@@ -112,7 +115,7 @@ export const Footer = forwardRef<
               </li>
               <li>
                 <Link
-                  href="#blog"
+                  href="/blog"
                   className="text-white/60 hover:text-brand transition-colors"
                 >
                   Blog
@@ -120,7 +123,7 @@ export const Footer = forwardRef<
               </li>
               <li>
                 <Link
-                  href="#contact"
+                  href="/#contact"
                   className="text-white/60 hover:text-brand transition-colors"
                 >
                   Contact
