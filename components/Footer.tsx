@@ -21,7 +21,7 @@ export const Footer = forwardRef<
       ref={ref}
       className={cn(
         "relative border-t border-white/10 overflow-hidden",
-        className
+        className,
       )}
       {...props}
     >
@@ -160,21 +160,6 @@ export const Footer = forwardRef<
                 </Link>
               </span>
             </p>
-
-            <div className="flex items-center gap-6 mb-6 md:mb-0">
-              <Link
-                href="#"
-                className="text-white/60 hover:text-brand transition-colors text-sm"
-              >
-                Privacy Policy
-              </Link>
-              <Link
-                href="#"
-                className="text-white/60 hover:text-brand transition-colors text-sm"
-              >
-                Terms of Service
-              </Link>
-            </div>
 
             <Button
               variant="icon-outline"

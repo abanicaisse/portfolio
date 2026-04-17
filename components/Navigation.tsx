@@ -1,15 +1,25 @@
 "use client";
 
-import { forwardRef, useState } from "react";
+import { forwardRef, useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/components/ui/utils";
+import { motion, AnimatePresence } from "framer-motion";
 
 export const Navigation = forwardRef<
   HTMLElement,
   React.HTMLAttributes<HTMLElement>
 >(({ className, ...props }, ref) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -19,63 +29,51 @@ export const Navigation = forwardRef<
     }
   };
 
+  const navLinks = [
+    { id: "home", label: "Home" },
+    { id: "about", label: "About" },
+    { id: "skills", label: "Skills" },
+    { id: "projects", label: "Projects" },
+    { id: "blog", label: "Blog" },
+  ];
+
   return (
     <nav
       ref={ref}
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-black/50 border-b border-white/10",
-        className
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+        scrolled || mobileMenuOpen
+          ? "backdrop-blur-md bg-black/70 border-b border-white/10 shadow-lg"
+          : "bg-transparent border-transparent",
+        className,
       )}
       {...props}
     >
       <div className="max-w-7xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
-          <div className="text-xl">
+          <div className="text-xl font-medium tracking-tight">
             <span className="text-white">ABA</span>
             <span className="text-brand">.NICAISSE</span>
           </div>
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex items-center gap-8">
-            <Button
-              variant="ghost"
-              size="auto"
-              onClick={() => scrollToSection("home")}
-            >
-              Home
-            </Button>
-            <Button
-              variant="ghost"
-              size="auto"
-              onClick={() => scrollToSection("about")}
-            >
-              About
-            </Button>
-            <Button
-              variant="ghost"
-              size="auto"
-              onClick={() => scrollToSection("skills")}
-            >
-              Skills
-            </Button>
-            <Button
-              variant="ghost"
-              size="auto"
-              onClick={() => scrollToSection("projects")}
-            >
-              Projects
-            </Button>
-            <Button
-              variant="ghost"
-              size="auto"
-              onClick={() => scrollToSection("blog")}
-            >
-              Blog
-            </Button>
+          <div className="hidden md:flex items-center gap-2 lg:gap-4">
+            {navLinks.map((link) => (
+              <Button
+                key={link.id}
+                variant="ghost"
+                size="sm"
+                onClick={() => scrollToSection(link.id)}
+                className="text-white/80 hover:text-white hover:bg-white/10 hover:rounded-full rounded-full transition-colors"
+              >
+                {link.label}
+              </Button>
+            ))}
             <Button
               variant="default"
               size="sm"
               onClick={() => scrollToSection("contact")}
+              className="ml-2 font-medium"
             >
               Contact
             </Button>
@@ -84,69 +82,71 @@ export const Navigation = forwardRef<
           {/* Mobile Menu Button */}
           <Button
             variant="ghost"
-            size="auto"
+            size="icon"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden text-white"
+            className="md:hidden text-white hover:bg-white/10 rounded-full h-10 w-10 flex items-center justify-center transition-all"
             aria-label="Toggle menu"
           >
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            <motion.div
+              initial={false}
+              animate={{ rotate: mobileMenuOpen ? 90 : 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            </motion.div>
           </Button>
         </div>
-
-        {/* Mobile Menu */}
-        {mobileMenuOpen && (
-          <div className="md:hidden mt-4 pb-4 flex flex-col gap-4">
-            <Button
-              variant="ghost"
-              size="auto"
-              onClick={() => scrollToSection("home")}
-              className="justify-start text-left"
-            >
-              Home
-            </Button>
-            <Button
-              variant="ghost"
-              size="auto"
-              onClick={() => scrollToSection("about")}
-              className="justify-start text-left"
-            >
-              About
-            </Button>
-            <Button
-              variant="ghost"
-              size="auto"
-              onClick={() => scrollToSection("skills")}
-              className="justify-start text-left"
-            >
-              Skills
-            </Button>
-            <Button
-              variant="ghost"
-              size="auto"
-              onClick={() => scrollToSection("projects")}
-              className="justify-start text-left"
-            >
-              Projects
-            </Button>
-            <Button
-              variant="ghost"
-              size="auto"
-              onClick={() => scrollToSection("blog")}
-              className="justify-start text-left"
-            >
-              Blog
-            </Button>
-            <Button
-              variant="default"
-              size="sm"
-              onClick={() => scrollToSection("contact")}
-              className="justify-start text-left"
-            >
-              Contact
-            </Button>
-          </div>
-        )}
       </div>
+
+      {/* Mobile Menu Overlay */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "100vh" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="md:hidden absolute top-[100%] left-0 w-full overflow-hidden bg-black/95 backdrop-blur-xl border-b border-white/10"
+          >
+            <div className="flex flex-col px-6 py-8 gap-6 min-h-[calc(100vh-73px)] justify-start">
+              {navLinks.map((link, i) => (
+                <motion.div
+                  key={link.id}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.1 + i * 0.1, duration: 0.3 }}
+                >
+                  <button
+                    onClick={() => scrollToSection(link.id)}
+                    className="text-2xl font-medium text-white/80 hover:text-white hover:pl-2 transition-all duration-300 text-left w-full focus:outline-none"
+                  >
+                    {link.label}
+                  </button>
+                </motion.div>
+              ))}
+
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{
+                  delay: 0.1 + navLinks.length * 0.1,
+                  duration: 0.3,
+                }}
+                className="pt-6 mt-2 border-t border-white/10"
+              >
+                <Button
+                  variant="default"
+                  size="lg"
+                  onClick={() => scrollToSection("contact")}
+                  className="w-full text-lg justify-center font-medium shadow-brand/20 shadow-lg hover:shadow-brand/40"
+                >
+                  Contact Me
+                </Button>
+              </motion.div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 });

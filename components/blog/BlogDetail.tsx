@@ -3,15 +3,65 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Link as LinkIcon } from "lucide-react";
+import {
+  ArrowRight,
+  Link as LinkIcon,
+  Check,
+  Copy,
+  Twitter,
+  Linkedin,
+} from "lucide-react";
 import { getPostBySlug, BLOG_POSTS } from "@/lib/blog-data";
 import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { vscDarkPlus } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import { cn } from "@/components/ui/utils";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 interface BlogDetailProps {
   slug: string;
 }
+
+const CopyButton = ({ text }: { text: string }) => {
+  const [copied, setCopied] = useState(false);
+  const handleCopy = async () => {
+    try {
+      if (navigator?.clipboard?.writeText) {
+        await navigator.clipboard.writeText(text);
+      } else {
+        // Fallback for older browsers or non-secure contexts
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textArea);
+      }
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error("Failed to copy text", err);
+    }
+  };
+  return (
+    <button
+      onClick={handleCopy}
+      className="text-neutral-400 hover:text-white transition-colors p-1"
+      aria-label="Copy code"
+    >
+      {copied ? <Check size={16} className="text-brand" /> : <Copy size={16} />}
+    </button>
+  );
+};
 
 export function BlogDetail({ slug }: BlogDetailProps) {
   const post = getPostBySlug(slug);
@@ -34,6 +84,11 @@ export function BlogDetail({ slug }: BlogDetailProps) {
 
   // Track which heading is currently in view
   const [activeId, setActiveId] = useState<string>(toc[0]?.id ?? "");
+  const [pageUrl, setPageUrl] = useState("");
+
+  useEffect(() => {
+    setPageUrl(window.location.href);
+  }, []);
 
   useEffect(() => {
     if (toc.length === 0) return;
@@ -153,7 +208,7 @@ export function BlogDetail({ slug }: BlogDetailProps) {
           </div>
 
           {/* Main Content */}
-          <div className="flex-1 max-w-3xl lg:max-w-none mx-auto lg:mx-0">
+          <div className="flex-1 max-w-3xl lg:max-w-none mx-auto lg:mx-0 min-w-0 w-full relative shrink">
             {/* Hero Image */}
             <div className="mb-12 rounded-2xl overflow-hidden aspect-video relative border border-neutral-800">
               <Image
@@ -172,14 +227,105 @@ export function BlogDetail({ slug }: BlogDetailProps) {
               prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-6
               prose-p:text-neutral-300 prose-p:leading-relaxed prose-p:mb-6
               prose-a:text-brand prose-a:font-medium prose-a:no-underline hover:prose-a:underline prose-a:underline-offset-4
-              prose-li:text-neutral-300"
+              prose-li:text-neutral-300
+              prose-blockquote:border-l-brand prose-blockquote:bg-neutral-900/50 prose-blockquote:py-2 prose-blockquote:px-6 prose-blockquote:rounded-r-lg prose-blockquote:not-italic prose-blockquote:text-neutral-300
+              prose-img:rounded-xl prose-img:border prose-img:border-neutral-800
+              prose-hr:border-neutral-800
+              prose-table:border-collapse prose-table:w-full prose-table:text-sm prose-td:border prose-td:border-neutral-800 prose-td:px-4 prose-td:py-3 prose-th:border prose-th:border-neutral-800 prose-th:bg-neutral-900/50 prose-th:px-4 prose-th:py-3 prose-th:text-left prose-th:font-medium"
             >
               <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
                 components={{
-                  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
-                  h2: ({ node, ...props }: any) => {
-                    const id = toc.find((t) => t.title === props.children)?.id;
-                    return <h2 id={id} {...props} />;
+                  table: ({ node, ...props }) => (
+                    <div className="w-full overflow-x-auto my-8 pb-4">
+                      <table {...props} />
+                    </div>
+                  ),
+                  h2: (props) => {
+                    const { children, ...rest } = props;
+                    const id = toc.find(
+                      (t) => t.title === String(children),
+                    )?.id;
+                    return (
+                      <h2 id={id} {...rest}>
+                        {children}
+                      </h2>
+                    );
+                  },
+                  code: (props) => {
+                    const { children, className, node, ref, ...rest } = props;
+                    const match = /language-(\w+)/.exec(className || "");
+                    const isInline = !match && !node?.position?.start.line;
+
+                    if (!match) {
+                      return (
+                        <code
+                          className="bg-neutral-800/80 px-1.5 py-0.5 rounded-md text-brand font-mono text-[0.875em]"
+                          {...rest}
+                        >
+                          {children}
+                        </code>
+                      );
+                    }
+
+                    const language = match[1];
+                    const codeString = String(children).replace(/\n$/, "");
+
+                    return (
+                      <div className="relative group my-8 border border-neutral-800/80 rounded-xl overflow-hidden bg-[#1E1E1E] shadow-2xl w-full max-w-full">
+                        <div className="flex items-center justify-between px-4 py-3 bg-[#181818] border-b border-neutral-800/80">
+                          <div className="flex items-center gap-2 max-w-[calc(100%-40px)] overflow-hidden">
+                            <div className="flex gap-1.5 shrink-0">
+                              <div className="w-2.5 h-2.5 rounded-full bg-[#FF5F56]"></div>
+                              <div className="w-2.5 h-2.5 rounded-full bg-[#FFBD2E]"></div>
+                              <div className="w-2.5 h-2.5 rounded-full bg-[#27C93F]"></div>
+                            </div>
+                            <span className="ml-2 text-[11px] text-neutral-400 font-mono tracking-widest uppercase truncate shrink-0">
+                              {language}
+                            </span>
+                          </div>
+                          <CopyButton text={codeString} />
+                        </div>
+                        <div className="overflow-x-auto w-full text-[13px] md:text-sm leading-relaxed p-4">
+                          <SyntaxHighlighter
+                            {...rest}
+                            PreTag="div"
+                            children={codeString}
+                            language={language}
+                            style={vscDarkPlus}
+                            customStyle={{
+                              margin: 0,
+                              padding: 0,
+                              background: "transparent",
+                            }}
+                            codeTagProps={{
+                              className: "font-mono",
+                            }}
+                          />
+                        </div>
+                      </div>
+                    );
+                  },
+                  img: (props) => {
+                    return (
+                      <div className="block my-10 relative aspect-video w-full rounded-2xl overflow-hidden border border-neutral-800 bg-neutral-900">
+                        {/* Dot grid - white base dots, always visible */}
+                        <div
+                          className="absolute inset-0 opacity-20"
+                          style={{
+                            backgroundImage:
+                              "radial-gradient(circle, #ffffff 1px, transparent 1px)",
+                            backgroundSize: "16px 16px",
+                          }}
+                        />
+                        <Image
+                          src={props.src || ""}
+                          alt={props.alt || "Article illustration"}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                    );
                   },
                 }}
               >
@@ -188,15 +334,123 @@ export function BlogDetail({ slug }: BlogDetailProps) {
             </article>
 
             {/* Floating Share Button */}
-            <div className="fixed bottom-8 left-1/2 -translate-x-1/2 bg-neutral-900/90 backdrop-blur-md border border-neutral-800 px-6 py-3 rounded-full flex items-center gap-3 cursor-pointer hover:bg-neutral-800 hover:border-brand/50 transition-all group z-50">
-              <span className="text-sm font-medium group-hover:text-brand transition-colors">
-                Share
-              </span>
-              <LinkIcon
-                size={16}
-                className="text-neutral-400 group-hover:text-brand transition-colors"
-              />
-            </div>
+            <Dialog>
+              <DialogTrigger asChild>
+                <div className="fixed bottom-8 left-1/2 -translate-x-1/2 bg-neutral-900/90 backdrop-blur-md border border-neutral-800 px-6 py-3 rounded-full flex items-center gap-3 cursor-pointer hover:bg-neutral-800 hover:border-brand/50 transition-all group z-50">
+                  <span className="text-sm font-medium group-hover:text-brand transition-colors">
+                    Share
+                  </span>
+                  <LinkIcon
+                    size={16}
+                    className="text-neutral-400 group-hover:text-brand transition-colors"
+                  />
+                </div>
+              </DialogTrigger>
+              <DialogContent className="w-[95vw] max-w-md bg-[#0a0a0a] border-neutral-800 text-white rounded-2xl p-6 max-h-[90vh] overflow-y-auto">
+                <DialogHeader className="mb-2 text-left">
+                  <DialogTitle className="text-xl font-medium tracking-tight text-white mb-2">
+                    Share this article
+                  </DialogTitle>
+                  <DialogDescription className="text-neutral-400 text-sm leading-relaxed">
+                    Enjoyed the read? Share it with your network or copy the
+                    link directly to your clipboard.
+                  </DialogDescription>
+                </DialogHeader>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 py-4 border-y border-neutral-800/60 my-4">
+                  <a
+                    href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
+                      post.title,
+                    )}&url=${encodeURIComponent(pageUrl)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex flex-row sm:flex-col items-center justify-center sm:justify-start gap-3 p-4 rounded-xl bg-neutral-900/50 border border-neutral-800 hover:bg-neutral-800 hover:border-neutral-700 transition-all"
+                  >
+                    <Twitter size={20} className="text-neutral-300" />
+                    <span className="text-sm sm:text-xs font-medium text-neutral-300">
+                      Twitter / X
+                    </span>
+                  </a>
+
+                  <a
+                    href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
+                      pageUrl,
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex flex-row sm:flex-col items-center justify-center sm:justify-start gap-3 p-4 rounded-xl bg-neutral-900/50 border border-neutral-800 hover:bg-neutral-800 hover:border-neutral-700 transition-all"
+                  >
+                    <Linkedin size={20} className="text-neutral-300" />
+                    <span className="text-sm sm:text-xs font-medium text-neutral-300">
+                      LinkedIn
+                    </span>
+                  </a>
+
+                  <a
+                    href={`https://www.reddit.com/submit?url=${encodeURIComponent(
+                      pageUrl,
+                    )}&title=${encodeURIComponent(post.title)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex flex-row sm:flex-col items-center justify-center sm:justify-start gap-3 p-4 rounded-xl bg-neutral-900/50 border border-neutral-800 hover:bg-neutral-800 hover:border-neutral-700 transition-all"
+                  >
+                    <svg
+                      viewBox="0 0 24 24"
+                      width="20"
+                      height="20"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      fill="none"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="text-neutral-300"
+                    >
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
+                      <line x1="9" y1="9" x2="9.01" y2="9"></line>
+                      <line x1="15" y1="9" x2="15.01" y2="9"></line>
+                    </svg>
+                    <span className="text-sm sm:text-xs font-medium text-neutral-300">
+                      Reddit
+                    </span>
+                  </a>
+
+                  <a
+                    href={`https://news.ycombinator.com/submitlink?u=${encodeURIComponent(
+                      pageUrl,
+                    )}&t=${encodeURIComponent(post.title)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex flex-row sm:flex-col items-center justify-center sm:justify-start gap-3 p-4 rounded-xl bg-neutral-900/50 border border-neutral-800 hover:bg-neutral-800 hover:border-neutral-700 transition-all"
+                  >
+                    <svg
+                      viewBox="0 0 24 24"
+                      width="20"
+                      height="20"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      fill="none"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="text-neutral-300"
+                    >
+                      <polyline points="4 14 12 4 20 14"></polyline>
+                      <line x1="12" y1="4" x2="12" y2="20"></line>
+                    </svg>
+                    <span className="text-sm sm:text-xs font-medium text-neutral-300">
+                      Hacker News
+                    </span>
+                  </a>
+                </div>
+
+                <div className="flex items-center gap-3 mt-2 min-w-0">
+                  <div className="flex-1 min-w-0 bg-neutral-900/50 border border-neutral-800 rounded-lg px-4 py-2.5 text-sm text-neutral-400 font-mono truncate select-all">
+                    {pageUrl || "Loading..."}
+                  </div>
+                  <CopyButton text={pageUrl} />
+                </div>
+              </DialogContent>
+            </Dialog>
           </div>
         </div>
 
