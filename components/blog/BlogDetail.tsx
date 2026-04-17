@@ -277,7 +277,7 @@ export function BlogDetail({ slug }: BlogDetailProps) {
                     const codeString = String(children).replace(/\n$/, "");
 
                     return (
-                      <div className="relative group my-8 border border-neutral-800/80 rounded-xl overflow-hidden bg-[#1E1E1E] shadow-2xl w-full max-w-full">
+                      <div className="relative group my-4 border border-neutral-800/80 rounded-xl overflow-hidden bg-[#1E1E1E] shadow-2xl w-full max-w-full">
                         <div className="flex items-center justify-between px-4 py-3 bg-[#181818] border-b border-neutral-800/80">
                           <div className="flex items-center gap-2 max-w-[calc(100%-40px)] overflow-hidden">
                             <div className="flex gap-1.5 shrink-0">
@@ -325,7 +325,7 @@ export function BlogDetail({ slug }: BlogDetailProps) {
                           }}
                         />
                         <Image
-                          src={props.src || ""}
+                          src={(props.src as string) || ""}
                           alt={props.alt || "Article illustration"}
                           fill
                           className="object-cover"
