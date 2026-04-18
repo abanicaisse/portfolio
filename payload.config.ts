@@ -52,8 +52,27 @@ const formatSlug = (val: string): string =>
     .replace(/[^\w-]+/g, "")
     .toLowerCase();
 
+const appUrl =
+  process.env.NEXT_PUBLIC_SERVER_URL ||
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : "http://localhost:3000");
+
+const corsOrigins = [
+  appUrl,
+  process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "",
+  process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : "",
+  "https://portfolio.abanicaisse.vercel.app", // Fallback for your main vercel domain if known
+].filter(Boolean);
+
 export default buildConfig({
-  serverURL: process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:3000",
+  serverURL: appUrl,
+  cors: corsOrigins,
+  csrf: corsOrigins,
   admin: {
     user: "users",
     importMap: {
