@@ -43,9 +43,16 @@ export async function Blog({
     .slice(0, 6); // Limit to a sensible number
 
   // Helper to safely get image URL
-  const getImageUrl = (imageField: any) => {
-    if (imageField && typeof imageField === "object" && imageField.url) {
-      return imageField.url;
+  const getImageUrl = (
+    imageField: { url?: string } | string | null | undefined | unknown,
+  ) => {
+    if (
+      imageField &&
+      typeof imageField === "object" &&
+      "url" in imageField &&
+      typeof (imageField as Record<string, unknown>).url === "string"
+    ) {
+      return (imageField as Record<string, string>).url;
     }
     // Fallback if no featured image
     return "https://images.unsplash.com/photo-1677214467820-ab069619bbb6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjB3ZWIlMjBkZXNpZ258ZW58MXx8fHwxNzY0NzA3NDM2fDA&ixlib=rb-4.1.0&q=80&w=1080";
@@ -63,8 +70,18 @@ export async function Blog({
 
   // Note: Assuming Payload posts have these fields: title, excerpt, publishedAt, category (object with name), featuredImage, readTime (optional/computed), slug
   // gradient and readTime can be hardcoded/placeholder if not in CMS
-  const getCategoryName = (category: any) => {
-    return category?.name || "Article";
+  const getCategoryName = (
+    category: { name?: string } | null | undefined | unknown,
+  ) => {
+    if (
+      category &&
+      typeof category === "object" &&
+      "name" in category &&
+      typeof (category as Record<string, unknown>).name === "string"
+    ) {
+      return (category as Record<string, string>).name;
+    }
+    return "Article";
   };
 
   return (
