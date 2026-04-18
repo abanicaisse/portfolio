@@ -187,6 +187,7 @@ export function BlogDetail({ post }: BlogDetailProps) {
         <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-8 lg:mb-12 border-b border-neutral-800 pb-4 sm:pb-8">
           <div className="flex items-center gap-2">
             <Image
+              unoptimized
               src={authorAvatar}
               alt={authorName}
               width={40}
@@ -252,6 +253,7 @@ export function BlogDetail({ post }: BlogDetailProps) {
             {featuredImage && (
               <div className="mb-12 rounded-2xl overflow-hidden aspect-video relative border border-neutral-800 bg-neutral-900">
                 <Image
+                  unoptimized
                   src={featuredImage}
                   alt={post.title}
                   fill
@@ -359,6 +361,7 @@ export function BlogDetail({ post }: BlogDetailProps) {
                           }}
                         />
                         <Image
+                          unoptimized
                           src={node.value?.url || ""}
                           alt={node.value?.alt || "Article illustration"}
                           fill

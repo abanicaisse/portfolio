@@ -125,6 +125,7 @@ export async function Blog({
                 <div className="relative h-80 md:h-auto overflow-hidden block">
                   <Link href={`/blog/${featuredPost.slug || featuredPost.id}`}>
                     <Image
+                      unoptimized
                       src={getImageUrl(featuredPost.featuredImage)}
                       alt={featuredPost.title || "Featured Post"}
                       fill
@@ -215,6 +216,7 @@ export async function Blog({
                 {/* Post Image */}
                 <div className="relative h-48 overflow-hidden shrink-0">
                   <Image
+                    unoptimized
                     src={getImageUrl(post.featuredImage)}
                     alt={post.title || "Blog Post"}
                     fill
