@@ -5,13 +5,23 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: "https",
-        hostname: "images.unsplash.com",
+        protocol: "http",
+        hostname: "localhost",
+        port: "3000",
       },
       {
         protocol: "https",
         hostname: "api.dicebear.com",
       },
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+      },
+      // You can add your production domain or Vercel Blob URL here
+      // {
+      //   protocol: "https",
+      //   hostname: "*.public.blob.vercel-storage.com",
+      // },
     ],
   },
 };

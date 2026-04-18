@@ -17,9 +17,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased bg-black text-white overflow-x-hidden">
+      <body className="antialiased bg-black text-white overflow-x-hidden flex flex-col min-h-screen">
         <Navigation />
-        {children}
+        <main className="flex-grow">{children}</main>
         <Footer />
         <Analytics />
       </body>

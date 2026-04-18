@@ -1,13 +1,56 @@
 import { buildConfig } from "payload";
 import { postgresAdapter } from "@payloadcms/db-postgres";
-import { lexicalEditor } from "@payloadcms/richtext-lexical";
+import {
+  lexicalEditor,
+  BlocksFeature,
+  BlocksFeatureProps,
+  LinkFeature,
+  UploadFeature,
+  EXPERIMENTAL_TableFeature,
+} from "@payloadcms/richtext-lexical";
 import { vercelBlobStorage } from "@payloadcms/storage-vercel-blob";
+import { Block } from "payload";
 import path from "path";
 import { fileURLToPath } from "url";
 import sharp from "sharp";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
+
+const CodeBlock: Block = {
+  slug: "Code",
+  fields: [
+    {
+      name: "language",
+      type: "select",
+      options: [
+        { label: "TypeScript", value: "typescript" },
+        { label: "JavaScript", value: "javascript" },
+        { label: "HTML", value: "html" },
+        { label: "CSS", value: "css" },
+        { label: "Python", value: "python" },
+        { label: "Bash", value: "bash" },
+        { label: "JSON", value: "json" },
+      ],
+      required: true,
+      defaultValue: "typescript",
+    },
+    {
+      name: "code",
+      type: "code",
+      required: true,
+      admin: {
+        language: "typescript",
+      },
+    },
+  ],
+};
+
+const formatSlug = (val: string): string =>
+  val
+    .replace(/ /g, "-")
+    .replace(/[^\w-]+/g, "")
+    .toLowerCase();
 
 export default buildConfig({
   serverURL: process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:3000",
@@ -17,22 +60,84 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-
   collections: [
-    // Users (admin access)
     {
       slug: "users",
       auth: true,
       fields: [],
     },
-    // Blog posts / projects — customize as needed
+    {
+      slug: "categories",
+      admin: {
+        useAsTitle: "name",
+      },
+      fields: [{ name: "name", type: "text", required: true }],
+    },
+    {
+      slug: "authors",
+      admin: {
+        useAsTitle: "name",
+      },
+      fields: [
+        { name: "name", type: "text", required: true },
+        { name: "avatar", type: "upload", relationTo: "media" },
+      ],
+    },
     {
       slug: "posts",
       admin: { useAsTitle: "title" },
       fields: [
         { name: "title", type: "text", required: true },
-        { name: "slug", type: "text", required: true, unique: true },
-        { name: "content", type: "richText" },
+        {
+          name: "slug",
+          type: "text",
+          required: true,
+          unique: true,
+          admin: {
+            position: "sidebar",
+          },
+          hooks: {
+            beforeValidate: [
+              ({ value, data }) => {
+                if (value) return formatSlug(value);
+                if (data?.title) return formatSlug(data.title);
+                return value;
+              },
+            ],
+          },
+        },
+        { name: "excerpt", type: "textarea", required: true },
+        {
+          name: "content",
+          type: "richText",
+          required: true,
+          editor: lexicalEditor({
+            features: ({ defaultFeatures }) => [
+              ...defaultFeatures,
+              BlocksFeature({ blocks: [CodeBlock] }),
+              EXPERIMENTAL_TableFeature(),
+            ],
+          }),
+        },
+        {
+          name: "author",
+          type: "relationship",
+          relationTo: "authors",
+          required: true,
+        },
+        {
+          name: "category",
+          type: "relationship",
+          relationTo: "categories",
+          required: true,
+        },
+        {
+          name: "featuredImage",
+          type: "upload",
+          relationTo: "media",
+          required: true,
+        },
+        { name: "featured", type: "checkbox", defaultValue: false },
         { name: "publishedAt", type: "date" },
         {
           name: "status",
@@ -42,26 +147,22 @@ export default buildConfig({
         },
       ],
     },
-    // Media
     {
       slug: "media",
+      access: {
+        read: () => true,
+      },
       upload: true,
       fields: [{ name: "alt", type: "text" }],
     },
   ],
-
   editor: lexicalEditor({}),
-
-  // Vercel Postgres (Neon) — uses POSTGRES_URL env var automatically
   db: postgresAdapter({
     pool: {
       connectionString: process.env.POSTGRES_URL,
     },
-    // Disable push in production
     push: process.env.NODE_ENV === "development",
   }),
-
-  // Vercel Blob for media storage
   plugins: [
     vercelBlobStorage({
       enabled: true,
@@ -71,7 +172,6 @@ export default buildConfig({
       token: process.env.BLOB_READ_WRITE_TOKEN || "",
     }),
   ],
-
   secret: process.env.PAYLOAD_SECRET || "",
   typescript: {
     outputFile: path.resolve(dirname, "payload-types.ts"),

@@ -11,10 +11,8 @@ import {
   Twitter,
   Linkedin,
 } from "lucide-react";
-import { getPostBySlug, BLOG_POSTS } from "@/lib/blog-data";
 import { notFound } from "next/navigation";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
+import { RichText } from "@payloadcms/richtext-lexical/react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import { cn } from "@/components/ui/utils";
@@ -28,7 +26,8 @@ import {
 } from "@/components/ui/dialog";
 
 interface BlogDetailProps {
-  slug: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  post: any; // Using any for payload post type simplicity here, or the proper generated type if available
 }
 
 const CopyButton = ({ text }: { text: string }) => {
@@ -63,24 +62,64 @@ const CopyButton = ({ text }: { text: string }) => {
   );
 };
 
-export function BlogDetail({ slug }: BlogDetailProps) {
-  const post = getPostBySlug(slug);
-
+export function BlogDetail({ post }: BlogDetailProps) {
   if (!post) {
     notFound();
   }
 
-  // Build TOC from ## headings
-  const headings = post.content.match(/^##\s+(.*)/gm) || [];
-  const toc = headings.map((h, index) => ({
-    id: `heading-${index}`,
-    title: h.replace(/^##\s+/, ""),
-  }));
+  const categoryName =
+    typeof post.category === "object" && post.category?.name
+      ? post.category.name
+      : "Uncategorized";
+  const authorName =
+    typeof post.author === "object" && post.author?.name
+      ? post.author.name
+      : "Unknown Author";
+  const authorAvatar =
+    typeof post.author === "object" &&
+    post.author?.avatar &&
+    typeof post.author.avatar === "object" &&
+    post.author.avatar.url
+      ? post.author.avatar.url
+      : "https://api.dicebear.com/7.x/avataaars/svg?seed=fallback";
 
-  // Related posts: same category, excluding current, max 3
-  const relatedPosts = BLOG_POSTS.filter(
-    (p) => p.category === post.category && p.slug !== post.slug,
-  ).slice(0, 3);
+  const featuredImage =
+    typeof post.featuredImage === "object" && post.featuredImage?.url
+      ? post.featuredImage.url
+      : "";
+
+  let formattedDate = "Recent";
+  if (post.publishedAt) {
+    formattedDate = new Date(post.publishedAt).toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    });
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const extractHeadings = (node: any): { id: string; title: string }[] => {
+    let headings: { id: string; title: string }[] = [];
+    if (node?.type === "heading" && node.tag === "h2") {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const text = node?.children?.map((c: any) => c.text).join("") || "";
+      const id = text.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+      headings.push({ id, title: text });
+    }
+    if (node?.children) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      node.children.forEach((child: any) => {
+        headings = [...headings, ...extractHeadings(child)];
+      });
+    }
+    return headings;
+  };
+
+  const toc = post.content ? extractHeadings(post.content.root) : [];
+
+  // Related posts: empty for now unless fetched
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const relatedPosts: any[] = [];
 
   // Track which heading is currently in view
   const [activeId, setActiveId] = useState<string>(toc[0]?.id ?? "");
@@ -136,7 +175,7 @@ export function BlogDetail({ slug }: BlogDetailProps) {
             Blog
           </Link>
           <ArrowRight size={14} />
-          <span className="text-brand font-medium">{post.category}</span>
+          <span className="text-brand font-medium">{categoryName}</span>
         </div>
 
         {/* Title */}
@@ -148,16 +187,16 @@ export function BlogDetail({ slug }: BlogDetailProps) {
         <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-8 lg:mb-12 border-b border-neutral-800 pb-4 sm:pb-8">
           <div className="flex items-center gap-2">
             <Image
-              src={post.author.avatar}
-              alt={post.author.name}
+              src={authorAvatar}
+              alt={authorName}
               width={40}
               height={40}
-              className="rounded-full bg-neutral-800"
+              className="rounded-full bg-neutral-800 object-cover"
             />
-            <div className="font-medium">{post.author.name}</div>
+            <div className="font-medium">{authorName}</div>
           </div>
           <div className="text-sm text-neutral-500 mt-4 sm:mt-0">
-            {post.date}
+            {formattedDate}
           </div>
         </div>
 
@@ -210,15 +249,24 @@ export function BlogDetail({ slug }: BlogDetailProps) {
           {/* Main Content */}
           <div className="flex-1 max-w-3xl lg:max-w-none mx-auto lg:mx-0 min-w-0 w-full relative shrink">
             {/* Hero Image */}
-            <div className="mb-12 rounded-2xl overflow-hidden aspect-video relative border border-neutral-800">
-              <Image
-                src={post.imageUrl}
-                alt={post.title}
-                fill
-                className="object-cover"
-                priority
-              />
-            </div>
+            {featuredImage && (
+              <div className="mb-12 rounded-2xl overflow-hidden aspect-video relative border border-neutral-800 bg-neutral-900">
+                <Image
+                  src={featuredImage}
+                  alt={post.title}
+                  fill
+                  className="object-cover"
+                  priority
+                />
+              </div>
+            )}
+
+            {/* Excerpt */}
+            {post.excerpt && (
+              <p className="text-xl text-neutral-300 leading-relaxed mb-10 font-medium">
+                {post.excerpt}
+              </p>
+            )}
 
             {/* Markdown Content */}
             <article
@@ -231,91 +279,77 @@ export function BlogDetail({ slug }: BlogDetailProps) {
               prose-blockquote:border-l-brand prose-blockquote:bg-neutral-900/50 prose-blockquote:py-2 prose-blockquote:px-6 prose-blockquote:rounded-r-lg prose-blockquote:not-italic prose-blockquote:text-neutral-300
               prose-img:rounded-xl prose-img:border prose-img:border-neutral-800
               prose-hr:border-neutral-800
-              prose-table:border-collapse prose-table:w-full prose-table:text-sm prose-td:border prose-td:border-neutral-800 prose-td:px-4 prose-td:py-3 prose-th:border prose-th:border-neutral-800 prose-th:bg-neutral-900/50 prose-th:px-4 prose-th:py-3 prose-th:text-left prose-th:font-medium"
+              prose-table:border-collapse prose-table:w-full prose-table:text-sm prose-td:border prose-td:border-neutral-800 prose-td:px-4 prose-td:py-3 prose-th:border prose-th:border-neutral-800 prose-th:bg-neutral-900/50 prose-th:px-4 prose-th:py-3 prose-th:text-left prose-th:font-medium rounded-sm"
             >
-              <ReactMarkdown
-                remarkPlugins={[remarkGfm]}
-                components={{
-                  table: ({ node, ...props }) => {
-                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                    const _ = node;
-                    return (
-                      <div className="w-full overflow-x-auto my-8 pb-4">
-                        <table {...props} />
-                      </div>
-                    );
-                  },
-                  h2: (props) => {
-                    const { children, ...rest } = props;
-                    const id = toc.find(
-                      (t) => t.title === String(children),
-                    )?.id;
-                    return (
-                      <h2 id={id} {...rest}>
-                        {children}
-                      </h2>
-                    );
-                  },
-                  code: (props) => {
-                    const { children, className, node, ref, ...rest } = props;
-                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                    const _ = { node, ref };
-                    const match = /language-(\w+)/.exec(className || "");
-
-                    if (!match) {
+              <RichText
+                data={post.content}
+                converters={({ defaultConverters }) => ({
+                  ...defaultConverters,
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  heading: (props: any) => {
+                    const { node, nodesToJSX } = props;
+                    if (node.tag === "h2") {
+                      const text =
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                        node.children?.map((c: any) => c.text).join("") || "";
+                      const id = text.toLowerCase().replace(/[^a-z0-9]+/g, "-");
                       return (
-                        <code
-                          className="bg-neutral-800/80 px-1.5 py-0.5 rounded-md text-brand font-mono text-[0.875em]"
-                          {...rest}
-                        >
-                          {children}
-                        </code>
+                        <h2 id={id}>{nodesToJSX({ nodes: node.children })}</h2>
                       );
                     }
-
-                    const language = match[1];
-                    const codeString = String(children).replace(/\n$/, "");
-
-                    return (
-                      <div className="relative group my-4 border border-neutral-800/80 rounded-xl overflow-hidden bg-[#1E1E1E] shadow-2xl w-full max-w-full">
-                        <div className="flex items-center justify-between px-4 py-3 bg-[#181818] border-b border-neutral-800/80">
-                          <div className="flex items-center gap-2 max-w-[calc(100%-40px)] overflow-hidden">
-                            <div className="flex gap-1.5 shrink-0">
-                              <div className="w-2.5 h-2.5 rounded-full bg-[#FF5F56]"></div>
-                              <div className="w-2.5 h-2.5 rounded-full bg-[#FFBD2E]"></div>
-                              <div className="w-2.5 h-2.5 rounded-full bg-[#27C93F]"></div>
-                            </div>
-                            <span className="ml-2 text-[11px] text-neutral-400 font-mono tracking-widest uppercase truncate shrink-0">
-                              {language}
-                            </span>
-                          </div>
-                          <CopyButton text={codeString} />
-                        </div>
-                        <div className="overflow-x-auto w-full text-[13px] md:text-sm leading-relaxed p-4">
-                          <SyntaxHighlighter
-                            {...rest}
-                            PreTag="div"
-                            language={language}
-                            style={vscDarkPlus}
-                            customStyle={{
-                              margin: 0,
-                              padding: 0,
-                              background: "transparent",
-                            }}
-                            codeTagProps={{
-                              className: "font-mono",
-                            }}
-                          >
-                            {codeString}
-                          </SyntaxHighlighter>
-                        </div>
-                      </div>
+                    return React.createElement(
+                      node.tag,
+                      {},
+                      nodesToJSX({ nodes: node.children }),
                     );
                   },
-                  img: (props) => {
+                  blocks: {
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    Code: (props: any) => {
+                      const { node } = props;
+                      const language = node.fields.language || "typescript";
+                      const codeString = node.fields.code || "";
+                      return (
+                        <div className="relative group my-4 border border-neutral-800/80 rounded-xl overflow-hidden bg-[#1E1E1E] shadow-2xl w-full max-w-full">
+                          <div className="flex items-center justify-between px-4 py-3 bg-[#181818] border-b border-neutral-800/80">
+                            <div className="flex items-center gap-2 max-w-[calc(100%-40px)] overflow-hidden">
+                              <div className="flex gap-1.5 shrink-0">
+                                <div className="w-2.5 h-2.5 rounded-full bg-[#FF5F56]"></div>
+                                <div className="w-2.5 h-2.5 rounded-full bg-[#FFBD2E]"></div>
+                                <div className="w-2.5 h-2.5 rounded-full bg-[#27C93F]"></div>
+                              </div>
+                              <span className="ml-2 text-[11px] text-neutral-400 font-mono tracking-widest uppercase truncate shrink-0">
+                                {language}
+                              </span>
+                            </div>
+                            <CopyButton text={codeString} />
+                          </div>
+                          <div className="overflow-x-auto w-full text-[13px] md:text-sm leading-relaxed p-4">
+                            <SyntaxHighlighter
+                              PreTag="div"
+                              language={language}
+                              style={vscDarkPlus}
+                              customStyle={{
+                                margin: 0,
+                                padding: 0,
+                                background: "transparent",
+                              }}
+                              codeTagProps={{
+                                className: "font-mono",
+                              }}
+                            >
+                              {codeString}
+                            </SyntaxHighlighter>
+                          </div>
+                        </div>
+                      );
+                    },
+                  },
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  upload: (props: any) => {
+                    const { node } = props;
                     return (
                       <div className="block my-10 relative aspect-video w-full rounded-2xl overflow-hidden border border-neutral-800 bg-neutral-900">
-                        {/* Dot grid - white base dots, always visible */}
                         <div
                           className="absolute inset-0 opacity-20"
                           style={{
@@ -325,18 +359,16 @@ export function BlogDetail({ slug }: BlogDetailProps) {
                           }}
                         />
                         <Image
-                          src={(props.src as string) || ""}
-                          alt={props.alt || "Article illustration"}
+                          src={node.value?.url || ""}
+                          alt={node.value?.alt || "Article illustration"}
                           fill
                           className="object-cover"
                         />
                       </div>
                     );
                   },
-                }}
-              >
-                {post.content}
-              </ReactMarkdown>
+                })}
+              />
             </article>
 
             {/* Floating Share Button */}

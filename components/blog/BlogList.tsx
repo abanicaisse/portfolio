@@ -6,24 +6,69 @@ import Link from "next/link";
 import { Loader2 } from "lucide-react";
 import { cn } from "@/components/ui/utils";
 
-import {
-  BLOG_POSTS,
-  BlogPost,
-  BlogCategory,
-  getFeaturedPost,
-} from "@/lib/blog-data";
+export interface PayloadPost {
+  slug: string;
+  title: string;
+  publishedAt?: string;
+  category?: { name: string } | string | null;
+  author?: { name: string; avatar?: { url?: string } } | string | null;
+  featuredImage?: { url?: string } | string | null;
+}
 
-export function BlogList() {
-  const [activeCategory, setActiveCategory] = useState<
-    BlogCategory | "All posts"
-  >("All posts");
+export function BlogList({
+  initialPosts = [],
+}: {
+  initialPosts?: PayloadPost[];
+}) {
+  const [activeCategory, setActiveCategory] = useState<string>("All posts");
   const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
   const [isHovering, setIsHovering] = useState(false);
   const [displayedCount, setDisplayedCount] = useState(24);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const heroRef = useRef<HTMLDivElement>(null);
 
-  const featuredPost = getFeaturedPost();
+  // Normalize Payload posts to an easy-to-use shape
+  const posts = initialPosts.map((post) => {
+    const categoryName =
+      typeof post.category === "object" && post.category?.name
+        ? post.category.name
+        : "Uncategorized";
+    const authorName =
+      typeof post.author === "object" && post.author?.name
+        ? post.author.name
+        : "Unknown Author";
+    const authorAvatar =
+      typeof post.author === "object" &&
+      post.author?.avatar &&
+      typeof post.author.avatar === "object" &&
+      post.author.avatar.url
+        ? post.author.avatar.url
+        : "https://api.dicebear.com/7.x/avataaars/svg?seed=fallback";
+
+    // Format date efficiently
+    let formattedDate = "Recent";
+    if (post.publishedAt) {
+      formattedDate = new Date(post.publishedAt).toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      });
+    }
+
+    return {
+      slug: post.slug,
+      title: post.title,
+      category: categoryName,
+      date: formattedDate,
+      author: {
+        name: authorName,
+        avatar: authorAvatar,
+      },
+    };
+  });
+
+  // Featured Post is now dynamically the latest published article (index 0)
+  const featuredPost = posts[0] || null;
 
   // Reset displayed count when category changes
   useEffect(() => {
@@ -31,18 +76,16 @@ export function BlogList() {
   }, [activeCategory]);
 
   // Get unique categories from actual posts in the data
-  const availableCategories: (BlogCategory | "All posts")[] = [
+  const availableCategories = [
     "All posts",
-    ...(Array.from(
-      new Set(BLOG_POSTS.map((post) => post.category)),
-    ) as BlogCategory[]),
+    ...Array.from(new Set(posts.map((post) => post.category))),
   ];
 
   // All posts for the current category
-  const currentCategoryPosts: BlogPost[] =
+  const currentCategoryPosts =
     activeCategory === "All posts"
-      ? BLOG_POSTS.filter((p) => !p.featured)
-      : BLOG_POSTS.filter((p) => p.category === activeCategory);
+      ? posts.slice(1) // Exclude the latest (featured) post from "All posts"
+      : posts.filter((p) => p.category === activeCategory);
 
   const displayedPosts = currentCategoryPosts.slice(0, displayedCount);
   const hasMore = currentCategoryPosts.length > displayedCount;
@@ -130,6 +173,7 @@ export function BlogList() {
                           alt={featuredPost.author.name}
                           width={32}
                           height={32}
+                          className="object-cover w-full h-full"
                         />
                       </div>
                       <span className="text-sm font-medium text-neutral-300">
