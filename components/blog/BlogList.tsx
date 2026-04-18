@@ -169,6 +169,7 @@ export function BlogList({
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 rounded-full overflow-hidden bg-neutral-700 shrink-0">
                         <Image
+                          unoptimized
                           src={featuredPost.author.avatar}
                           alt={featuredPost.author.name}
                           width={32}
