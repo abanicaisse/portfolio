@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "payload generate:importmap && next dev",
-    "build": "payload generate:importmap && next build",
+    "build": "payload migrate && payload generate:importmap && payload generate:types && next build",
     "start": "next start",
     "lint": "next lint",
     "payload": "payload",
@@ -98,5 +98,10 @@
       "@payloadcms/next": "3.83.0",
       "@payloadcms/richtext-lexical": "3.83.0"
     }
-  }
+  },
+  "onlyBuiltDependencies": [
+    "sharp",
+    "esbuild",
+    "unrs-resolver"
+  ]
 }
