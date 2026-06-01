@@ -13,9 +13,33 @@ import { Block } from "payload";
 import path from "path";
 import { fileURLToPath } from "url";
 import sharp from "sharp";
+import { revalidatePath } from "next/cache";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
+
+const revalidatePost = (doc: any) => {
+  try {
+    revalidatePath("/");
+    revalidatePath("/blog");
+    if (doc?.slug) {
+      revalidatePath(`/blog/${doc.slug}`);
+    }
+    console.log(`Revalidated paths for post: ${doc?.title}`);
+  } catch (err) {
+    console.error("Error revalidating paths:", err);
+  }
+};
+
+const revalidateCategory = () => {
+  try {
+    revalidatePath("/");
+    revalidatePath("/blog");
+    console.log("Revalidated paths for category change");
+  } catch (err) {
+    console.error("Error revalidating paths for category:", err);
+  }
+};
 
 const CodeBlock: Block = {
   slug: "Code",
@@ -90,6 +114,10 @@ export default buildConfig({
       admin: {
         useAsTitle: "name",
       },
+      hooks: {
+        afterChange: [revalidateCategory],
+        afterDelete: [revalidateCategory],
+      },
       fields: [{ name: "name", type: "text", required: true }],
     },
     {
@@ -105,6 +133,18 @@ export default buildConfig({
     {
       slug: "posts",
       admin: { useAsTitle: "title" },
+      hooks: {
+        afterChange: [
+          ({ doc }) => {
+            revalidatePost(doc);
+          },
+        ],
+        afterDelete: [
+          ({ doc }) => {
+            revalidatePost(doc);
+          },
+        ],
+      },
       fields: [
         { name: "title", type: "text", required: true },
         {
