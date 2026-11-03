@@ -108,7 +108,7 @@ export function BlogList({
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white">
+    <div className="min-h-screen bg-surface text-ink-strong">
       <div className="max-w-7xl mx-auto px-6 pt-24 pb-32">
         {/* Featured Post Hero - always visible */}
         {featuredPost && (
@@ -116,7 +116,7 @@ export function BlogList({
             <Link href={`/blog/${featuredPost.slug}`} className="block group">
               <div
                 ref={heroRef}
-                className="relative flex flex-col rounded-2xl overflow-hidden mb-6 bg-neutral-900 border border-neutral-800 min-h-[380px] sm:min-h-[450px] lg:aspect-[21/9]"
+                className="relative flex flex-col rounded-2xl overflow-hidden mb-6 bg-surface-sunken border border-line min-h-[380px] sm:min-h-[450px] lg:aspect-[21/9]"
                 onMouseMove={handleMouseMove}
                 onMouseEnter={() => setIsHovering(true)}
                 onMouseLeave={() => setIsHovering(false)}
@@ -159,7 +159,7 @@ export function BlogList({
                 {/* Hero Content Layer */}
                 <div className="relative z-10 flex flex-col flex-1 p-6 sm:p-10 md:p-16 lg:p-20">
                   <div className="flex-1 flex flex-col justify-center py-6 sm:py-8">
-                    <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium tracking-tight bg-clip-text text-transparent bg-gradient-to-br from-white to-white/70 max-w-2xl leading-tight sm:leading-tight md:leading-tight lg:leading-tight">
+                    <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium tracking-tight bg-clip-text text-transparent bg-gradient-to-br from-ink-strong to-ink-strong/70 max-w-2xl leading-tight sm:leading-tight md:leading-tight lg:leading-tight">
                       {featuredPost.title}
                     </h1>
                   </div>
@@ -167,7 +167,7 @@ export function BlogList({
                   {/* Author + Date */}
                   <div className="flex items-center justify-between mt-auto pt-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full overflow-hidden bg-neutral-700 shrink-0">
+                      <div className="w-8 h-8 rounded-full overflow-hidden bg-line-strong shrink-0">
                         <Image
                           unoptimized
                           src={featuredPost.author.avatar}
@@ -177,11 +177,11 @@ export function BlogList({
                           className="object-cover w-full h-full"
                         />
                       </div>
-                      <span className="text-sm font-medium text-neutral-300">
+                      <span className="text-sm font-medium text-ink">
                         {featuredPost.author.name}
                       </span>
                     </div>
-                    <div className="text-sm text-neutral-400 shrink-0 ml-4">
+                    <div className="text-sm text-ink-muted shrink-0 ml-4">
                       {featuredPost.date}
                     </div>
                   </div>
@@ -192,7 +192,7 @@ export function BlogList({
         )}
 
         {/* Categories Bar */}
-        <div className="flex items-center gap-8 overflow-x-auto no-scrollbar border-b border-neutral-800/50 pb-4 mb-12 mt-12">
+        <div className="flex items-center gap-8 overflow-x-auto no-scrollbar border-b border-line/50 pb-4 mb-12 mt-12">
           {availableCategories.map((category) => (
             <button
               key={category}
@@ -201,7 +201,7 @@ export function BlogList({
                 "whitespace-nowrap text-sm font-medium transition-colors hover:text-brand pb-4 -mb-[17px] border-b-2",
                 activeCategory === category
                   ? "text-brand border-brand"
-                  : "text-neutral-500 border-transparent",
+                  : "text-ink-muted border-transparent",
               )}
             >
               {category}
@@ -220,9 +220,9 @@ export function BlogList({
               <h3 className="text-xl font-medium tracking-tight mb-2 group-hover:text-brand transition-colors line-clamp-2">
                 {post.title}
               </h3>
-              <div className="flex items-center gap-2 text-sm text-neutral-500 mt-auto">
+              <div className="flex items-center gap-2 text-sm text-ink-muted mt-auto">
                 <span>{post.date}</span>
-                <span className="w-1 h-1 rounded-full bg-neutral-700" />
+                <span className="w-1 h-1 rounded-full bg-line-strong" />
                 <span>{post.category}</span>
               </div>
             </Link>
@@ -230,7 +230,7 @@ export function BlogList({
         </div>
 
         {displayedPosts.length === 0 && (
-          <div className="text-center py-20 text-neutral-500">
+          <div className="text-center py-20 text-ink-muted">
             No posts found in this category.
           </div>
         )}
@@ -241,17 +241,17 @@ export function BlogList({
               onClick={handleLoadMore}
               disabled={isLoadingMore}
               className={cn(
-                "group relative inline-flex items-center justify-center overflow-hidden rounded-full border border-neutral-700 bg-neutral-900 px-8 py-3 font-medium transition-all hover:bg-neutral-800 disabled:opacity-70 disabled:cursor-not-allowed",
+                "group relative inline-flex items-center justify-center overflow-hidden rounded-full border border-line-strong bg-surface-sunken px-8 py-3 font-medium transition-all hover:bg-line disabled:opacity-70 disabled:cursor-not-allowed",
               )}
             >
               {isLoadingMore ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin text-brand" />
-                  <span className="text-neutral-300">Loading more...</span>
+                  <span className="text-ink">Loading more...</span>
                 </>
               ) : (
                 <>
-                  <span className="text-neutral-300 group-hover:text-white transition-colors">
+                  <span className="text-ink group-hover:text-ink-strong transition-colors">
                     Load more stories
                   </span>
                   <div className="absolute inset-0 z-0 h-full w-full bg-gradient-to-r from-transparent via-brand/10 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />

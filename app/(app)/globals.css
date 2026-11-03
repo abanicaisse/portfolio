@@ -2,86 +2,165 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * Brand system
+ * ------------
+ * Primary: #aea3e7 (hsl 250 59% 77%), a soft lavender.
+ *
+ * - Neutrals carry a faint 250° hue so greys sit in the same family as the brand.
+ * - The brand fill is light, so it always takes dark text (--brand-fg, 7.9:1).
+ * - On light surfaces the brand is too pale for text (2.1:1), so text accents
+ *   use --brand-ink (#5b49c4, 5.9:1). In dark mode a lighter tint is used.
+ * - Orbit colours are the brand rotated around the wheel at the same
+ *   saturation and lightness (lavender, rose, mint, sand). Decoration only.
+ * - Every text pairing below meets WCAG AA (4.5:1) on both surfaces.
+ */
 @layer base {
-  :root {
-    --brand: 76 100% 52%;
-    --background: 0 0% 100%;
-    --foreground: 0 0% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 3.9%;
-    --primary: 0 0% 9%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 0 0% 96.1%;
-    --secondary-foreground: 0 0% 9%;
-    --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
-    --accent: 0 0% 96.1%;
-    --accent-foreground: 0 0% 9%;
-    --destructive: 0 84.2% 60.2%;
+  :root,
+  .light {
+    --brand: 250 59% 77%; /* #aea3e7 */
+    --brand-ink: 249 51% 53%; /* #5b49c4 */
+    --brand-fg: 250 45% 13%; /* #17122f */
+    --brand-50: 251 65% 97%;
+    --brand-100: 250 66% 93%;
+    --brand-200: 250 63% 86%;
+    --brand-300: 250 59% 77%;
+    --brand-400: 250 57% 68%;
+    --brand-500: 249 53% 60%;
+    --brand-600: 249 51% 53%;
+    --brand-700: 249 48% 43%;
+    --brand-800: 249 47% 34%;
+    --brand-900: 249 49% 25%;
+    --brand-950: 250 45% 13%;
+
+    --surface: 252 26% 96%; /* #f4f3f8 */
+    --surface-sunken: 253 26% 93%; /* #ebe9f2 */
+    --surface-raised: 250 33% 99%;
+    --ink: 248 33% 14%; /* #1b1830 */
+    --ink-strong: 247 41% 8%; /* #0e0c1d */
+    --ink-muted: 248 11% 40%; /* #5d5a70 */
+    --ink-faint: 249 10% 43%; /* #66637a */
+    --line: 254 21% 88%;
+    --line-strong: 252 16% 75%;
+    --invert-bg: 247 41% 8%;
+    --invert-fg: 252 26% 96%;
+
+    --orbit-1: 250 59% 77%;
+    --orbit-2: 326 59% 77%;
+    --orbit-3: 153 59% 72%;
+    --orbit-4: 39 59% 72%;
+
+    --background: var(--surface);
+    --foreground: var(--ink);
+    --card: var(--surface-raised);
+    --card-foreground: var(--ink);
+    --popover: var(--surface-raised);
+    --popover-foreground: var(--ink);
+    --primary: var(--ink-strong);
+    --primary-foreground: var(--surface);
+    --secondary: var(--surface-sunken);
+    --secondary-foreground: var(--ink);
+    --muted: var(--surface-sunken);
+    --muted-foreground: var(--ink-muted);
+    --accent: var(--brand-100);
+    --accent-foreground: var(--brand-fg);
+    --destructive: 0 72% 45%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-    --ring: 0 0% 3.9%;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-    --radius: 0.5rem;
+    --border: var(--line);
+    --input: var(--line-strong);
+    --ring: var(--brand-ink);
+    --radius: 0rem;
+
+    color-scheme: light;
   }
 
   .dark {
-    --brand: 76 100% 52%;
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 0 0% 14.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
-  }
-}
+    --brand-ink: 250 66% 84%; /* #c3baf1 */
 
-@theme inline {
-  --breakpoint-xs: 480px;
-  --breakpoint-sm: 640px;
-  --breakpoint-md: 768px;
-  --breakpoint-navBreak: 930px;
-  --breakpoint-lg: 1024px;
-  --breakpoint-xl: 1280px;
-  --breakpoint-2xl: 1536px;
-  --breakpoint-3xl: 1920px;
+    --surface: 250 21% 5%; /* #0c0b11 */
+    --surface-sunken: 248 18% 9%; /* #13121a */
+    --surface-raised: 249 16% 11%;
+    --ink: 251 30% 93%;
+    --ink-strong: 252 38% 97%;
+    --ink-muted: 249 13% 68%;
+    --ink-faint: 248 10% 57%;
+    --line: 250 15% 16%;
+    --line-strong: 251 13% 25%;
+    --invert-bg: 252 38% 97%;
+    --invert-fg: 250 21% 5%;
+
+    --destructive: 0 62% 50%;
+
+    color-scheme: dark;
+  }
 }
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-line;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-surface font-sans text-ink antialiased;
     font-feature-settings:
       "rlig" 1,
       "calt" 1;
+  }
+
+  ::selection {
+    @apply bg-brand text-brand-fg;
+  }
+
+  :focus-visible {
+    outline: 2px solid hsl(var(--brand-ink));
+    outline-offset: 2px;
+  }
+
+  /* Sticky nav (48px) + sticky section eyebrow (~44px) */
+  [id] {
+    scroll-margin-top: 6rem;
+  }
+}
+
+@layer components {
+  .hud-label {
+    @apply font-mono text-[11px] font-medium uppercase leading-4 tracking-[0.14em];
+  }
+
+  /* Small crosshair marks pinned to section corners */
+  .tick {
+    @apply pointer-events-none absolute block h-[11px] w-[11px];
+  }
+  .tick::before,
+  .tick::after {
+    content: "";
+    @apply absolute bg-line-strong;
+  }
+  .tick::before {
+    @apply left-1/2 top-0 h-full w-px -translate-x-1/2;
+  }
+  .tick::after {
+    @apply left-0 top-1/2 h-px w-full -translate-y-1/2;
+  }
+  .tick-half::before {
+    @apply top-1/2 h-1/2;
+  }
+
+  .marquee {
+    @apply flex overflow-hidden;
+    mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+  }
+  .marquee-track {
+    @apply flex shrink-0;
+    animation: marquee 40s linear infinite;
+  }
+  .marquee:hover .marquee-track {
+    animation-play-state: paused;
   }
 }
 
@@ -89,9 +168,110 @@
   .text-balance {
     text-wrap: balance;
   }
+  .font-wide {
+    font-stretch: 125%;
+  }
 }
 
-/* scrool behavior smooth */
-html {
-  scroll-behavior: smooth;
+@keyframes marquee {
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+/*
+ * Reveal choreography
+ * The inline head script sets [data-intro] only when JS runs and the user has
+ * not asked for reduced motion, so content is never hidden without a way back.
+ */
+[data-intro] [data-reveal]:not([data-revealed]) {
+  opacity: 0;
+  transform: translateY(14px);
+  filter: blur(6px);
+}
+[data-intro] [data-reveal] {
+  transition:
+    opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1),
+    filter 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: calc(var(--reveal-index, 0) * 70ms);
+}
+
+[data-intro] [data-draw-rule] {
+  transform: scaleX(0);
+  transition: transform 1.1s cubic-bezier(0.65, 0, 0.35, 1);
+}
+[data-intro] [data-draw-tick] {
+  opacity: 0;
+  transition: opacity 0.4s ease 0.6s;
+}
+[data-intro] [data-choreo][data-revealed] [data-draw-rule] {
+  transform: scaleX(1);
+}
+[data-intro] [data-choreo][data-revealed] [data-draw-tick] {
+  opacity: 1;
+}
+
+/* Hero wordmark: letters drop in, then react to hover */
+.wm-letter {
+  display: inline-block;
+  transition:
+    transform 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.3),
+    font-weight 0.45s ease,
+    color 0.3s ease;
+}
+[data-intro] .wm-letter {
+  animation: wm-in 1s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+  animation-delay: calc(120ms + var(--i) * 75ms);
+}
+.wm-letter:hover {
+  transform: translateY(-0.06em) scaleY(1.08);
+  font-weight: 900;
+  color: hsl(var(--brand-ink));
+}
+@keyframes wm-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.35em) rotateX(-70deg);
+    filter: blur(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+/* Section rail: the active label flips in letter by letter */
+.rail-letter {
+  display: inline-block;
+  animation: rail-in 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation-delay: calc(var(--i) * 28ms);
+  transform-origin: 50% 100%;
+}
+@keyframes rail-in {
+  from {
+    opacity: 0;
+    transform: translateY(70%) rotate(-12deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .marquee-track {
+    animation: none;
+  }
 }

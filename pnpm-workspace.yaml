@@ -1,0 +1,11 @@
+allowBuilds:
+  esbuild: true
+  sharp: true
+  unrs-resolver: true
+
+overrides:
+  react: 19.2.5
+  react-dom: 19.2.5
+  '@payloadcms/ui': 3.83.0
+  '@payloadcms/next': 3.83.0
+  '@payloadcms/richtext-lexical': 3.83.0

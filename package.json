@@ -90,15 +90,6 @@
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3"
   },
-  "pnpm": {
-    "overrides": {
-      "react": "19.2.5",
-      "react-dom": "19.2.5",
-      "@payloadcms/ui": "3.83.0",
-      "@payloadcms/next": "3.83.0",
-      "@payloadcms/richtext-lexical": "3.83.0"
-    }
-  },
   "onlyBuiltDependencies": [
     "sharp",
     "esbuild",

@@ -1,38 +1,26 @@
-import { Hero } from "@/components/Hero";
-import { About } from "@/components/About";
-import { Skills } from "@/components/Skills";
-import { Projects } from "@/components/Projects";
-import { Blog } from "@/components/Blog";
-import { Contact } from "@/components/Contact";
-
-import { ParallaxSection } from "@/components/ui/parallax-section";
+import { Hero } from "@/components/home/Hero";
+import { WorkSection } from "@/components/home/WorkSection";
+import { ExperienceSection } from "@/components/home/ExperienceSection";
+import { StackSection } from "@/components/home/StackSection";
+import { Marquee } from "@/components/home/Marquee";
+import { ApproachSection } from "@/components/home/ApproachSection";
+import { WritingSection } from "@/components/home/WritingSection";
+import { ContactSection } from "@/components/home/ContactSection";
+import { SectionRail } from "@/components/home/SectionRail";
+import { homeSections } from "@/lib/site";
 
 export default function Home() {
   return (
-    <div className="min-h-screen">
-      <main>
-        <Hero />
-      </main>
-
-      <ParallaxSection delay={0.1}>
-        <About />
-      </ParallaxSection>
-
-      <ParallaxSection delay={0.1}>
-        <Skills />
-      </ParallaxSection>
-
-      <ParallaxSection delay={0.1}>
-        <Projects />
-      </ParallaxSection>
-
-      <ParallaxSection delay={0.1}>
-        <Blog />
-      </ParallaxSection>
-
-      <ParallaxSection delay={0.1}>
-        <Contact />
-      </ParallaxSection>
-    </div>
+    <>
+      <Hero />
+      <WorkSection />
+      <ExperienceSection />
+      <StackSection />
+      <Marquee />
+      <ApproachSection />
+      <WritingSection />
+      <ContactSection />
+      <SectionRail sections={homeSections} />
+    </>
   );
 }

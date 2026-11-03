@@ -54,7 +54,7 @@ const CopyButton = ({ text }: { text: string }) => {
   return (
     <button
       onClick={handleCopy}
-      className="text-neutral-400 hover:text-white transition-colors p-1"
+      className="text-ink-muted hover:text-ink-strong transition-colors p-1"
       aria-label="Copy code"
     >
       {copied ? <Check size={16} className="text-brand" /> : <Copy size={16} />}
@@ -167,10 +167,10 @@ export function BlogDetail({ post }: BlogDetailProps) {
   }, [post.slug]);
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white pt-24 pb-32">
+    <div className="min-h-screen bg-surface text-ink-strong pt-24 pb-32">
       <div className="max-w-7xl mx-auto px-6">
         {/* Breadcrumb & Navigation */}
-        <div className="flex items-center gap-2 text-sm text-neutral-500 mb-12">
+        <div className="flex items-center gap-2 text-sm text-ink-muted mb-12">
           <Link href="/blog" className="hover:text-brand transition-colors">
             Blog
           </Link>
@@ -179,12 +179,12 @@ export function BlogDetail({ post }: BlogDetailProps) {
         </div>
 
         {/* Title */}
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-medium tracking-tight bg-clip-text text-transparent bg-gradient-to-br from-white to-neutral-400 max-w-4xl mb-12">
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-medium tracking-tight bg-clip-text text-transparent bg-gradient-to-br from-ink-strong to-ink-muted max-w-4xl mb-12">
           {post.title}
         </h1>
 
         {/* Author Info */}
-        <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-8 lg:mb-12 border-b border-neutral-800 pb-4 sm:pb-8">
+        <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-8 lg:mb-12 border-b border-line pb-4 sm:pb-8">
           <div className="flex items-center gap-2">
             <Image
               unoptimized
@@ -192,11 +192,11 @@ export function BlogDetail({ post }: BlogDetailProps) {
               alt={authorName}
               width={40}
               height={40}
-              className="rounded-full bg-neutral-800 object-cover"
+              className="rounded-full bg-line object-cover"
             />
             <div className="font-medium">{authorName}</div>
           </div>
-          <div className="text-sm text-neutral-500 mt-4 sm:mt-0">
+          <div className="text-sm text-ink-muted mt-4 sm:mt-0">
             {formattedDate}
           </div>
         </div>
@@ -206,7 +206,7 @@ export function BlogDetail({ post }: BlogDetailProps) {
           {/* TOC Sidebar */}
           <div className="hidden lg:block w-64 shrink-0">
             <div className="sticky top-24">
-              <h4 className="text-xs font-semibold uppercase tracking-widest text-neutral-500 mb-5">
+              <h4 className="text-xs font-semibold uppercase tracking-widest text-ink-muted mb-5">
                 In this article
               </h4>
               <nav className="flex flex-col gap-1">
@@ -228,13 +228,13 @@ export function BlogDetail({ post }: BlogDetailProps) {
                         "flex items-start gap-3 text-sm py-1.5 pl-4 border-l-2 transition-all duration-200",
                         isActive
                           ? "text-brand border-brand font-medium"
-                          : "text-neutral-500 border-neutral-800 hover:text-neutral-300 hover:border-neutral-600",
+                          : "text-ink-muted border-line hover:text-ink hover:border-line-strong",
                       )}
                     >
                       <span
                         className={cn(
                           "shrink-0 tabular-nums text-xs mt-0.5 transition-colors",
-                          isActive ? "text-brand" : "text-neutral-700",
+                          isActive ? "text-brand" : "text-ink-faint",
                         )}
                       >
                         {i + 1}.
@@ -251,7 +251,7 @@ export function BlogDetail({ post }: BlogDetailProps) {
           <div className="flex-1 max-w-3xl lg:max-w-none mx-auto lg:mx-0 min-w-0 w-full relative shrink">
             {/* Hero Image */}
             {featuredImage && (
-              <div className="mb-12 rounded-2xl overflow-hidden aspect-video relative border border-neutral-800 bg-neutral-900">
+              <div className="mb-12 rounded-2xl overflow-hidden aspect-video relative border border-line bg-surface-sunken">
                 <Image
                   unoptimized
                   src={featuredImage}
@@ -265,7 +265,7 @@ export function BlogDetail({ post }: BlogDetailProps) {
 
             {/* Excerpt */}
             {post.excerpt && (
-              <p className="text-xl text-neutral-300 leading-relaxed mb-10 font-medium">
+              <p className="text-xl text-ink leading-relaxed mb-10 font-medium">
                 {post.excerpt}
               </p>
             )}
@@ -275,13 +275,13 @@ export function BlogDetail({ post }: BlogDetailProps) {
               className="prose prose-invert prose-neutral max-w-none 
               prose-headings:font-medium prose-headings:tracking-tight 
               prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-6
-              prose-p:text-neutral-300 prose-p:leading-relaxed prose-p:mb-6
+              prose-p:text-ink prose-p:leading-relaxed prose-p:mb-6
               prose-a:text-brand prose-a:font-medium prose-a:no-underline hover:prose-a:underline prose-a:underline-offset-4
-              prose-li:text-neutral-300
-              prose-blockquote:border-l-brand prose-blockquote:bg-neutral-900/50 prose-blockquote:py-2 prose-blockquote:px-6 prose-blockquote:rounded-r-lg prose-blockquote:not-italic prose-blockquote:text-neutral-300
-              prose-img:rounded-xl prose-img:border prose-img:border-neutral-800
-              prose-hr:border-neutral-800
-              prose-table:border-collapse prose-table:w-full prose-table:text-sm prose-td:border prose-td:border-neutral-800 prose-td:px-4 prose-td:py-3 prose-th:border prose-th:border-neutral-800 prose-th:bg-neutral-900/50 prose-th:px-4 prose-th:py-3 prose-th:text-left prose-th:font-medium rounded-sm"
+              prose-li:text-ink
+              prose-blockquote:border-l-brand prose-blockquote:bg-surface-sunken/50 prose-blockquote:py-2 prose-blockquote:px-6 prose-blockquote:rounded-r-lg prose-blockquote:not-italic prose-blockquote:text-ink
+              prose-img:rounded-xl prose-img:border prose-img:border-line
+              prose-hr:border-line
+              prose-table:border-collapse prose-table:w-full prose-table:text-sm prose-td:border prose-td:border-line prose-td:px-4 prose-td:py-3 prose-th:border prose-th:border-line prose-th:bg-surface-sunken/50 prose-th:px-4 prose-th:py-3 prose-th:text-left prose-th:font-medium rounded-sm"
             >
               <RichText
                 data={post.content}
@@ -351,7 +351,7 @@ export function BlogDetail({ post }: BlogDetailProps) {
                   upload: (props: any) => {
                     const { node } = props;
                     return (
-                      <div className="block my-10 relative aspect-video w-full rounded-2xl overflow-hidden border border-neutral-800 bg-neutral-900">
+                      <div className="block my-10 relative aspect-video w-full rounded-2xl overflow-hidden border border-line bg-surface-sunken">
                         <div
                           className="absolute inset-0 opacity-20"
                           style={{
@@ -377,38 +377,38 @@ export function BlogDetail({ post }: BlogDetailProps) {
             {/* Floating Share Button */}
             <Dialog>
               <DialogTrigger asChild>
-                <div className="fixed bottom-8 left-1/2 -translate-x-1/2 bg-neutral-900/90 backdrop-blur-md border border-neutral-800 px-6 py-3 rounded-full flex items-center gap-3 cursor-pointer hover:bg-neutral-800 hover:border-brand/50 transition-all group z-50">
+                <div className="fixed bottom-8 left-1/2 -translate-x-1/2 bg-surface-sunken/90 backdrop-blur-md border border-line px-6 py-3 rounded-full flex items-center gap-3 cursor-pointer hover:bg-line hover:border-brand/50 transition-all group z-50">
                   <span className="text-sm font-medium group-hover:text-brand transition-colors">
                     Share
                   </span>
                   <LinkIcon
                     size={16}
-                    className="text-neutral-400 group-hover:text-brand transition-colors"
+                    className="text-ink-muted group-hover:text-brand transition-colors"
                   />
                 </div>
               </DialogTrigger>
-              <DialogContent className="w-[95vw] max-w-md bg-[#0a0a0a] border-neutral-800 text-white rounded-2xl p-6 max-h-[90vh] overflow-y-auto">
+              <DialogContent className="w-[95vw] max-w-md bg-surface border-line text-ink-strong rounded-2xl p-6 max-h-[90vh] overflow-y-auto">
                 <DialogHeader className="mb-2 text-left">
-                  <DialogTitle className="text-xl font-medium tracking-tight text-white mb-2">
+                  <DialogTitle className="text-xl font-medium tracking-tight text-ink-strong mb-2">
                     Share this article
                   </DialogTitle>
-                  <DialogDescription className="text-neutral-400 text-sm leading-relaxed">
+                  <DialogDescription className="text-ink-muted text-sm leading-relaxed">
                     Enjoyed the read? Share it with your network or copy the
                     link directly to your clipboard.
                   </DialogDescription>
                 </DialogHeader>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 py-4 border-y border-neutral-800/60 my-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 py-4 border-y border-line/60 my-4">
                   <a
                     href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
                       post.title,
                     )}&url=${encodeURIComponent(pageUrl)}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex flex-row sm:flex-col items-center justify-center sm:justify-start gap-3 p-4 rounded-xl bg-neutral-900/50 border border-neutral-800 hover:bg-neutral-800 hover:border-neutral-700 transition-all"
+                    className="flex flex-row sm:flex-col items-center justify-center sm:justify-start gap-3 p-4 rounded-xl bg-surface-sunken/50 border border-line hover:bg-line hover:border-line-strong transition-all"
                   >
-                    <Twitter size={20} className="text-neutral-300" />
-                    <span className="text-sm sm:text-xs font-medium text-neutral-300">
+                    <Twitter size={20} className="text-ink" />
+                    <span className="text-sm sm:text-xs font-medium text-ink">
                       Twitter / X
                     </span>
                   </a>
@@ -419,10 +419,10 @@ export function BlogDetail({ post }: BlogDetailProps) {
                     )}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex flex-row sm:flex-col items-center justify-center sm:justify-start gap-3 p-4 rounded-xl bg-neutral-900/50 border border-neutral-800 hover:bg-neutral-800 hover:border-neutral-700 transition-all"
+                    className="flex flex-row sm:flex-col items-center justify-center sm:justify-start gap-3 p-4 rounded-xl bg-surface-sunken/50 border border-line hover:bg-line hover:border-line-strong transition-all"
                   >
-                    <Linkedin size={20} className="text-neutral-300" />
-                    <span className="text-sm sm:text-xs font-medium text-neutral-300">
+                    <Linkedin size={20} className="text-ink" />
+                    <span className="text-sm sm:text-xs font-medium text-ink">
                       LinkedIn
                     </span>
                   </a>
@@ -433,7 +433,7 @@ export function BlogDetail({ post }: BlogDetailProps) {
                     )}&title=${encodeURIComponent(post.title)}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex flex-row sm:flex-col items-center justify-center sm:justify-start gap-3 p-4 rounded-xl bg-neutral-900/50 border border-neutral-800 hover:bg-neutral-800 hover:border-neutral-700 transition-all"
+                    className="flex flex-row sm:flex-col items-center justify-center sm:justify-start gap-3 p-4 rounded-xl bg-surface-sunken/50 border border-line hover:bg-line hover:border-line-strong transition-all"
                   >
                     <svg
                       viewBox="0 0 24 24"
@@ -444,14 +444,14 @@ export function BlogDetail({ post }: BlogDetailProps) {
                       fill="none"
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      className="text-neutral-300"
+                      className="text-ink"
                     >
                       <circle cx="12" cy="12" r="10"></circle>
                       <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
                       <line x1="9" y1="9" x2="9.01" y2="9"></line>
                       <line x1="15" y1="9" x2="15.01" y2="9"></line>
                     </svg>
-                    <span className="text-sm sm:text-xs font-medium text-neutral-300">
+                    <span className="text-sm sm:text-xs font-medium text-ink">
                       Reddit
                     </span>
                   </a>
@@ -462,7 +462,7 @@ export function BlogDetail({ post }: BlogDetailProps) {
                     )}&t=${encodeURIComponent(post.title)}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex flex-row sm:flex-col items-center justify-center sm:justify-start gap-3 p-4 rounded-xl bg-neutral-900/50 border border-neutral-800 hover:bg-neutral-800 hover:border-neutral-700 transition-all"
+                    className="flex flex-row sm:flex-col items-center justify-center sm:justify-start gap-3 p-4 rounded-xl bg-surface-sunken/50 border border-line hover:bg-line hover:border-line-strong transition-all"
                   >
                     <svg
                       viewBox="0 0 24 24"
@@ -473,19 +473,19 @@ export function BlogDetail({ post }: BlogDetailProps) {
                       fill="none"
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      className="text-neutral-300"
+                      className="text-ink"
                     >
                       <polyline points="4 14 12 4 20 14"></polyline>
                       <line x1="12" y1="4" x2="12" y2="20"></line>
                     </svg>
-                    <span className="text-sm sm:text-xs font-medium text-neutral-300">
+                    <span className="text-sm sm:text-xs font-medium text-ink">
                       Hacker News
                     </span>
                   </a>
                 </div>
 
                 <div className="flex items-center gap-3 mt-2 min-w-0">
-                  <div className="flex-1 min-w-0 bg-neutral-900/50 border border-neutral-800 rounded-lg px-4 py-2.5 text-sm text-neutral-400 font-mono truncate select-all">
+                  <div className="flex-1 min-w-0 bg-surface-sunken/50 border border-line rounded-lg px-4 py-2.5 text-sm text-ink-muted font-mono truncate select-all">
                     {pageUrl || "Loading..."}
                   </div>
                   <CopyButton text={pageUrl} />
@@ -497,7 +497,7 @@ export function BlogDetail({ post }: BlogDetailProps) {
 
         {/* ─── Related Articles ──────────────────────────────────── */}
         {relatedPosts.length > 0 && (
-          <div className="mt-24 pt-16 border-t border-neutral-800">
+          <div className="mt-24 pt-16 border-t border-line">
             <h2 className="text-2xl font-medium tracking-tight mb-10">
               Related Articles
             </h2>
@@ -512,9 +512,9 @@ export function BlogDetail({ post }: BlogDetailProps) {
                   <h3 className="text-lg font-medium tracking-tight group-hover:text-brand transition-colors line-clamp-2 leading-snug">
                     {related.title}
                   </h3>
-                  <div className="flex items-center gap-2 text-sm text-neutral-500 mt-auto">
+                  <div className="flex items-center gap-2 text-sm text-ink-muted mt-auto">
                     <span>{related.date}</span>
-                    <span className="w-1 h-1 rounded-full bg-neutral-700" />
+                    <span className="w-1 h-1 rounded-full bg-line-strong" />
                     <span>{related.category}</span>
                   </div>
                 </Link>
@@ -524,7 +524,7 @@ export function BlogDetail({ post }: BlogDetailProps) {
         )}
 
         {/* ─── Newsletter CTA ────────────────────────────────────── */}
-        <div className="mt-20 rounded-2xl border border-neutral-800 bg-neutral-900/50 px-8 py-12 md:px-14 md:py-16 flex flex-col md:flex-row md:items-center gap-8 md:gap-16">
+        <div className="mt-20 rounded-2xl border border-line bg-surface-sunken/50 px-8 py-12 md:px-14 md:py-16 flex flex-col md:flex-row md:items-center gap-8 md:gap-16">
           {/* Text */}
           <div className="flex-1">
             <p className="text-xs font-semibold uppercase tracking-widest text-brand mb-3">
@@ -533,7 +533,7 @@ export function BlogDetail({ post }: BlogDetailProps) {
             <h3 className="text-2xl md:text-3xl font-medium tracking-tight mb-3">
               Get articles like this in your inbox
             </h3>
-            <p className="text-neutral-400 text-sm leading-relaxed max-w-sm">
+            <p className="text-ink-muted text-sm leading-relaxed max-w-sm">
               No spam, no noise. Just thoughtful writing on web development,
               design, and engineering — delivered when it matters.
             </p>
@@ -547,11 +547,11 @@ export function BlogDetail({ post }: BlogDetailProps) {
             <input
               type="email"
               placeholder="you@example.com"
-              className="flex-1 rounded-lg bg-neutral-800 border border-neutral-700 px-4 py-3 text-sm text-white placeholder:text-neutral-500 focus:outline-none focus:border-brand transition-colors"
+              className="flex-1 rounded-lg bg-line border border-line-strong px-4 py-3 text-sm text-ink-strong placeholder:text-ink-muted focus:outline-none focus:border-brand transition-colors"
             />
             <button
               type="submit"
-              className="shrink-0 rounded-lg bg-white px-5 py-3 text-sm font-semibold text-black hover:bg-brand hover:opacity-90 transition-opacity"
+              className="shrink-0 bg-brand px-5 py-3 text-sm font-semibold text-brand-fg transition-colors hover:bg-invert-bg hover:text-invert-fg"
             >
               Subscribe
             </button>

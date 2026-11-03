@@ -90,7 +90,7 @@ const PROJECTS = [
 
 export default function ProjectsPage() {
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white pt-32 pb-32">
+    <div className="min-h-screen bg-surface text-ink-strong pt-32 pb-32">
       <div className="max-w-7xl mx-auto px-6">
         {/* Subtle Cross/Dot Background representing technical grid aesthetic */}
         <div
@@ -105,10 +105,10 @@ export default function ProjectsPage() {
         {/* Hero Header Area */}
         <div className="relative z-10 mb-12 sm:mb-20">
           <div className="flex flex-col gap-4 max-w-2xl">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-medium tracking-tight bg-clip-text text-transparent bg-gradient-to-br from-white to-white/70">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-medium tracking-tight bg-clip-text text-transparent bg-gradient-to-br from-ink-strong to-ink-strong/70">
               Selected Work
             </h1>
-            <p className="text-neutral-400 text-sm sm:text-base leading-relaxed">
+            <p className="text-ink-muted text-sm sm:text-base leading-relaxed">
               A collection of scalable applications, distributed systems, and
               performant web interfaces. Engineered with a focus on clean
               architecture, optimized mechanics, and immersive user experiences.
@@ -117,20 +117,20 @@ export default function ProjectsPage() {
         </div>
 
         {/* Grid Container — 1px border aesthetic representing rigid wireframes */}
-        <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-[1px] bg-neutral-800/40 border border-neutral-800/40 rounded-3xl overflow-hidden p-[1px]">
+        <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-[1px] bg-line/40 border border-line/40 rounded-3xl overflow-hidden p-[1px]">
           {PROJECTS.map((project) => (
             <Link
               key={project.id}
               href={project.link}
               className={cn(
-                "group relative bg-[#0a0a0a] flex flex-col p-4 sm:p-6 transition-colors hover:bg-[#0c0c0c]",
+                "group relative bg-surface flex flex-col p-4 sm:p-6 transition-colors hover:bg-surface-sunken",
                 project.span,
               )}
             >
               {/* Cinematic Image Container */}
               <div
                 className={cn(
-                  "relative w-full overflow-hidden rounded-xl bg-neutral-900 border border-neutral-800/50 mb-5 sm:mb-6",
+                  "relative w-full overflow-hidden rounded-xl bg-surface-sunken border border-line/50 mb-5 sm:mb-6",
                   project.aspect,
                 )}
               >
@@ -146,18 +146,18 @@ export default function ProjectsPage() {
               <div className="flex flex-col flex-1 text-left px-1">
                 <div className="flex items-center gap-2 mb-2">
                   <span className="text-sm select-none">{project.icon}</span>
-                  <h3 className="text-lg sm:text-xl font-medium tracking-tight text-white group-hover:text-brand transition-colors">
+                  <h3 className="text-lg sm:text-xl font-medium tracking-tight text-ink-strong group-hover:text-brand transition-colors">
                     {project.title}
                   </h3>
                 </div>
-                <p className="text-xs sm:text-sm text-neutral-500 leading-relaxed font-light max-w-full mb-4">
+                <p className="text-xs sm:text-sm text-ink-muted leading-relaxed font-light max-w-full mb-4">
                   {project.description}
                 </p>
                 <div className="mt-auto flex flex-wrap gap-2 pt-2">
                   {project.techStack.map((tech) => (
                     <span
                       key={tech}
-                      className="text-[10px] font-mono text-neutral-400 bg-neutral-900 border border-neutral-800/50 px-2 py-1 rounded-md"
+                      className="text-[10px] font-mono text-ink-muted bg-surface-sunken border border-line/50 px-2 py-1 rounded-md"
                     >
                       {tech}
                     </span>
@@ -174,7 +174,7 @@ export default function ProjectsPage() {
         </div>
 
         {/* Footer Accent/Grid Lines at Bottom */}
-        <div className="relative z-10 mt-16 sm:mt-24 pt-8 border-t border-neutral-800/50 flex justify-between items-center text-xs text-neutral-600 font-mono uppercase tracking-widest">
+        <div className="relative z-10 mt-16 sm:mt-24 pt-8 border-t border-line/50 flex justify-between items-center text-xs text-ink-faint font-mono uppercase tracking-widest">
           <span>{`// End of Index`}</span>
           <Link
             href="https://github.com/abanicaisse"
