@@ -6,7 +6,7 @@ import { profile, socials } from "@/lib/site";
 
 export function ContactSection() {
   return (
-    <Section id="contact">
+    <Section id="contact" railLabel="Contact">
       <div className="flex flex-col items-center px-6 pb-14 pt-20 text-center md:pb-16 md:pt-28">
         <p className="hud-label text-ink-faint">
           {profile.location} · {profile.timezone} · Remote friendly

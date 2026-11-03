@@ -100,7 +100,7 @@ export function BlogDetail({ post }: { post: Post }) {
         </SectionIntro>
       </Section>
 
-      <Section id="article">
+      <Section id="article" railLabel="Article">
         {image && (
           <div className="relative aspect-video w-full overflow-hidden border-b border-line bg-surface-sunken">
             <Image src={image.url} alt={image.alt} fill unoptimized priority sizes="1120px" className="object-cover" />

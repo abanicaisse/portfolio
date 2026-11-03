@@ -46,7 +46,7 @@ function Wordmark() {
 
 export function Hero() {
   return (
-    <section id="top" data-section className="relative">
+    <section id="top" data-section data-rail-label={profile.wordmark} className="relative">
       <div className="relative flex min-h-[calc(100svh-3rem)] flex-col">
         <OrbitField />
 

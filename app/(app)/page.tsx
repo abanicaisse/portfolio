@@ -6,8 +6,6 @@ import { Marquee } from "@/components/home/Marquee";
 import { ApproachSection } from "@/components/home/ApproachSection";
 import { WritingSection } from "@/components/home/WritingSection";
 import { ContactSection } from "@/components/home/ContactSection";
-import { SectionRail } from "@/components/home/SectionRail";
-import { homeSections } from "@/lib/site";
 
 export default function Home() {
   return (
@@ -20,7 +18,6 @@ export default function Home() {
       <ApproachSection />
       <WritingSection />
       <ContactSection />
-      <SectionRail sections={homeSections} />
     </>
   );
 }

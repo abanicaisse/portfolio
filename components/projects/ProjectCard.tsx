@@ -1,3 +1,5 @@
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 import type { WorkItem } from "@/lib/site";
 import { ProjectMark } from "@/components/projects/ProjectMark";
 import { accentFill } from "@/components/projects/accent";
@@ -12,10 +14,10 @@ const tag = "border border-line bg-surface-sunken px-1.5 py-px font-mono text-[1
 
 export function ProjectCard({ project, index }: ProjectCardProps) {
   return (
-    <article
+    <Link
       id={project.slug}
+      href={`/projects/${project.slug}`}
       data-reveal
-      aria-labelledby={`${project.slug}-title`}
       className="group relative flex h-full flex-col bg-surface"
     >
       <span
@@ -52,7 +54,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
           project={project}
           className="-mt-9 h-[72px] w-[72px] text-2xl transition-transform duration-300 ease-out group-hover:-translate-y-1"
         />
-        <h3 id={`${project.slug}-title`} className="mt-4 font-display text-3xl font-medium leading-none tracking-[-0.03em] text-ink-strong">
+        <h3 className="mt-4 font-display text-3xl font-medium leading-none tracking-[-0.03em] text-ink-strong">
           {project.title}
         </h3>
         <p className="mt-3 leading-relaxed text-ink-muted">{project.summary}</p>
@@ -67,10 +69,19 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
           ))}
         </ul>
 
-        <p className="hud-label mt-auto pt-6 text-ink-faint">
-          Role <span aria-hidden="true">·</span> <span className="text-ink-muted">{project.role}</span>
-        </p>
+        <div className="mt-auto flex flex-wrap items-center justify-between gap-x-6 gap-y-2 pt-6">
+          <p className="hud-label text-ink-faint">
+            Role <span aria-hidden="true">·</span> <span className="text-ink-muted">{project.role}</span>
+          </p>
+          <span className="hud-label flex items-center gap-1.5 text-ink-muted group-hover:text-ink">
+            Explore {project.shortName}
+            <ArrowUpRight
+              aria-hidden="true"
+              className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+            />
+          </span>
+        </div>
       </div>
-    </article>
+    </Link>
   );
 }

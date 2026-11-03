@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/components/shared/ThemeProvider";
 import { SiteNav } from "@/components/shared/SiteNav";
 import { SiteFooter } from "@/components/shared/SiteFooter";
 import { RevealObserver } from "@/components/shared/RevealObserver";
+import { SectionRail } from "@/components/shared/SectionRail";
 import { profile } from "@/lib/site";
 
 const archivo = Archivo({
@@ -65,6 +66,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           </main>
           <SiteFooter />
           <RevealObserver />
+          <SectionRail />
         </ThemeProvider>
         <Analytics />
       </body>

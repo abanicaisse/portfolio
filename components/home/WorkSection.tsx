@@ -7,7 +7,7 @@ const github = socials.find((s) => s.label === "GitHub");
 
 export function WorkSection() {
   return (
-    <Section id="work" index="01" eyebrow="Selected work" note="2023 — Now">
+    <Section id="work" index="01" eyebrow="Selected work" railLabel="Work" note="2023 — Now">
       <SectionIntro
         title={
           <>
@@ -28,7 +28,7 @@ export function WorkSection() {
 
       <div data-reveal-group className="grid gap-px border-t border-line bg-line md:grid-cols-2">
         {work.map((item, i) => (
-          <article key={item.slug} data-reveal className="group flex flex-col bg-surface">
+          <Link key={item.slug} href={`/projects/${item.slug}`} data-reveal className="group flex flex-col bg-surface">
             <div className="flex items-center justify-between gap-4 border-b border-line px-6 py-2.5 md:px-8">
               <p className="hud-label text-ink-muted">{item.label}</p>
               <p className="hud-label text-ink-faint">{String(i + 1).padStart(2, "0")}</p>
@@ -62,7 +62,7 @@ export function WorkSection() {
                 ))}
               </ul>
             </div>
-          </article>
+          </Link>
         ))}
 
         {github && (

@@ -143,7 +143,7 @@ export default function ProjectsPage() {
         </ol>
       </Section>
 
-      <Section id="start">
+      <Section id="start" railLabel="Start">
         <div className="flex flex-col items-center px-6 py-20 text-center md:py-28">
           <p className="hud-label text-ink-faint">{profile.location} · Remote</p>
           <h2

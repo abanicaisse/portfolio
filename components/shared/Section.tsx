@@ -6,6 +6,8 @@ interface SectionProps {
   index?: string;
   eyebrow?: string;
   note?: string;
+  /** Label in the section rail. Defaults to the eyebrow; sections with neither stay off the rail. */
+  railLabel?: string;
   className?: string;
   children: ReactNode;
 }
@@ -14,14 +16,16 @@ interface SectionProps {
  * Bordered column with a drawn top rule, corner ticks and a sticky
  * "01 / Label" eyebrow. Every home section shares this frame.
  */
-export function Section({ id, index, eyebrow, note, className, children }: SectionProps) {
+export function Section({ id, index, eyebrow, note, railLabel, className, children }: SectionProps) {
   const headingId = `${id}-label`;
+  const rail = railLabel ?? eyebrow;
 
   return (
     <section
       id={id}
       data-choreo
       data-section
+      data-rail-label={rail}
       aria-labelledby={eyebrow ? headingId : undefined}
       className={cn("relative", className)}
     >
