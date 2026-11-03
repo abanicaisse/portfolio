@@ -8,7 +8,7 @@ export const ctaVariants = cva(
   {
     variants: {
       variant: {
-        brand: "bg-brand text-brand-fg hover:bg-invert-bg hover:text-invert-fg",
+        brand: "bg-brand-solid text-brand-solid-fg hover:bg-invert-bg hover:text-invert-fg",
         invert: "bg-invert-bg text-invert-fg hover:opacity-80",
         outline:
           "border border-line-strong bg-surface text-ink hover:border-transparent hover:bg-invert-bg hover:text-invert-fg",

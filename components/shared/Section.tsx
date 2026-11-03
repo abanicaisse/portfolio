@@ -61,23 +61,27 @@ interface SectionIntroProps {
   title: ReactNode;
   lede?: ReactNode;
   aside?: ReactNode;
+  /** Page heroes render the title as the page's h1. */
+  as?: "h1" | "h2";
+  children?: ReactNode;
 }
 
-export function SectionIntro({ title, lede, aside }: SectionIntroProps) {
+export function SectionIntro({ title, lede, aside, as: Heading = "h2", children }: SectionIntroProps) {
   return (
     <div className="flex flex-col gap-6 px-6 py-14 md:flex-row md:items-end md:justify-between md:px-10 md:py-20">
-      <div>
-        <h2
+      <div className="min-w-0">
+        <Heading
           data-reveal
           className="max-w-3xl text-balance font-display text-4xl font-medium leading-[1.02] tracking-[-0.035em] text-ink-strong sm:text-5xl md:text-6xl"
         >
           {title}
-        </h2>
+        </Heading>
         {lede && (
           <p data-reveal className="mt-5 max-w-xl text-lg leading-relaxed text-ink-muted">
             {lede}
           </p>
         )}
+        {children}
       </div>
       {aside && <div data-reveal className="shrink-0">{aside}</div>}
     </div>
@@ -85,6 +89,10 @@ export function SectionIntro({ title, lede, aside }: SectionIntroProps) {
 }
 
 /** The serif italic accent word used inside display headings. */
-export function Accent({ children }: { children: ReactNode }) {
-  return <span className="font-serif font-normal italic">{children}</span>;
+export function Accent({ children, tone = "ink" }: { children: ReactNode; tone?: "ink" | "brand" }) {
+  return (
+    <span className={cn("font-serif font-normal italic", tone === "brand" && "text-brand-ink")}>
+      {children}
+    </span>
+  );
 }

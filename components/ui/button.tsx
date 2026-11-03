@@ -11,7 +11,7 @@ const buttonVariants = cva(
       variant: {
         // Default ShadCN variants (updated for portfolio theme)
         default:
-          "bg-brand text-brand-fg hover:bg-invert-bg hover:text-invert-fg transition-colors duration-150",
+          "bg-brand-solid text-brand-solid-fg hover:bg-invert-bg hover:text-invert-fg transition-colors duration-150",
         destructive:
           "bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60 rounded-full",
         outline:
@@ -23,7 +23,7 @@ const buttonVariants = cva(
         link: "text-brand-ink hover:underline underline-offset-4 hover:bg-transparent",
 
         // Icon button variants
-        icon: "bg-brand text-brand-fg hover:bg-invert-bg hover:text-invert-fg transition-colors",
+        icon: "bg-brand-solid text-brand-solid-fg hover:bg-invert-bg hover:text-invert-fg transition-colors",
         "icon-outline":
           "border border-line text-ink hover:bg-surface-sunken transition-colors",
       },

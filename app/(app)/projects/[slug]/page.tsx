@@ -30,7 +30,7 @@ export default function ProjectDetail() {
           className="absolute inset-0 opacity-[0.06]"
           style={{
             backgroundImage:
-              "radial-gradient(circle, #ffffff 1px, transparent 1px)",
+              "radial-gradient(circle, hsl(var(--ink-strong)) 1px, transparent 1px)",
             backgroundSize: "32px 32px",
           }}
         />
@@ -38,7 +38,7 @@ export default function ProjectDetail() {
           className="absolute inset-0 pointer-events-none transition-opacity duration-300"
           style={{
             opacity: isHovering ? 0 : 0.2,
-            backgroundImage: `radial-gradient(circle, hsl(76 100% 52%) 1.5px, transparent 1.5px)`,
+            backgroundImage: `radial-gradient(circle, hsl(var(--brand-ink)) 1.5px, transparent 1.5px)`,
             backgroundSize: "32px 32px",
             WebkitMaskImage: `radial-gradient(circle 350px at ${mousePos.x}px ${mousePos.y}px, black 0%, transparent 100%)`,
             maskImage: `radial-gradient(circle 350px at ${mousePos.x}px ${mousePos.y}px, black 0%, transparent 100%)`,
@@ -50,7 +50,7 @@ export default function ProjectDetail() {
         {/* Top Navigation */}
         <Link
           href="/projects"
-          className="inline-flex items-center gap-2 text-xs font-mono tracking-widest text-ink-muted hover:text-brand transition-colors mb-16 uppercase"
+          className="inline-flex items-center gap-2 text-xs font-mono tracking-widest text-ink-muted hover:text-brand-ink transition-colors mb-16 uppercase"
         >
           <ArrowLeft size={14} />
           Back to Index
@@ -160,7 +160,7 @@ export default function ProjectDetail() {
               promptly and bolstering application security.
             </p>
 
-            <div className="pl-4 border-l-2 border-brand/50 flex flex-col gap-4">
+            <div className="pl-4 border-l-2 border-brand-ink/50 flex flex-col gap-4">
               <p className="text-ink-muted text-sm leading-loose">
                 It manages threads of incident management and information
                 routing to help devs spend time on the right choices... it
@@ -173,18 +173,18 @@ export default function ProjectDetail() {
               </p>
             </div>
 
-            <ul className="text-sm text-ink-muted space-y-4 border-l-2 border-brand/50 pl-4 mt-2">
+            <ul className="text-sm text-ink-muted space-y-4 border-l-2 border-brand-ink/50 pl-4 mt-2">
               <li className="flex gap-3">
-                <span className="text-brand">↓</span> Collaborated closely with
+                <span className="text-brand-ink">↓</span> Collaborated closely with
                 developers to grasp their immediate requirements, delivering
                 assets...
               </li>
               <li className="flex gap-3">
-                <span className="text-brand">↓</span> Designed platform assets
+                <span className="text-brand-ink">↓</span> Designed platform assets
                 from zero to one using an agile framework...
               </li>
               <li className="flex gap-3">
-                <span className="text-brand">↓</span> Sole designer enabling
+                <span className="text-brand-ink">↓</span> Sole designer enabling
                 EchoLayer index and collaborated with the head of product...
               </li>
             </ul>
@@ -264,12 +264,12 @@ export default function ProjectDetail() {
         </div>
 
         {/* Full-width Highlight Section (The Blue Banner in the example) */}
-        <div className="w-full bg-brand rounded-[2rem] p-8 md:p-16 mb-24 text-center border border-blue-500/20">
-          <h4 className="text-black/80 font-medium mb-6 tracking-wide text-sm md:text-base">
+        <div className="w-full bg-brand rounded-[2rem] p-8 md:p-16 mb-24 text-center border border-line">
+          <h4 className="text-brand-fg/80 font-medium mb-6 tracking-wide text-sm md:text-base">
             Recognizing this opportunity, we aimed to reduce costs and deliver
             value:
           </h4>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-medium text-primary max-w-4xl mx-auto leading-tight tracking-tight mb-16">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-medium text-brand-fg max-w-4xl mx-auto leading-tight tracking-tight mb-16">
             How might we design a product with automated ownership at every
             level?
           </h2>
@@ -309,7 +309,7 @@ export default function ProjectDetail() {
           <span>{`// Case Study End`}</span>
           <Link
             href="/projects"
-            className="flex items-center gap-2 group hover:text-brand transition-colors cursor-pointer"
+            className="flex items-center gap-2 group hover:text-brand-ink transition-colors cursor-pointer"
           >
             Back to Index
             <ArrowUpRight

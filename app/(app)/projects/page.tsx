@@ -1,194 +1,166 @@
-"use client";
-
-import React from "react";
-import Image from "next/image";
+import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-import { cn } from "@/components/ui/utils";
+import { Accessibility, ArrowUpRight, Code2, Gauge, GitPullRequest, Github, Mail, Server, ShieldCheck } from "lucide-react";
+import { Accent, Section, SectionIntro } from "@/components/shared/Section";
+import { ShareBar } from "@/components/shared/ShareBar";
+import { ProjectCard } from "@/components/projects/ProjectCard";
+import { ProjectMark } from "@/components/projects/ProjectMark";
+import { ctaVariants } from "@/components/ui/cta";
+import { profile, socials, work } from "@/lib/site";
 
-// Mock Data targeting a developer/engineering portfolio aesthetic
-const PROJECTS = [
-  {
-    id: 1,
-    title: "EchoLayer",
-    icon: "⚡",
-    description:
-      "Enterprise-grade log management and causality detection engine. Processes high-throughput streams to identify incident root causes.",
-    techStack: ["Go", "React", "Kafka", "PostgreSQL"],
-    image:
-      "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop",
-    link: "/projects/echolayer",
-    span: "col-span-1 md:col-span-2",
-    aspect: "aspect-[16/9] md:aspect-[21/9]",
-  },
-  {
-    id: 2,
-    title: "CanvasSync",
-    icon: "🔄",
-    description:
-      "Real-time collaborative whiteboarding environment with conflict-free replicated data types (CRDTs) for offline-first syncing.",
-    techStack: ["Next.js", "WebSockets", "CRDTs", "Redis"],
-    image:
-      "https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?q=80&w=2000&auto=format&fit=crop",
-    link: "/projects/canvassync",
-    span: "col-span-1",
-    aspect: "aspect-square md:aspect-[4/3]",
-  },
-  {
-    id: 3,
-    title: "DataOrchestrator",
-    icon: "🕸️",
-    description:
-      "Autonomous data orchestration pipeline built to handle distributed rate limits, scheduling, and dynamic DOM rendering at scale.",
-    techStack: ["Python", "FastAPI", "Playwright", "Celery"],
-    image:
-      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?q=80&w=2000&auto=format&fit=crop",
-    link: "/projects/data-orchestrator",
-    span: "col-span-1",
-    aspect: "aspect-square md:aspect-[4/3]",
-  },
-  {
-    id: 4,
-    title: "CloudGraph",
-    icon: "☁️",
-    description:
-      "Serverless infrastructure visualization tool. Generates real-time architectural diagrams directly from AWS and GCP account states.",
-    techStack: ["TypeScript", "AWS SDK", "React Flow", "Terraform"],
-    image:
-      "https://images.unsplash.com/photo-1634152962476-4b8a00e1915c?q=80&w=2000&auto=format&fit=crop",
-    link: "/projects/cloudgraph",
-    span: "col-span-1 md:col-span-2",
-    aspect: "aspect-video md:aspect-[21/9]",
-  },
-  {
-    id: 5,
-    title: "Nexus Storefront",
-    icon: "🛍️",
-    description:
-      "Headless e-commerce progressive web app featuring sub-second page loads, edge caching, and a robust GraphQL data layer.",
-    techStack: ["Next.js", "GraphQL", "Tailwind", "Vercel"],
-    image:
-      "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2000&auto=format&fit=crop",
-    link: "/projects/nexus",
-    span: "col-span-1",
-    aspect: "aspect-[4/3]",
-  },
-  {
-    id: 6,
-    title: "Robi_x CLI",
-    icon: "🦀",
-    description:
-      "Blazing fast terminal utility for scaffolding monolithic architectures and managing micro-frontend monorepos deployment.",
-    techStack: ["Rust", "WASM", "CLI", "Shell"],
-    image:
-      "https://images.unsplash.com/photo-1642427749670-f20e2e76ed8c?q=80&w=2000&auto=format&fit=crop",
-    link: "/projects/robix",
-    span: "col-span-1",
-    aspect: "aspect-[4/3]",
-  },
+export const metadata: Metadata = {
+  title: "Projects",
+  description: "Dashboards, developer tools and client platforms I have led or built.",
+};
+
+const github = socials.find((s) => s.label === "GitHub");
+
+const standards = [
+  { icon: Code2, title: "Typed end to end", body: "Strict TypeScript from the API schema to the component props." },
+  { icon: Gauge, title: "Measured, then fast", body: "Profile first, then fix. Core Web Vitals are part of done." },
+  { icon: Accessibility, title: "Accessible by default", body: "Keyboard paths, focus states and AA contrast in every theme." },
+  { icon: GitPullRequest, title: "Small, reviewed changes", body: "Short pull requests and reviews that keep the main branch shippable." },
+  { icon: Server, title: "Server first", body: "Render on the server, ship less JavaScript, hydrate only what moves." },
+  { icon: ShieldCheck, title: "Handed over cleanly", body: "Written decisions and docs, so the next engineer is not guessing." },
 ];
 
 export default function ProjectsPage() {
   return (
-    <div className="min-h-screen bg-surface text-ink-strong pt-32 pb-32">
-      <div className="max-w-7xl mx-auto px-6">
-        {/* Subtle Cross/Dot Background representing technical grid aesthetic */}
-        <div
-          className="fixed inset-0 pointer-events-none opacity-[0.080] z-0"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle, #ffffff 1px, transparent 1px)",
-            backgroundSize: "32px 32px",
-          }}
-        />
-
-        {/* Hero Header Area */}
-        <div className="relative z-10 mb-12 sm:mb-20">
-          <div className="flex flex-col gap-4 max-w-2xl">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-medium tracking-tight bg-clip-text text-transparent bg-gradient-to-br from-ink-strong to-ink-strong/70">
-              Selected Work
-            </h1>
-            <p className="text-ink-muted text-sm sm:text-base leading-relaxed">
-              A collection of scalable applications, distributed systems, and
-              performant web interfaces. Engineered with a focus on clean
-              architecture, optimized mechanics, and immersive user experiences.
-            </p>
-          </div>
-        </div>
-
-        {/* Grid Container — 1px border aesthetic representing rigid wireframes */}
-        <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-[1px] bg-line/40 border border-line/40 rounded-3xl overflow-hidden p-[1px]">
-          {PROJECTS.map((project) => (
-            <Link
-              key={project.id}
-              href={project.link}
-              className={cn(
-                "group relative bg-surface flex flex-col p-4 sm:p-6 transition-colors hover:bg-surface-sunken",
-                project.span,
-              )}
-            >
-              {/* Cinematic Image Container */}
-              <div
-                className={cn(
-                  "relative w-full overflow-hidden rounded-xl bg-surface-sunken border border-line/50 mb-5 sm:mb-6",
-                  project.aspect,
-                )}
-              >
-                <Image
-                  src={project.image}
-                  alt={project.title}
-                  fill
-                  className="object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.04]"
-                />
-              </div>
-
-              {/* Developer / Tech-Themed Typography */}
-              <div className="flex flex-col flex-1 text-left px-1">
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="text-sm select-none">{project.icon}</span>
-                  <h3 className="text-lg sm:text-xl font-medium tracking-tight text-ink-strong group-hover:text-brand transition-colors">
-                    {project.title}
-                  </h3>
-                </div>
-                <p className="text-xs sm:text-sm text-ink-muted leading-relaxed font-light max-w-full mb-4">
-                  {project.description}
-                </p>
-                <div className="mt-auto flex flex-wrap gap-2 pt-2">
-                  {project.techStack.map((tech) => (
-                    <span
-                      key={tech}
-                      className="text-[10px] font-mono text-ink-muted bg-surface-sunken border border-line/50 px-2 py-1 rounded-md"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              {/* Corner accent for tech aesthetic */}
-              <div className="absolute top-0 right-0 w-8 h-8 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none hidden md:block">
-                <div className="absolute top-4 right-4 w-1.5 h-1.5 border-t border-r border-brand"></div>
-              </div>
-            </Link>
-          ))}
-        </div>
-
-        {/* Footer Accent/Grid Lines at Bottom */}
-        <div className="relative z-10 mt-16 sm:mt-24 pt-8 border-t border-line/50 flex justify-between items-center text-xs text-ink-faint font-mono uppercase tracking-widest">
-          <span>{`// End of Index`}</span>
-          <Link
-            href="https://github.com/abanicaisse"
-            target="_blank"
-            className="flex items-center gap-2 group cursor-pointer hover:text-brand transition-colors"
+    <>
+      <Section id="projects" index="01" eyebrow="Projects" note={`${work.length} projects · 2023 — Now`}>
+        <div className="xl:flex xl:items-center xl:justify-between xl:gap-12">
+          <SectionIntro
+            as="h1"
+            title={
+              <>
+                {work.length} projects. One <Accent tone="brand">standard</Accent>.
+              </>
+            }
+            lede="Dashboards, developer tools and client platforms I have led or built, with the numbers that changed because of them."
           >
-            View My Github{" "}
-            <ArrowRight
-              size={12}
-              className="group-hover:translate-x-1 transition-transform duration-300"
-            />
+            <div data-reveal className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+              <Link href="/#contact" className={ctaVariants({ variant: "brand", className: "w-full sm:w-fit" })}>
+                <Mail aria-hidden="true" />
+                Start a project
+              </Link>
+              {github && (
+                <a
+                  href={github.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={ctaVariants({ variant: "outline", className: "w-full sm:w-fit" })}
+                >
+                  <Github aria-hidden="true" />
+                  Browse on GitHub
+                </a>
+              )}
+            </div>
+            <p data-reveal className="mt-4 max-w-xl leading-relaxed text-ink-muted">
+              <span className="text-ink">Curious about a number?</span> Ask me about it. Each one has a story about
+              the trade-offs behind it.
+            </p>
+            <div data-reveal>
+              <ShareBar path="/projects" title={`Projects by ${profile.name}`} className="mt-6" />
+            </div>
+          </SectionIntro>
+
+          <nav
+            aria-label="Projects"
+            data-reveal
+            className="grid w-fit grid-cols-4 gap-x-3 gap-y-6 px-6 pb-14 sm:gap-x-5 md:px-10 xl:shrink-0 xl:grid-cols-2 xl:py-20"
+          >
+            {work.map((project) => (
+              <a key={project.slug} href={`#${project.slug}`} className="group flex w-[72px] flex-col items-center gap-2 sm:w-20">
+                <ProjectMark
+                  project={project}
+                  className="h-14 w-14 text-xl transition-transform duration-300 ease-out group-hover:-translate-y-1 sm:h-20 sm:w-20 sm:text-2xl"
+                />
+                <span className="text-center text-xs font-medium text-ink-muted group-hover:text-ink">
+                  {project.shortName}
+                </span>
+              </a>
+            ))}
+          </nav>
+        </div>
+      </Section>
+
+      <Section id="lineup" index="02" eyebrow="The lineup" note="Newest work last">
+        <div data-reveal-group className="grid gap-px bg-line sm:grid-cols-2">
+          {work.map((project, i) => (
+            <ProjectCard key={project.slug} project={project} index={i} />
+          ))}
+
+          {github && (
+            <div
+              data-reveal
+              className="flex flex-col gap-8 bg-surface p-6 sm:col-span-2 md:flex-row md:items-end md:justify-between md:p-8"
+            >
+              <div>
+                <p className="hud-label text-ink-faint">Next up</p>
+                <h2 className="mt-4 font-display text-3xl font-medium leading-[1.05] tracking-[-0.03em] text-ink-strong">
+                  More <Accent tone="brand">on GitHub</Accent>.
+                </h2>
+                <p className="mt-3 max-w-xl leading-relaxed text-ink-muted">
+                  Side projects, experiments and open-source contributions live on my profile.
+                </p>
+              </div>
+              <a
+                href={github.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={ctaVariants({ variant: "invert", size: "sm", className: "shrink-0 self-start md:self-auto" })}
+              >
+                <Github aria-hidden="true" />
+                {github.handle}
+              </a>
+            </div>
+          )}
+        </div>
+      </Section>
+
+      <Section id="standards" index="03" eyebrow="Standards" note="Shared by every project">
+        <SectionIntro
+          title={
+            <>
+              Built the <Accent tone="brand">careful</Accent> way.
+            </>
+          }
+          lede="Every project, client or personal, is held to the same rules."
+        />
+        <ol data-reveal-group className="grid gap-px border-t border-line bg-line md:grid-cols-3">
+          {standards.map((item, i) => (
+            <li key={item.title} data-reveal className="bg-surface p-6 md:p-8">
+              <div className="flex items-center justify-between gap-4">
+                <span className="flex h-10 w-10 items-center justify-center border border-line text-brand-ink">
+                  <item.icon className="h-5 w-5" aria-hidden="true" />
+                </span>
+                <p className="hud-label text-ink-faint">{String(i + 1).padStart(2, "0")}</p>
+              </div>
+              <h3 className="mt-6 font-display text-2xl font-medium tracking-[-0.02em] text-ink-strong">{item.title}</h3>
+              <p className="mt-2 leading-relaxed text-ink-muted">{item.body}</p>
+            </li>
+          ))}
+        </ol>
+      </Section>
+
+      <Section id="start">
+        <div className="flex flex-col items-center px-6 py-20 text-center md:py-28">
+          <p className="hud-label text-ink-faint">{profile.location} · Remote</p>
+          <h2
+            data-reveal
+            className="mt-6 max-w-4xl font-display text-5xl font-medium leading-[0.98] tracking-[-0.04em] text-ink-strong sm:text-6xl md:text-7xl"
+          >
+            Build it <Accent tone="brand">with me</Accent>.
+          </h2>
+          <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink-muted">
+            Have a product that needs a frontend lead? Tell me what you are building.
+          </p>
+          <Link href="/#contact" className={ctaVariants({ variant: "brand", className: "mt-10" })}>
+            Get in touch
+            <ArrowUpRight aria-hidden="true" />
           </Link>
         </div>
-      </div>
-    </div>
+      </Section>
+    </>
   );
 }

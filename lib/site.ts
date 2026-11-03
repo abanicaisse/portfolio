@@ -4,9 +4,17 @@ export interface SocialLink {
   handle: string;
 }
 
+export type WorkStatus = "Live" | "Shipped" | "Ongoing";
+export type OrbitAccent = 1 | 2 | 3 | 4;
+
 export interface WorkItem {
   slug: string;
   label: string;
+  monogram: string;
+  shortName: string;
+  accent: OrbitAccent;
+  status: WorkStatus;
+  role: string;
   title: string;
   summary: string;
   metric: string;
@@ -71,6 +79,11 @@ export const homeSections: SectionMeta[] = [
 export const work: WorkItem[] = [
   {
     slug: "telex-admin",
+    shortName: "Telex",
+    monogram: "Tx",
+    accent: 1,
+    status: "Shipped",
+    role: "Frontend lead",
     label: "Dashboard",
     title: "Telex admin dashboard",
     summary:
@@ -82,6 +95,11 @@ export const work: WorkItem[] = [
   },
   {
     slug: "stemsel-ide",
+    shortName: "STEMSEL",
+    monogram: "St",
+    accent: 2,
+    status: "Shipped",
+    role: "Frontend engineer",
     label: "Developer tool",
     title: "STEMSEL online IDE",
     summary:
@@ -93,6 +111,11 @@ export const work: WorkItem[] = [
   },
   {
     slug: "sadja-client-platforms",
+    shortName: "Sadja",
+    monogram: "Sd",
+    accent: 3,
+    status: "Ongoing",
+    role: "Lead frontend engineer",
     label: "Client work",
     title: "Client platforms at Sadja",
     summary:
@@ -104,6 +127,11 @@ export const work: WorkItem[] = [
   },
   {
     slug: "portfolio",
+    shortName: "Portfolio",
+    monogram: "Nc",
+    accent: 4,
+    status: "Live",
+    role: "Design & build",
     label: "This site",
     title: "This portfolio",
     summary:

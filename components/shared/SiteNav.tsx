@@ -43,7 +43,7 @@ export function SiteNav() {
     <header className="sticky left-0 top-0 z-50 w-full border-b border-line bg-surface/95 backdrop-blur-sm">
       <a
         href="#main"
-        className="hud-label sr-only bg-brand px-3 py-2 text-brand-fg focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-[60]"
+        className="hud-label sr-only bg-brand-solid px-3 py-2 text-brand-solid-fg focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-[60]"
       >
         Skip to content
       </a>
@@ -72,8 +72,10 @@ export function SiteNav() {
                     >
                       <span
                         className={cn(
-                          "px-1.5 py-0.5 group-hover:bg-invert-bg group-hover:text-invert-fg",
-                          active && "bg-invert-bg text-invert-fg",
+                          "px-1.5 py-0.5",
+                          active
+                            ? "bg-brand-solid text-brand-solid-fg"
+                            : "group-hover:bg-invert-bg group-hover:text-invert-fg",
                         )}
                       >
                         {link.label}
@@ -88,7 +90,7 @@ export function SiteNav() {
 
         <div className="flex shrink-0 items-stretch">
           <p className="hud-label hidden items-center px-4 text-ink-faint xl:flex">
-            <span aria-hidden="true" className="mr-2 inline-block h-1.5 w-1.5 animate-pulse bg-brand" />
+            <span aria-hidden="true" className="mr-2 inline-block h-1.5 w-1.5 animate-pulse bg-brand-solid" />
             Open to new work
           </p>
           {github && (
@@ -136,21 +138,27 @@ export function SiteNav() {
       >
         <nav aria-label="Mobile">
           <ul className="grid gap-px bg-line">
-            {links.map((link) => (
-              <li key={link.href} className="bg-surface">
-                <Link
-                  href={link.href}
-                  onClick={() => setOpen(false)}
-                  aria-current={link.match(pathname) ? "page" : undefined}
-                  className="flex items-center justify-between px-5 py-4 font-display text-xl font-medium tracking-tight text-ink-strong hover:bg-surface-sunken"
-                >
-                  {link.label}
-                  <span aria-hidden="true" className="hud-label text-ink-faint">
-                    ↗
-                  </span>
-                </Link>
-              </li>
-            ))}
+            {links.map((link) => {
+              const active = link.match(pathname);
+              return (
+                <li key={link.href} className="bg-surface">
+                  <Link
+                    href={link.href}
+                    onClick={() => setOpen(false)}
+                    aria-current={active ? "page" : undefined}
+                    className={cn(
+                      "flex items-center justify-between border-l-2 px-5 py-4 font-display text-xl font-medium tracking-tight hover:bg-surface-sunken",
+                      active ? "border-brand-solid text-brand-ink" : "border-transparent text-ink-strong",
+                    )}
+                  >
+                    {link.label}
+                    <span aria-hidden="true" className="hud-label text-ink-faint">
+                      ↗
+                    </span>
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         </nav>
         <div className="flex flex-wrap items-center justify-between gap-4 border-t border-line px-5 py-4">

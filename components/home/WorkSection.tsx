@@ -39,7 +39,7 @@ export function WorkSection() {
                 aria-hidden="true"
                 className="absolute inset-0 opacity-60 [background-image:linear-gradient(hsl(var(--line))_1px,transparent_1px),linear-gradient(90deg,hsl(var(--line))_1px,transparent_1px)] [background-size:32px_32px]"
               />
-              <span aria-hidden="true" className="absolute inset-x-0 top-0 h-0.5 origin-left scale-x-0 bg-brand transition-transform duration-500 group-hover:scale-x-100" />
+              <span aria-hidden="true" className="absolute inset-x-0 top-0 h-0.5 origin-left scale-x-0 bg-brand-solid transition-transform duration-500 group-hover:scale-x-100" />
               <p className="relative font-display text-6xl font-semibold tracking-[-0.04em] text-ink-strong transition-transform duration-500 ease-out group-hover:-translate-y-1 sm:text-7xl">
                 {item.metric}
               </p>

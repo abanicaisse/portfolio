@@ -82,7 +82,7 @@ function CardBody({ card }: { card: OrbitCard }) {
         <ul className="grid grid-cols-2 gap-x-3 gap-y-1 px-3 py-2.5">
           {card.items.map((item) => (
             <li key={item} className="hud-label flex items-center gap-1.5 !text-[9px] text-ink-muted">
-              <span className="h-2 w-2 bg-brand" />
+              <span className="h-2 w-2 bg-brand-solid" />
               {item}
             </li>
           ))}
@@ -91,7 +91,7 @@ function CardBody({ card }: { card: OrbitCard }) {
     case "badge":
       return (
         <div className="flex items-center gap-3 px-3 py-2.5">
-          <span className="flex h-11 w-11 items-center justify-center rounded-full border-2 border-brand font-display text-sm font-semibold text-ink-strong">
+          <span className="flex h-11 w-11 items-center justify-center rounded-full border-2 border-brand-solid font-display text-sm font-semibold text-ink-strong">
             {card.value}
           </span>
           <span className="hud-label !text-[9px] text-ink-faint">{card.caption}</span>

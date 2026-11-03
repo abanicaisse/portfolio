@@ -8,9 +8,14 @@
  * Primary: #aea3e7 (hsl 250 59% 77%), a soft lavender.
  *
  * - Neutrals carry a faint 250° hue so greys sit in the same family as the brand.
- * - The brand fill is light, so it always takes dark text (--brand-fg, 7.9:1).
- * - On light surfaces the brand is too pale for text (2.1:1), so text accents
- *   use --brand-ink (#5b49c4, 5.9:1). In dark mode a lighter tint is used.
+ * - #aea3e7 is pale, so on light surfaces it washes out (2.1:1 as text, 1.9:1
+ *   as a fill). Light mode therefore uses deeper steps of the same hue:
+ *     --brand-solid  #5542bd  fills (CTAs, active nav) with white text, 7.2:1
+ *     --brand-ink    #5542bd  text accents on the surface, 6.5:1
+ * - On dark surfaces #aea3e7 itself has the contrast, so it is used directly:
+ *     --brand-solid  #aea3e7  with --brand-fg #17122f, 7.8:1
+ *     --brand-ink    #aea3e7  on #0c0b11, 8.5:1
+ * - --brand (#aea3e7) stays the identity colour for decoration and selection.
  * - Orbit colours are the brand rotated around the wheel at the same
  *   saturation and lightness (lavender, rose, mint, sand). Decoration only.
  * - Every text pairing below meets WCAG AA (4.5:1) on both surfaces.
@@ -19,8 +24,10 @@
   :root,
   .light {
     --brand: 250 59% 77%; /* #aea3e7 */
-    --brand-ink: 249 51% 53%; /* #5b49c4 */
+    --brand-ink: 249 48% 50%; /* #5542bd */
     --brand-fg: 250 45% 13%; /* #17122f */
+    --brand-solid: 249 48% 50%; /* #5542bd */
+    --brand-solid-fg: 0 0% 100%;
     --brand-50: 251 65% 97%;
     --brand-100: 250 66% 93%;
     --brand-200: 250 63% 86%;
@@ -44,6 +51,13 @@
     --line-strong: 252 16% 75%;
     --invert-bg: 247 41% 8%;
     --invert-fg: 252 26% 96%;
+
+    /* Code blocks stay dark in both themes to suit the syntax palette */
+    --code: 0 0% 12%;
+    --code-bar: 0 0% 9%;
+    --code-line: 0 0% 20%;
+    --code-fg: 0 0% 92%;
+    --code-muted: 0 0% 66%;
 
     --orbit-1: 250 59% 77%;
     --orbit-2: 326 59% 77%;
@@ -75,7 +89,9 @@
   }
 
   .dark {
-    --brand-ink: 250 66% 84%; /* #c3baf1 */
+    --brand-ink: 250 59% 77%; /* #aea3e7 */
+    --brand-solid: 250 59% 77%; /* #aea3e7 */
+    --brand-solid-fg: 250 45% 13%; /* #17122f */
 
     --surface: 250 21% 5%; /* #0c0b11 */
     --surface-sunken: 248 18% 9%; /* #13121a */
@@ -161,6 +177,68 @@
   }
   .marquee:hover .marquee-track {
     animation-play-state: paused;
+  }
+}
+
+/* Long-form article typography (Payload rich text) */
+@layer components {
+  .article-content {
+    @apply text-lg leading-relaxed text-ink;
+  }
+  .article-content > * + * {
+    @apply mt-6;
+  }
+  .article-content :is(h1, h2) {
+    @apply mt-14 font-display text-3xl font-medium leading-tight tracking-[-0.03em] text-ink-strong md:text-4xl;
+  }
+  .article-content :is(h3, h4) {
+    @apply mt-10 font-display text-2xl font-medium tracking-[-0.02em] text-ink-strong;
+  }
+  .article-content > :first-child {
+    @apply mt-0;
+  }
+  .article-content a {
+    @apply font-medium text-brand-ink underline decoration-brand-ink/40 underline-offset-4 transition-colors hover:decoration-current;
+  }
+  .article-content :is(strong, b) {
+    @apply font-semibold text-ink-strong;
+  }
+  .article-content :is(ul, ol) {
+    @apply space-y-2 pl-6;
+  }
+  .article-content ul {
+    @apply list-disc;
+  }
+  .article-content ol {
+    @apply list-decimal;
+  }
+  .article-content li::marker {
+    @apply text-brand-ink;
+  }
+  .article-content blockquote {
+    @apply border-l-2 border-brand-solid bg-surface-sunken px-6 py-4 font-mono text-base text-ink;
+  }
+  .article-content :where(p, li, td, th, h1, h2, h3, h4, blockquote, strong, em, a) > code {
+    @apply border border-line bg-surface-sunken px-1.5 py-0.5 font-mono text-[0.85em] text-ink-strong;
+  }
+  .article-content hr {
+    @apply my-12 border-line;
+  }
+  .article-content img {
+    @apply border border-line;
+  }
+  .article-content table {
+    @apply w-full border-collapse text-base;
+  }
+  .article-content :is(th, td) {
+    @apply border border-line px-4 py-3 text-left;
+  }
+  .article-content th {
+    @apply bg-surface-sunken font-medium text-ink-strong;
+  }
+  .article-content iframe,
+  .article-content video {
+    @apply aspect-video h-auto w-full border border-line;
   }
 }
 

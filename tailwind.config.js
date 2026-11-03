@@ -42,6 +42,8 @@ module.exports = {
           DEFAULT: token("brand"),
           ink: token("brand-ink"),
           fg: token("brand-fg"),
+          solid: token("brand-solid"),
+          "solid-fg": token("brand-solid-fg"),
           50: token("brand-50"),
           100: token("brand-100"),
           200: token("brand-200"),
@@ -72,6 +74,13 @@ module.exports = {
         invert: {
           bg: token("invert-bg"),
           fg: token("invert-fg"),
+        },
+        code: {
+          DEFAULT: token("code"),
+          bar: token("code-bar"),
+          line: token("code-line"),
+          fg: token("code-fg"),
+          muted: token("code-muted"),
         },
         orbit: {
           1: token("orbit-1"),

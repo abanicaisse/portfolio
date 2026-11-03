@@ -1,266 +1,70 @@
-"use client";
-
-import React, { useState, useRef, useEffect } from "react";
-import Image from "next/image";
 import Link from "next/link";
-import { Loader2 } from "lucide-react";
-import { cn } from "@/components/ui/utils";
+import { ArrowRight } from "lucide-react";
+import type { Post } from "@/payload-types";
+import { Accent, Section, SectionIntro } from "@/components/shared/Section";
+import { postCategory, postDate } from "@/components/blog/post-meta";
 
-export interface PayloadPost {
-  slug: string;
-  title: string;
-  publishedAt?: string;
-  category?: { name: string } | string | null;
-  author?: { name: string; avatar?: { url?: string } } | string | null;
-  featuredImage?: { url?: string } | string | null;
-}
-
-export function BlogList({
-  initialPosts = [],
-}: {
-  initialPosts?: PayloadPost[];
-}) {
-  const [activeCategory, setActiveCategory] = useState<string>("All posts");
-  const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
-  const [isHovering, setIsHovering] = useState(false);
-  const [displayedCount, setDisplayedCount] = useState(24);
-  const [isLoadingMore, setIsLoadingMore] = useState(false);
-  const heroRef = useRef<HTMLDivElement>(null);
-
-  // Normalize Payload posts to an easy-to-use shape
-  const posts = initialPosts.map((post) => {
-    const categoryName =
-      typeof post.category === "object" && post.category?.name
-        ? post.category.name
-        : "Uncategorized";
-    const authorName =
-      typeof post.author === "object" && post.author?.name
-        ? post.author.name
-        : "Unknown Author";
-    const authorAvatar =
-      typeof post.author === "object" &&
-      post.author?.avatar &&
-      typeof post.author.avatar === "object" &&
-      post.author.avatar.url
-        ? post.author.avatar.url
-        : "https://api.dicebear.com/7.x/avataaars/svg?seed=fallback";
-
-    // Format date efficiently
-    let formattedDate = "Recent";
-    if (post.publishedAt) {
-      formattedDate = new Date(post.publishedAt).toLocaleDateString("en-US", {
-        month: "short",
-        day: "numeric",
-        year: "numeric",
-      });
-    }
-
-    return {
-      slug: post.slug,
-      title: post.title,
-      category: categoryName,
-      date: formattedDate,
-      author: {
-        name: authorName,
-        avatar: authorAvatar,
-      },
-    };
-  });
-
-  // Featured Post is now dynamically the latest published article (index 0)
-  const featuredPost = posts[0] || null;
-
-  // Reset displayed count when category changes
-  useEffect(() => {
-    setDisplayedCount(24);
-  }, [activeCategory]);
-
-  // Get unique categories from actual posts in the data
-  const availableCategories = [
-    "All posts",
-    ...Array.from(new Set(posts.map((post) => post.category))),
-  ];
-
-  // All posts for the current category
-  const currentCategoryPosts =
-    activeCategory === "All posts"
-      ? posts.slice(1) // Exclude the latest (featured) post from "All posts"
-      : posts.filter((p) => p.category === activeCategory);
-
-  const displayedPosts = currentCategoryPosts.slice(0, displayedCount);
-  const hasMore = currentCategoryPosts.length > displayedCount;
-
-  const handleLoadMore = () => {
-    setIsLoadingMore(true);
-    // Simulate network request loading state
-    setTimeout(() => {
-      setDisplayedCount((prev) => prev + 12);
-      setIsLoadingMore(false);
-    }, 600);
-  };
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!heroRef.current) return;
-    const rect = heroRef.current.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 100;
-    const y = ((e.clientY - rect.top) / rect.height) * 100;
-    setMousePos({ x, y });
-  };
-
+export function BlogList({ posts }: { posts: Post[] }) {
   return (
-    <div className="min-h-screen bg-surface text-ink-strong">
-      <div className="max-w-7xl mx-auto px-6 pt-24 pb-32">
-        {/* Featured Post Hero - always visible */}
-        {featuredPost && (
-          <div className="mb-4">
-            <Link href={`/blog/${featuredPost.slug}`} className="block group">
-              <div
-                ref={heroRef}
-                className="relative flex flex-col rounded-2xl overflow-hidden mb-6 bg-surface-sunken border border-line min-h-[380px] sm:min-h-[450px] lg:aspect-[21/9]"
-                onMouseMove={handleMouseMove}
-                onMouseEnter={() => setIsHovering(true)}
-                onMouseLeave={() => setIsHovering(false)}
-              >
-                {/* Dot grid - white base dots, always visible */}
-                <div
-                  className="absolute inset-0 opacity-20"
-                  style={{
-                    backgroundImage:
-                      "radial-gradient(circle, #ffffff 1px, transparent 1px)",
-                    backgroundSize: "24px 24px",
-                  }}
-                />
+    <>
+      <Section
+        id="writing"
+        index="01"
+        eyebrow="Writing"
+        note={`${posts.length} ${posts.length === 1 ? "post" : "posts"}`}
+      >
+        <SectionIntro
+          as="h1"
+          title={
+            <>
+              Notes &amp; <Accent tone="brand">essays</Accent>.
+            </>
+          }
+          lede="On frontend engineering, performance and leading small teams. Written when I learn something worth keeping."
+        />
+      </Section>
 
-                {/* Brand-colored dot layer — only revealed around cursor via mask */}
-                <div
-                  className="absolute inset-0 pointer-events-none transition-opacity duration-300"
-                  style={{
-                    opacity: isHovering ? 1 : 0,
-                    backgroundImage: `radial-gradient(circle, hsl(76 100% 52%) 1px, transparent 1px)`,
-                    backgroundSize: "24px 24px",
-                    WebkitMaskImage: `radial-gradient(ellipse 20% 30% at ${mousePos.x}% ${mousePos.y}%, black 0%, transparent 100%)`,
-                    maskImage: `radial-gradient(ellipse 20% 30% at ${mousePos.x}% ${mousePos.y}%, black 0%, transparent 100%)`,
-                  }}
-                />
-
-                {/* Subtle default glow on dots when not hovering */}
-                <div
-                  className="absolute inset-0 pointer-events-none"
-                  style={{
-                    opacity: isHovering ? 0 : 1,
-                    backgroundImage: `radial-gradient(circle, hsl(76 100% 52% / 0.6) 1px, transparent 1px)`,
-                    backgroundSize: "24px 24px",
-                    WebkitMaskImage: `radial-gradient(ellipse 45% 40% at 50% 55%, black 0%, transparent 100%)`,
-                    maskImage: `radial-gradient(ellipse 45% 40% at 50% 55%, black 0%, transparent 100%)`,
-                    transition: "opacity 0.5s",
-                  }}
-                />
-
-                {/* Hero Content Layer */}
-                <div className="relative z-10 flex flex-col flex-1 p-6 sm:p-10 md:p-16 lg:p-20">
-                  <div className="flex-1 flex flex-col justify-center py-6 sm:py-8">
-                    <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium tracking-tight bg-clip-text text-transparent bg-gradient-to-br from-ink-strong to-ink-strong/70 max-w-2xl leading-tight sm:leading-tight md:leading-tight lg:leading-tight">
-                      {featuredPost.title}
-                    </h1>
-                  </div>
-
-                  {/* Author + Date */}
-                  <div className="flex items-center justify-between mt-auto pt-4">
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full overflow-hidden bg-line-strong shrink-0">
-                        <Image
-                          unoptimized
-                          src={featuredPost.author.avatar}
-                          alt={featuredPost.author.name}
-                          width={32}
-                          height={32}
-                          className="object-cover w-full h-full"
+      <Section id="posts" index="02" eyebrow="Posts" note="Newest first">
+        {posts.length === 0 ? (
+          <p className="px-6 py-14 text-ink-muted md:px-10">New posts are on the way.</p>
+        ) : (
+          <ol data-reveal-group className="flex flex-col gap-px bg-line">
+            {posts.map((post) => {
+              const date = postDate(post);
+              const category = postCategory(post);
+              return (
+                <li key={post.id} data-reveal className="bg-surface">
+                  <Link
+                    href={`/blog/${post.slug}`}
+                    className="group grid gap-4 p-6 transition-colors hover:bg-surface-raised md:grid-cols-[10rem_1fr] md:p-8"
+                  >
+                    <div className="flex gap-3 md:flex-col md:gap-1.5">
+                      {date && (
+                        <time dateTime={date} className="hud-label text-ink-faint">
+                          {date}
+                        </time>
+                      )}
+                      {category && <p className="hud-label text-brand-ink">{category}</p>}
+                    </div>
+                    <div>
+                      <h2 className="flex items-start gap-2 font-display text-2xl font-medium tracking-[-0.02em] text-ink-strong">
+                        <span className="flex-1 transition-colors group-hover:text-brand-ink">{post.title}</span>
+                        <ArrowRight
+                          aria-hidden="true"
+                          className="mt-1.5 h-4 w-4 shrink-0 text-ink-faint transition-transform group-hover:translate-x-1 group-hover:text-brand-ink"
                         />
-                      </div>
-                      <span className="text-sm font-medium text-ink">
-                        {featuredPost.author.name}
-                      </span>
+                      </h2>
+                      {post.excerpt && (
+                        <p className="mt-2 line-clamp-3 max-w-2xl leading-relaxed text-ink-muted">{post.excerpt}</p>
+                      )}
                     </div>
-                    <div className="text-sm text-ink-muted shrink-0 ml-4">
-                      {featuredPost.date}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Link>
-          </div>
+                  </Link>
+                </li>
+              );
+            })}
+          </ol>
         )}
-
-        {/* Categories Bar */}
-        <div className="flex items-center gap-8 overflow-x-auto no-scrollbar border-b border-line/50 pb-4 mb-12 mt-12">
-          {availableCategories.map((category) => (
-            <button
-              key={category}
-              onClick={() => setActiveCategory(category)}
-              className={cn(
-                "whitespace-nowrap text-sm font-medium transition-colors hover:text-brand pb-4 -mb-[17px] border-b-2",
-                activeCategory === category
-                  ? "text-brand border-brand"
-                  : "text-ink-muted border-transparent",
-              )}
-            >
-              {category}
-            </button>
-          ))}
-        </div>
-
-        {/* Posts Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
-          {displayedPosts.map((post) => (
-            <Link
-              key={post.slug}
-              href={`/blog/${post.slug}`}
-              className="group flex flex-col"
-            >
-              <h3 className="text-xl font-medium tracking-tight mb-2 group-hover:text-brand transition-colors line-clamp-2">
-                {post.title}
-              </h3>
-              <div className="flex items-center gap-2 text-sm text-ink-muted mt-auto">
-                <span>{post.date}</span>
-                <span className="w-1 h-1 rounded-full bg-line-strong" />
-                <span>{post.category}</span>
-              </div>
-            </Link>
-          ))}
-        </div>
-
-        {displayedPosts.length === 0 && (
-          <div className="text-center py-20 text-ink-muted">
-            No posts found in this category.
-          </div>
-        )}
-
-        {hasMore && (
-          <div className="mt-16 flex justify-center">
-            <button
-              onClick={handleLoadMore}
-              disabled={isLoadingMore}
-              className={cn(
-                "group relative inline-flex items-center justify-center overflow-hidden rounded-full border border-line-strong bg-surface-sunken px-8 py-3 font-medium transition-all hover:bg-line disabled:opacity-70 disabled:cursor-not-allowed",
-              )}
-            >
-              {isLoadingMore ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin text-brand" />
-                  <span className="text-ink">Loading more...</span>
-                </>
-              ) : (
-                <>
-                  <span className="text-ink group-hover:text-ink-strong transition-colors">
-                    Load more stories
-                  </span>
-                  <div className="absolute inset-0 z-0 h-full w-full bg-gradient-to-r from-transparent via-brand/10 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                </>
-              )}
-            </button>
-          </div>
-        )}
-      </div>
-    </div>
+      </Section>
+    </>
   );
 }
