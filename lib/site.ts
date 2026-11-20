@@ -1,6 +1,8 @@
+import { genieSante } from "@/lib/work/genie-sante";
 import { hariss } from "@/lib/work/hariss";
 import { klife } from "@/lib/work/klife";
 import { mukwano } from "@/lib/work/mukwano";
+import { telex } from "@/lib/work/telex";
 
 export interface SocialLink {
   label: string;
@@ -162,49 +164,8 @@ export const work: WorkItem[] = [
   klife,
   hariss,
   mukwano,
-  {
-    slug: "telex-admin",
-    shortName: "Telex",
-    monogram: "Tx",
-    accent: 1,
-    status: "Shipped",
-    role: "Frontend lead",
-    label: "Dashboard",
-    title: "Telex admin dashboard",
-    summary:
-      "Admin console for the Telex messaging platform. Led a team of five frontend engineers and shipped a week ahead of schedule with zero critical bugs.",
-    metric: "−30%",
-    metricCaption: "Load time",
-    stack: ["Next.js", "TypeScript", "Tailwind"],
-    year: "2024",
-    detail: {
-      headline: ["The admin console that shipped a week ", "early", "."],
-      intro:
-        "Telex needed one place to run its messaging platform: users, channels, integrations and billing. I led the five-person frontend team that built it.",
-      preview: "Admin dashboard · Users and channels",
-      client: "HNG Tech · Telex",
-      team: "5 frontend engineers",
-      duration: "8 weeks",
-      context:
-        "The console had to land before the platform launch, with a team that had never worked together. I split the work into small, reviewable slices, set the component conventions on day one and reviewed every pull request.",
-      responsibilities: ["Team lead", "Code review", "Architecture", "Performance"],
-      highlights: [
-        { title: "One component system", body: "A shared set of typed table, form and dialog primitives, so five engineers built screens that looked like one." },
-        { title: "30% faster loads", body: "Route-level code splitting, server-rendered shells and trimmed dependencies took 30% off the load time." },
-        { title: "Zero critical bugs", body: "Typed API clients, review checklists and preview deploys on every branch kept regressions out of main." },
-        { title: "Role-aware screens", body: "Navigation, actions and data scope adapt to the signed-in admin, checked on the server as well as in the UI." },
-        { title: "Fast data tables", body: "Server-side pagination, filters and sorting kept large user and channel lists responsive." },
-        { title: "Ahead of schedule", body: "Short pull requests and a clear definition of done got the console out a week before the deadline." },
-      ],
-      facts: [
-        { value: "−30%", label: "Load time" },
-        { value: "5", label: "Engineers led" },
-        { value: "0", label: "Critical bugs at launch" },
-        { value: "1 wk", label: "Ahead of deadline" },
-      ],
-      links: [],
-    },
-  },
+  genieSante,
+  telex,
   {
     slug: "stemsel-ide",
     shortName: "STEMSEL",
@@ -429,7 +390,7 @@ export const capabilities: Capability[] = [
       "Code review, CI/CD and Docker deployments",
       "Clear updates for clients, in English or French",
     ],
-    proof: { value: "1 wk", label: "Ahead of deadline, leading 5 engineers", project: "Telex", href: "/projects/telex-admin" },
+    proof: { value: "1 wk", label: "Ahead of deadline, leading 5 engineers", project: "Telex", href: "/projects/telex" },
   },
 ];
 

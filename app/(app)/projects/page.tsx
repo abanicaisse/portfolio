@@ -157,7 +157,7 @@ export default function ProjectsPage() {
             Build it <Accent tone="brand">with me</Accent>.
           </h2>
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink-muted">
-            Have a product that needs a frontend lead? Tell me what you are building.
+            Hiring for a lead or senior engineer, or need a product built? Tell me what you are working on.
           </p>
           <Link href="/#contact" className={ctaVariants({ variant: "brand", className: "mt-10" })}>
             Get in touch
