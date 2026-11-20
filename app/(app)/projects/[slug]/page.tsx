@@ -1,10 +1,14 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowUpRight, Check, Github, Mail } from "lucide-react";
-import { Accent, Section } from "@/components/shared/Section";
+import { Accent, Section, SectionIntro } from "@/components/shared/Section";
 import { ShareBar } from "@/components/shared/ShareBar";
+import { ProjectArchitecture } from "@/components/projects/ProjectArchitecture";
 import { ProjectCard } from "@/components/projects/ProjectCard";
+import { ProjectDecisions } from "@/components/projects/ProjectDecisions";
+import { ProjectGallery } from "@/components/projects/ProjectGallery";
 import { ProjectMark } from "@/components/projects/ProjectMark";
 import { ProjectPreview } from "@/components/projects/ProjectPreview";
 import { accentFill } from "@/components/projects/accent";
@@ -55,6 +59,18 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   const others = work.filter((p) => p.slug !== project.slug);
   const path = `/projects/${project.slug}`;
 
+  const sectionIds = [
+    "project",
+    "highlights",
+    detail.architecture && "architecture",
+    detail.decisions?.length && "decisions",
+    detail.gallery?.length && "gallery",
+    "numbers",
+    "engagement",
+    "more",
+  ].filter((id): id is string => typeof id === "string");
+  const sectionIndex = (id: string) => String(sectionIds.indexOf(id) + 1).padStart(2, "0");
+
   const facts = [
     { label: "Client", value: detail.client },
     { label: "Role", value: project.role },
@@ -66,7 +82,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
   return (
     <>
-      <Section id="project" index="01" eyebrow={project.shortName} note={`${project.label} · ${project.status}`}>
+      <Section id="project" index={sectionIndex("project")} eyebrow={project.shortName} note={`${project.label} · ${project.status}`}>
         <div data-reveal-group className="flex flex-col items-center px-6 py-14 text-center md:px-10 md:py-20">
           <div data-reveal className="mb-6 flex flex-col items-center gap-5">
             <ProjectMark project={project} className="h-24 w-24 text-4xl md:h-28 md:w-28 md:text-[44px]" />
@@ -126,11 +142,23 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             <figcaption className="hud-label truncate text-ink-faint">{detail.preview}</figcaption>
             <p className="hud-label hidden shrink-0 text-ink-faint sm:block">Overview</p>
           </div>
-          <ProjectPreview project={project} />
+          {detail.hero ? (
+            <Image
+              src={detail.hero.src}
+              alt={detail.hero.alt}
+              width={detail.hero.width}
+              height={detail.hero.height}
+              sizes="(min-width: 1120px) 1120px, 100vw"
+              priority
+              className="h-auto w-full"
+            />
+          ) : (
+            <ProjectPreview project={project} />
+          )}
         </figure>
       </Section>
 
-      <Section id="highlights" index="02" eyebrow="Highlights" note={project.label}>
+      <Section id="highlights" index={sectionIndex("highlights")} eyebrow="Highlights" note={project.label}>
         <div className="px-6 py-14 md:px-10 md:py-20">
           <h2
             data-reveal
@@ -150,7 +178,54 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         </ol>
       </Section>
 
-      <Section id="numbers" index="03" eyebrow="By the numbers" railLabel="Numbers" note="Measured, not guessed">
+      {detail.architecture && (
+        <Section id="architecture" index={sectionIndex("architecture")} eyebrow="Architecture" note="How it fits together">
+          <SectionIntro
+            title={
+              <>
+                How the pieces <Accent tone="brand">talk</Accent>.
+              </>
+            }
+            lede={detail.architecture.summary}
+          />
+          <ProjectArchitecture architecture={detail.architecture} />
+        </Section>
+      )}
+
+      {detail.decisions && detail.decisions.length > 0 && (
+        <Section
+          id="decisions"
+          index={sectionIndex("decisions")}
+          eyebrow="Engineering decisions"
+          railLabel="Decisions"
+          note={`${detail.decisions.length} decisions`}
+        >
+          <SectionIntro
+            title={
+              <>
+                Decisions worth <Accent tone="brand">explaining</Accent>.
+              </>
+            }
+            lede="The calls that shaped the build, why I made them, and what they bought the client."
+          />
+          <ProjectDecisions decisions={detail.decisions} />
+        </Section>
+      )}
+
+      {detail.gallery && detail.gallery.length > 0 && (
+        <Section id="gallery" index={sectionIndex("gallery")} eyebrow="Gallery" note={`${detail.gallery.length} views`}>
+          <SectionIntro
+            title={
+              <>
+                See it <Accent tone="brand">in use</Accent>.
+              </>
+            }
+          />
+          <ProjectGallery images={detail.gallery} />
+        </Section>
+      )}
+
+      <Section id="numbers" index={sectionIndex("numbers")} eyebrow="By the numbers" railLabel="Numbers" note="Measured, not guessed">
         <ul data-reveal-group className="grid gap-px bg-line sm:grid-cols-2 lg:grid-cols-4">
           {detail.facts.map((fact, i) => (
             <li key={fact.label} data-reveal className="flex flex-col bg-surface">
@@ -169,7 +244,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         </ul>
       </Section>
 
-      <Section id="engagement" index="04" eyebrow="The engagement" railLabel="Engagement" note={detail.client}>
+      <Section id="engagement" index={sectionIndex("engagement")} eyebrow="The engagement" railLabel="Engagement" note={detail.client}>
         <div data-reveal className="grid gap-px bg-line lg:grid-cols-[minmax(0,7fr)_minmax(0,4fr)]">
           <div className="flex flex-col bg-surface p-6 md:p-10">
             <div className="flex items-center gap-3">
@@ -210,13 +285,32 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               Built <Accent tone="brand">with</Accent>.
             </h3>
             <p className="mt-4 max-w-md leading-relaxed text-ink-muted">{project.summary}</p>
-            <ul aria-label="Stack" className="mt-auto flex flex-wrap gap-1.5 pt-10">
-              {project.stack.map((tech) => (
-                <li key={tech} className={cn(tag, "text-ink-muted")}>
-                  {tech}
-                </li>
-              ))}
-            </ul>
+            {detail.stackGroups ? (
+              <dl className="mt-auto flex flex-col gap-4 pt-10">
+                {detail.stackGroups.map((group) => (
+                  <div key={group.label}>
+                    <dt className="hud-label text-ink-faint">{group.label}</dt>
+                    <dd>
+                      <ul aria-label={group.label} className="mt-2 flex flex-wrap gap-1.5">
+                        {group.items.map((tech) => (
+                          <li key={tech} className={cn(tag, "text-ink-muted")}>
+                            {tech}
+                          </li>
+                        ))}
+                      </ul>
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            ) : (
+              <ul aria-label="Stack" className="mt-auto flex flex-wrap gap-1.5 pt-10">
+                {project.stack.map((tech) => (
+                  <li key={tech} className={cn(tag, "text-ink-muted")}>
+                    {tech}
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
 
           <div data-reveal className="flex flex-col bg-surface p-6 md:p-10">
@@ -247,9 +341,10 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             </div>
           </div>
         </div>
+
       </Section>
 
-      <Section id="more" index="05" eyebrow="More work" note={`${others.length} more projects`}>
+      <Section id="more" index={sectionIndex("more")} eyebrow="More work" note={`${others.length} more projects`}>
         <div className="flex flex-col gap-4 px-6 py-12 md:flex-row md:items-end md:justify-between md:px-10 md:py-16">
           <h2
             data-reveal

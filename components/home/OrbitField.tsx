@@ -7,24 +7,23 @@ type OrbitCard =
   | { kind: "metric"; head: string; value: string; caption: string }
   | { kind: "code"; head: string; lines: string[] }
   | { kind: "terminal"; head: string; lines: string[] }
-  | { kind: "swatch"; head: string; value: string }
   | { kind: "check"; head: string; items: string[] }
   | { kind: "badge"; head: string; value: string; caption: string };
 
 const cards: OrbitCard[] = [
+  { kind: "metric", head: "KLife", value: "3 s", caption: "Live race results" },
+  { kind: "check", head: "Shipped to", items: ["iOS", "Android", "Web", "API"] },
+  { kind: "terminal", head: "eas", lines: ["$ eas submit -p ios", "✓ Submitted to App Store"] },
+  { kind: "metric", head: "Hariss", value: "96", caption: "Lighthouse performance" },
+  { kind: "badge", head: "SEO", value: "100", caption: "Hariss · KLife" },
+  { kind: "code", head: "webhook", lines: ['revalidateTag("product");', "// live in seconds"] },
+  { kind: "metric", head: "Mukwano", value: "25", caption: "Brands, one catalogue" },
+  { kind: "terminal", head: "deploy", lines: ["$ docker compose up -d", "✓ api, worker healthy"] },
   { kind: "metric", head: "Telex", value: "−30%", caption: "Load time" },
-  { kind: "code", head: "ship.ts", lines: ["const ship = (pr: PR) =>", "  review(pr).then(merge);"] },
-  { kind: "terminal", head: "zsh", lines: ["$ pnpm build", "✓ Compiled successfully"] },
-  { kind: "swatch", head: "Brand", value: "#AEA3E7" },
-  { kind: "metric", head: "STEMSEL", value: "200+", caption: "Students" },
-  { kind: "check", head: "Definition of done", items: ["Types", "Tests", "a11y", "Review"] },
-  { kind: "badge", head: "Contrast", value: "AA", caption: "Both themes" },
-  { kind: "code", head: "tsconfig.json", lines: ['"strict": true,', '"noImplicitAny": true'] },
-  { kind: "terminal", head: "git", lines: ["$ git commit -m", '  "feat: orbit hero"'] },
-  { kind: "metric", head: "Kampala", value: "UTC+3", caption: "0.35° N · 32.58° E" },
+  { kind: "code", head: "leaderboard", lines: ['redis.zrevrange("event", 0, 99)', "// top 100, live"] },
+  { kind: "metric", head: "Kampala", value: "UTC+3", caption: "Remote friendly" },
   { kind: "metric", head: "Telex", value: "1 wk", caption: "Ahead of deadline" },
-  { kind: "code", head: "page.tsx", lines: ["export default async function", "  Page() { /* server */ }"] },
-  { kind: "badge", head: "Rendering", value: "RSC", caption: "Server first" },
+  { kind: "badge", head: "Stack", value: "TS", caption: "Device to database" },
 ];
 
 const RING_COUNT = 7;
@@ -67,15 +66,6 @@ function CardBody({ card }: { card: OrbitCard }) {
             </span>
           ))}
         </pre>
-      );
-    case "swatch":
-      return (
-        <div className="flex items-end gap-2 p-2.5">
-          <span className="h-12 w-12 bg-brand" />
-          <span className="h-12 w-6 bg-brand-ink" />
-          <span className="h-12 w-3 bg-brand-fg" />
-          <span className="hud-label ml-auto !text-[9px] text-ink-faint">{card.value}</span>
-        </div>
       );
     case "check":
       return (

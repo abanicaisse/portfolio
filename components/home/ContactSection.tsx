@@ -9,23 +9,24 @@ export function ContactSection() {
     <Section id="contact" railLabel="Contact">
       <div className="flex flex-col items-center px-6 pb-14 pt-20 text-center md:pb-16 md:pt-28">
         <p className="hud-label text-ink-faint">
-          {profile.location} · {profile.timezone} · Remote friendly
+          Open to full-time roles and freelance projects · Remote or on-site
         </p>
         <h2
           data-reveal
           className="mt-6 max-w-4xl font-display text-5xl font-medium leading-[0.98] tracking-[-0.04em] text-ink-strong sm:text-6xl md:text-7xl"
         >
-          Let&apos;s <Accent>talk</Accent>.
+          Let&apos;s build <Accent>something</Accent>.
         </h2>
         <p data-reveal className="mt-6 max-w-lg text-lg leading-relaxed text-ink-muted">
-          Open to frontend roles and a few freelance projects a year. I usually reply within a day.
+          Hiring for a lead or senior engineer, or need a product built? Tell me what you&apos;re working on. I reply
+          within a day.
         </p>
       </div>
 
       <div data-reveal-group className="grid gap-px border-t border-line bg-line md:grid-cols-2">
         <article data-reveal className="flex flex-col bg-surface">
           <div className="flex items-center justify-between gap-4 border-b border-line px-6 py-2.5 md:px-10">
-            <p className="hud-label text-ink">Email</p>
+            <p className="hud-label text-ink">Email &amp; phone</p>
             <p className="hud-label text-ink-faint">Fastest</p>
           </div>
           <div className="flex flex-1 flex-col p-6 md:p-10">
@@ -36,6 +37,17 @@ export function ContactSection() {
               Write to me directly.
             </h3>
             <p className="mt-3 max-w-md break-all leading-relaxed text-ink-muted">{profile.email}</p>
+            <p className="mt-1 flex flex-wrap items-center gap-x-2 leading-relaxed text-ink-muted">
+              <a href={`tel:${profile.phoneHref}`} className="hover:text-ink">
+                {profile.phone}
+              </a>
+              <span aria-hidden="true" className="text-ink-faint">
+                ·
+              </span>
+              <a href={profile.whatsapp} target="_blank" rel="noopener noreferrer" className="hover:text-ink">
+                WhatsApp
+              </a>
+            </p>
             <div className="mt-auto flex flex-col gap-3 pt-8 sm:flex-row sm:flex-wrap">
               <a href={`mailto:${profile.email}`} className={ctaVariants({ variant: "brand", className: "w-full sm:w-fit" })}>
                 <Mail aria-hidden="true" />

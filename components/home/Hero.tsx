@@ -70,12 +70,12 @@ export function Hero() {
               data-reveal
               className="relative mt-8 font-display text-3xl font-medium leading-[1.05] tracking-[-0.03em] text-ink-strong sm:text-4xl"
             >
-              Frontend engineer{" "}
-              <span className="font-serif font-normal italic text-ink-muted">for the web.</span>
+              I build web and mobile apps,{" "}
+              <span className="font-serif font-normal italic text-ink-muted">and the backends behind them.</span>
             </h1>
 
             <p data-reveal className="relative mt-4 max-w-md text-lg leading-relaxed text-ink-muted">
-              {profile.bio}
+              Lead software engineer working with React, Next.js, React Native and Node.js.
             </p>
 
             <div
@@ -91,16 +91,6 @@ export function Hero() {
               </Link>
             </div>
 
-            <p data-reveal className="pointer-events-auto relative mt-6 text-balance leading-relaxed text-ink-muted">
-              I also write about the work.{" "}
-              <Link
-                href="/blog"
-                className="text-ink underline decoration-line-strong underline-offset-4 hover:decoration-current"
-              >
-                Read the blog
-              </Link>
-              .
-            </p>
 
             <div
               data-reveal

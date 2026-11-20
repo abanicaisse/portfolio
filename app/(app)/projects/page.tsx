@@ -7,10 +7,11 @@ import { ProjectCard } from "@/components/projects/ProjectCard";
 import { ProjectMark } from "@/components/projects/ProjectMark";
 import { ctaVariants } from "@/components/ui/cta";
 import { profile, socials, work } from "@/lib/site";
+import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Projects",
-  description: "Dashboards, developer tools and client platforms I have led or built.",
+  description: "Mobile apps, corporate sites, dashboards and developer tools I have led or built.",
 };
 
 const github = socials.find((s) => s.label === "GitHub");
@@ -36,7 +37,7 @@ export default function ProjectsPage() {
                 {work.length} projects. One <Accent tone="brand">standard</Accent>.
               </>
             }
-            lede="Dashboards, developer tools and client platforms I have led or built, with the numbers that changed because of them."
+            lede="Mobile apps, corporate sites, dashboards and developer tools I have led or built, with the architecture and the numbers behind them."
           >
             <div data-reveal className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <Link href="/#contact" className={ctaVariants({ variant: "brand", className: "w-full sm:w-fit" })}>
@@ -84,7 +85,7 @@ export default function ProjectsPage() {
         </div>
       </Section>
 
-      <Section id="lineup" index="02" eyebrow="The lineup" note="Newest work last">
+      <Section id="lineup" index="02" eyebrow="The lineup" note="Newest first">
         <div data-reveal-group className="grid gap-px bg-line sm:grid-cols-2">
           {work.map((project, i) => (
             <ProjectCard key={project.slug} project={project} index={i} />
@@ -93,7 +94,10 @@ export default function ProjectsPage() {
           {github && (
             <div
               data-reveal
-              className="flex flex-col gap-8 bg-surface p-6 sm:col-span-2 md:flex-row md:items-end md:justify-between md:p-8"
+              className={cn(
+                "flex flex-col gap-8 bg-surface p-6 md:p-8",
+                work.length % 2 === 0 && "sm:col-span-2 md:flex-row md:items-end md:justify-between",
+              )}
             >
               <div>
                 <p className="hud-label text-ink-faint">Next up</p>
@@ -108,7 +112,7 @@ export default function ProjectsPage() {
                 href={github.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={ctaVariants({ variant: "invert", size: "sm", className: "shrink-0 self-start md:self-auto" })}
+                className={ctaVariants({ variant: "invert", size: "sm", className: "mt-auto shrink-0 self-start" })}
               >
                 <Github aria-hidden="true" />
                 {github.handle}

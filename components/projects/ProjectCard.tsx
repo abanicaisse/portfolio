@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import type { WorkItem } from "@/lib/site";
+import { ProjectCover } from "@/components/projects/ProjectCover";
 import { ProjectMark } from "@/components/projects/ProjectMark";
 import { accentFill } from "@/components/projects/accent";
 import { cn } from "@/lib/utils";
@@ -34,20 +35,30 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
         <p className="hud-label truncate text-ink-faint">{project.label}</p>
       </div>
 
-      <div className="relative flex aspect-[16/10] flex-col items-center justify-center overflow-hidden border-b border-line bg-surface-sunken">
-        <span
-          aria-hidden="true"
-          className="absolute inset-0 opacity-60 [background-image:linear-gradient(hsl(var(--line))_1px,transparent_1px),linear-gradient(90deg,hsl(var(--line))_1px,transparent_1px)] [background-size:32px_32px]"
+      {project.cover ? (
+        <ProjectCover
+          cover={project.cover}
+          metric={project.metric}
+          metricCaption={project.metricCaption}
+          sizes="(min-width: 1120px) 560px, (min-width: 640px) 50vw, 100vw"
+          className="aspect-[16/10] border-b border-line"
         />
-        <div className="relative flex flex-col items-center transition-transform duration-500 ease-out group-hover:scale-[1.04]">
-          <p className="font-display text-6xl font-semibold tracking-[-0.04em] text-ink-strong sm:text-7xl">
-            {project.metric}
-          </p>
-          <p className="hud-label mt-3 text-brand-ink">{project.metricCaption}</p>
+      ) : (
+        <div className="relative flex aspect-[16/10] flex-col items-center justify-center overflow-hidden border-b border-line bg-surface-sunken">
+          <span
+            aria-hidden="true"
+            className="absolute inset-0 opacity-60 [background-image:linear-gradient(hsl(var(--line))_1px,transparent_1px),linear-gradient(90deg,hsl(var(--line))_1px,transparent_1px)] [background-size:32px_32px]"
+          />
+          <div className="relative flex flex-col items-center transition-transform duration-500 ease-out group-hover:scale-[1.04]">
+            <p className="font-display text-6xl font-semibold tracking-[-0.04em] text-ink-strong sm:text-7xl">
+              {project.metric}
+            </p>
+            <p className="hud-label mt-3 text-brand-ink">{project.metricCaption}</p>
+          </div>
+          <span aria-hidden="true" className="tick left-2 top-2 opacity-60" />
+          <span aria-hidden="true" className="tick bottom-2 right-2 opacity-60" />
         </div>
-        <span aria-hidden="true" className="tick left-2 top-2 opacity-60" />
-        <span aria-hidden="true" className="tick bottom-2 right-2 opacity-60" />
-      </div>
+      )}
 
       <div className="flex flex-1 flex-col px-6 pb-6 md:px-8 md:pb-8">
         <ProjectMark

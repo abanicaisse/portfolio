@@ -3,13 +3,14 @@ import { experience } from "@/lib/site";
 
 export function ExperienceSection() {
   return (
-    <Section id="experience" index="02" eyebrow="Experience" note="Kampala · Remote">
+    <Section id="experience" index="03" eyebrow="Experience" note="Kampala · Remote">
       <SectionIntro
         title={
           <>
-            Where I&apos;ve <Accent>worked</Accent>.
+            Leading teams, <Accent>shipping on time</Accent>.
           </>
         }
+        lede="Three years of building for clients and teams in Uganda, Nigeria and Australia."
       />
 
       <ol data-reveal-group className="grid gap-px border-t border-line bg-line">

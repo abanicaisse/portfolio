@@ -1,19 +1,41 @@
+import Image from "next/image";
 import type { WorkItem } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import { accentFill } from "@/components/projects/accent";
 
 interface ProjectMarkProps {
-  project: Pick<WorkItem, "monogram" | "accent">;
+  project: Pick<WorkItem, "monogram" | "accent" | "logo">;
   className?: string;
 }
 
-/** App-icon style tile: the project's monogram on its accent colour. */
+const tile =
+  "relative flex shrink-0 items-center justify-center overflow-hidden rounded-[22%] shadow-[0_6px_14px_hsl(var(--ink-strong)/0.28)]";
+
+/** App-icon style tile: the product's own icon, or its monogram on the accent colour. */
 export function ProjectMark({ project, className }: ProjectMarkProps) {
+  const { logo } = project;
+
+  if (logo) {
+    return (
+      <span aria-hidden="true" className={cn(tile, logo.fit === "contain" && "bg-white", className)}>
+        <Image
+          src={logo.src}
+          alt=""
+          fill
+          sizes="112px"
+          unoptimized={logo.src.endsWith(".svg")}
+          className={logo.fit === "contain" ? "object-contain p-[7%]" : "object-cover"}
+        />
+      </span>
+    );
+  }
+
   return (
     <span
       aria-hidden="true"
       className={cn(
-        "relative flex shrink-0 items-center justify-center overflow-hidden rounded-[22%] font-display font-semibold tracking-[-0.04em] text-brand-fg shadow-[0_6px_14px_hsl(var(--ink-strong)/0.28)]",
+        tile,
+        "font-display font-semibold tracking-[-0.04em] text-brand-fg",
         accentFill[project.accent],
         className,
       )}

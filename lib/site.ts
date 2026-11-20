@@ -1,3 +1,7 @@
+import { hariss } from "@/lib/work/hariss";
+import { klife } from "@/lib/work/klife";
+import { mukwano } from "@/lib/work/mukwano";
+
 export interface SocialLink {
   label: string;
   href: string;
@@ -21,7 +25,55 @@ export interface WorkItem {
   metricCaption: string;
   stack: string[];
   year: string;
+  /** Shown on project cards in place of the metric tile. */
+  cover?: ProjectImage;
+  /** The product's own icon, shown in place of the monogram. */
+  logo?: ProjectLogo;
   detail: ProjectDetail;
+}
+
+export interface ProjectLogo {
+  src: string;
+  /** "cover" for app-icon artwork that fills the tile; "contain" pads a wordmark on white. */
+  fit: "cover" | "contain";
+}
+
+export interface ProjectImage {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  caption?: string;
+}
+
+export interface ProjectGalleryImage extends ProjectImage {
+  /** Wide shots span the full gallery row; the rest pair up side by side. */
+  wide?: boolean;
+}
+
+export interface ArchitectureNode {
+  name: string;
+  tech: string;
+  points: string[];
+  /** How this layer talks to the next one, drawn as the connector below it. */
+  link?: string;
+}
+
+export interface ProjectArchitecture {
+  summary: string;
+  nodes: ArchitectureNode[];
+}
+
+export interface ProjectDecision {
+  title: string;
+  body: string;
+  /** The result, in one line. */
+  impact: string;
+}
+
+export interface StackGroupDetail {
+  label: string;
+  items: string[];
 }
 
 export interface ProjectFact {
@@ -53,6 +105,12 @@ export interface ProjectDetail {
   highlights: ProjectHighlight[];
   facts: ProjectFact[];
   links: ProjectLink[];
+  /** Full-width hero shot; falls back to the drawn preview. */
+  hero?: ProjectImage;
+  architecture?: ProjectArchitecture;
+  decisions?: ProjectDecision[];
+  gallery?: ProjectGalleryImage[];
+  stackGroups?: StackGroupDetail[];
 }
 
 export interface ExperienceItem {
@@ -63,28 +121,35 @@ export interface ExperienceItem {
   summary: string;
 }
 
-export type StackGroup = "frontend" | "backend" | "infra" | "quality";
+export type StackGroup = "frontend" | "backend" | "infra";
 
 export interface StackItem {
   name: string;
-  code: string;
+  /** Official logo, rendered on a white tile like the project marks. */
+  logo: string;
   group: StackGroup;
 }
 
-export interface Principle {
-  key: string;
+export interface Capability {
   title: string;
-  body: string;
+  /** What the client gets, in one sentence. */
+  pitch: string;
+  points: string[];
+  /** A number from a shipped project that backs the claim. */
+  proof: { value: string; label: string; project: string; href: string };
 }
 
 export const profile = {
   name: "Aba Nicaisse",
   wordmark: "NICAISSE",
-  role: "Frontend Engineer",
+  role: "Lead Software Engineer",
   location: "Kampala, Uganda",
   timezone: "UTC+3",
   email: "abawandjovunicaise@gmail.com",
-  bio: "Frontend engineer based in Kampala. I lead frontend at Sadja WebSolutions, building React and Next.js products from schema to screen.",
+  phone: "+256 757 679 518",
+  phoneHref: "+256757679518",
+  whatsapp: "https://wa.me/256757679518",
+  bio: "Lead software engineer in Kampala. I design and build web apps, mobile apps and the backends behind them, with TypeScript, React, React Native and Node.js.",
 } as const;
 
 export const socials: SocialLink[] = [
@@ -94,6 +159,9 @@ export const socials: SocialLink[] = [
 ];
 
 export const work: WorkItem[] = [
+  klife,
+  hariss,
+  mukwano,
   {
     slug: "telex-admin",
     shortName: "Telex",
@@ -186,7 +254,7 @@ export const work: WorkItem[] = [
     monogram: "Sd",
     accent: 3,
     status: "Ongoing",
-    role: "Lead frontend engineer",
+    role: "Lead software engineer",
     label: "Client work",
     title: "Client platforms at Sadja",
     summary:
@@ -198,7 +266,7 @@ export const work: WorkItem[] = [
     detail: {
       headline: ["Client platforms, delivered ", "on schedule", "."],
       intro:
-        "At Sadja WebSolutions I lead frontend across client web apps, dashboards and APIs, from the first estimate to the production deploy.",
+        "At Sadja WebSolutions I lead engineering across client web apps, mobile apps and APIs, from the first estimate to the production deploy.",
       preview: "Client work · Dashboards and web apps",
       client: "Sadja WebSolutions",
       team: "Cross-functional, per client",
@@ -270,82 +338,108 @@ export const work: WorkItem[] = [
 
 export const experience: ExperienceItem[] = [
   {
-    role: "Lead Frontend Engineer",
+    role: "Lead Software Engineer",
     company: "Sadja WebSolutions",
     location: "Kampala",
-    period: "2025 — Now",
+    period: "May 2025 — Now",
     summary:
-      "Lead frontend across 5+ client projects. Own timelines, code review, testing and deploys on AWS and Coolify.",
+      "I lead engineering on the agency's client projects across web, mobile and backend, from architecture and estimates to code review, CI and deploys on AWS and Coolify. Shipped KLife for Krystal Water, and the Hariss International and Mukwano platforms.",
   },
   {
     role: "Frontend Team Lead",
     company: "HNG Tech",
     location: "Remote",
-    period: "2024",
+    period: "Jun — Aug 2024",
     summary:
-      "Led five engineers building the Telex admin dashboard. Cut load time by 30% and shipped a week early.",
+      "Led five engineers building the admin dashboard for the Telex messaging platform. Cut load time by 30% and delivered a week before the deadline with zero critical bugs.",
   },
   {
     role: "IoT / Frontend Engineer",
     company: "STEMSEL Foundation",
     location: "Remote",
-    period: "2023",
+    period: "Jun — Aug 2023",
     summary:
-      "Built features for an online IDE used by 200+ students to program IoT chips, working across three time zones.",
+      "Built features for a browser IDE that 200+ students use to program IoT chips, and cut its loading time by 10%, working across three time zones.",
   },
 ];
 
 export const stack: StackItem[] = [
-  { name: "TypeScript", code: "Ts", group: "frontend" },
-  { name: "React", code: "Re", group: "frontend" },
-  { name: "Next.js", code: "Nx", group: "frontend" },
-  { name: "React Native", code: "Rn", group: "frontend" },
-  { name: "Tailwind CSS", code: "Tw", group: "frontend" },
-  { name: "Zustand", code: "Zu", group: "frontend" },
-  { name: "Node.js", code: "No", group: "backend" },
-  { name: "NestJS", code: "Ne", group: "backend" },
-  { name: "Express", code: "Ex", group: "backend" },
-  { name: "PostgreSQL", code: "Pg", group: "backend" },
-  { name: "Prisma", code: "Pr", group: "backend" },
-  { name: "Redis", code: "Rd", group: "backend" },
-  { name: "Docker", code: "Dk", group: "infra" },
-  { name: "AWS", code: "Aw", group: "infra" },
-  { name: "GitHub Actions", code: "Ga", group: "infra" },
-  { name: "Jest", code: "Je", group: "quality" },
+  { name: "TypeScript", logo: "/images/stack/typescript.svg", group: "frontend" },
+  { name: "React & React Native", logo: "/images/stack/react.svg", group: "frontend" },
+  { name: "Next.js", logo: "/images/stack/nextjs.svg", group: "frontend" },
+  { name: "Expo", logo: "/images/stack/expo.svg", group: "frontend" },
+  { name: "Tailwind CSS", logo: "/images/stack/tailwind.svg", group: "frontend" },
+  { name: "TanStack Query", logo: "/images/stack/tanstack-query.svg", group: "frontend" },
+  { name: "Node.js", logo: "/images/stack/nodejs.svg", group: "backend" },
+  { name: "NestJS", logo: "/images/stack/nestjs.svg", group: "backend" },
+  { name: "PostgreSQL", logo: "/images/stack/postgresql.svg", group: "backend" },
+  { name: "Prisma", logo: "/images/stack/prisma.svg", group: "backend" },
+  { name: "Redis", logo: "/images/stack/redis.svg", group: "backend" },
+  { name: "Strapi", logo: "/images/stack/strapi.svg", group: "backend" },
+  { name: "Socket.io", logo: "/images/stack/socketio.svg", group: "backend" },
+  { name: "Docker", logo: "/images/stack/docker.svg", group: "infra" },
+  { name: "AWS", logo: "/images/stack/aws.svg", group: "infra" },
+  { name: "Coolify", logo: "/images/stack/coolify.svg", group: "infra" },
+  { name: "Cloudflare", logo: "/images/stack/cloudflare.svg", group: "infra" },
+  { name: "GitHub Actions", logo: "/images/stack/github-actions.svg", group: "infra" },
 ];
 
 export const stackGroupLabels: Record<StackGroup, string> = {
   frontend: "Frontend",
   backend: "Backend",
   infra: "Infra",
-  quality: "Quality",
 };
 
-export const principles: Principle[] = [
+export const capabilities: Capability[] = [
   {
-    key: "A",
-    title: "Small, reviewed changes",
-    body: "Short feedback loops beat big reveals. Ten reviewed pull requests over one heroic one.",
+    title: "Web platforms",
+    pitch: "Websites and web apps that load fast, rank on Google, and that your team can update without calling a developer.",
+    points: [
+      "Next.js, rendered on the server for speed and SEO",
+      "A CMS your marketing team can run on its own",
+      "Changes live seconds after they are published",
+    ],
+    proof: { value: "96", label: "Lighthouse performance", project: "Hariss International", href: "/projects/hariss-international" },
   },
   {
-    key: "B",
-    title: "Performance is a feature",
-    body: "I measure before I optimise, and Core Web Vitals are part of done.",
+    title: "Mobile apps",
+    pitch: "iOS and Android apps from a single codebase that feel native and keep working when the network doesn't.",
+    points: [
+      "React Native and Expo, released to both stores",
+      "Offline data, background tracking and push notifications",
+      "Native touches: Live Activities, deep links, OTP autofill",
+    ],
+    proof: { value: "7 wks", label: "From Figma to the app stores", project: "KLife", href: "/projects/klife" },
   },
   {
-    key: "C",
-    title: "Clear over clever",
-    body: "Readable code, written-down decisions, and updates non-engineers can follow.",
+    title: "Backends & real-time",
+    pitch: "APIs and live features that stay fast under load, with security and data integrity built in from day one.",
+    points: [
+      "NestJS and Node.js APIs on PostgreSQL",
+      "Redis, queues and WebSockets for live updates",
+      "Secure sign-in, roles and rate limiting",
+    ],
+    proof: { value: "3 s", label: "Live leaderboard refresh on race day", project: "KLife", href: "/projects/klife" },
+  },
+  {
+    title: "Technical leadership",
+    pitch: "I can lead the build from the first estimate to launch day, and keep everyone informed along the way.",
+    points: [
+      "Architecture, estimates and delivery plans",
+      "Code review, CI/CD and Docker deployments",
+      "Clear updates for clients, in English or French",
+    ],
+    proof: { value: "1 wk", label: "Ahead of deadline, leading 5 engineers", project: "Telex", href: "/projects/telex-admin" },
   },
 ];
 
+/** Clients and teams I have built for, shown in the strip under the hero. */
 export const marqueeItems: string[] = [
-  "Next.js App Router",
-  "Accessible by default",
-  "Type-safe end to end",
-  "Design systems",
-  "Performance budgets",
-  "Code review",
-  "CI/CD",
-  "Team leadership",
+  "Krystal Water",
+  "Hariss International",
+  "Mukwano Group",
+  "Rotary Kampala Cancer Run",
+  "Sadja WebSolutions",
+  "HNG Tech · Telex",
+  "STEMSEL Foundation",
 ];

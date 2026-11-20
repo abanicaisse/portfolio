@@ -46,6 +46,7 @@ export async function WritingSection() {
             Notes from <Accent>the work</Accent>.
           </>
         }
+        lede="What I learn on real projects, written down: architecture, performance and leading delivery."
         aside={
           <Link href="/blog" className="hud-label flex items-center gap-1.5 text-ink-muted hover:text-ink">
             All posts

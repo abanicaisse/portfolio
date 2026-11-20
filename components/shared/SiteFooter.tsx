@@ -21,13 +21,16 @@ export function SiteFooter() {
           <div className="bg-surface p-6 md:col-span-4 md:p-10 lg:col-span-1">
             <LogoMark className="h-8 text-ink-strong" />
             <p className="mt-4 max-w-xs leading-relaxed text-ink-muted">
-              {profile.role} in {profile.location}. Building for the web since 2023.
+              {profile.role} in {profile.location}. Building web and mobile products since 2023.
             </p>
             <a
               href={`mailto:${profile.email}`}
               className="hud-label mt-6 inline-block break-all text-ink-faint hover:text-ink"
             >
               {profile.email}
+            </a>
+            <a href={`tel:${profile.phoneHref}`} className="hud-label mt-2 block text-ink-faint hover:text-ink">
+              {profile.phone}
             </a>
           </div>
           <nav aria-label="Site" className="bg-surface p-6 md:col-span-2 md:p-8 lg:col-span-1">
