@@ -2,6 +2,7 @@ import { genieSante } from "@/lib/work/genie-sante";
 import { hariss } from "@/lib/work/hariss";
 import { klife } from "@/lib/work/klife";
 import { mukwano } from "@/lib/work/mukwano";
+import { rans } from "@/lib/work/rans";
 import { telex } from "@/lib/work/telex";
 
 export interface SocialLink {
@@ -161,6 +162,7 @@ export const socials: SocialLink[] = [
 ];
 
 export const work: WorkItem[] = [
+  rans,
   klife,
   hariss,
   mukwano,
